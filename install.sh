@@ -30,10 +30,14 @@ packages=(
     noto-fonts-emoji
     noto-fonts-extra
     openssh
+    pavucontrol
     pipewire
     pipewire-jack
+    pipewire-pulse
     sudo
     sway
+    swayidle
+    swaylock
     terminus-font
     tt-liberation
     unzip
@@ -154,6 +158,7 @@ arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asteris
 
 arch-chroot systemctl enable greetd.service
 arch-chroot systemctl enable NetworkManager
+arch-chroot systemctl enable pipewire-pulse.service
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin
