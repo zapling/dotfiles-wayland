@@ -19,6 +19,7 @@ packages=(
     git
     greetd
     greetd-tuigreet
+    jq
     linux-firmware
     linux-lts
     man-db
@@ -34,6 +35,7 @@ packages=(
     pipewire
     pipewire-jack
     pipewire-pulse
+    slurp
     sudo
     sway
     swayidle
@@ -125,7 +127,6 @@ cat > /mnt/etc/hosts << EOF
 127.0.0.1	z16.localdomain         z16
 ::1		localhost.localdomain	localhost
 EOF
-
 
 cat << EOF > /mnt/etc/mkinitcpio.conf
 MODULES=()
