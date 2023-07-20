@@ -151,7 +151,7 @@ workspace $ws2 gaps inner $gaps_inner
     bindsym $mod+Return exec $term
 
     # Kill focused window
-    bindsym $mod+Shift+q kill
+    bindsym $mod+Shift+q [con_id="__focused__" app_id="^((?!dropdown).)*$"] kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
