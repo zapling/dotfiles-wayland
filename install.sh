@@ -1,7 +1,13 @@
 #!/bin/bash
 # Run installation:
 #
-# - Connect to wifi via: `# iwctl station wlan0 connect WIFI-NETWORK`
+# - Connect to wifi via: `iwctl station wlan0 connect WIFI-NETWORK`
+# - Start ssh server via: `systemctl start sshd.service?`
+# - Set password for root: `passwd`
+# - Get IP: `ip addr show`
+# - Connect via ssh: `ssh root@<IP>`
+# Or
+# - Run: `# bash <(curl -sL https://raw.githubusercontent.com/zapling/dotfiles-wayland/main/install.sh)`
 
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
     echo "You must boot in UEFI mode to continue"
@@ -61,7 +67,7 @@ mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@home /dev/m
 mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@pkg /dev/mapper/luks /mnt/var/cache/pacman/pkg
 mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@snapshots /dev/mapper/luks /mnt/.snapshots
 
-mount /dev/nvme0n1p2 /mnt/boot
+mount "$part_boot" /mnt/boot
 
 pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode vim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git
 genfstab -U /mnt >> /mnt/etc/fstab
