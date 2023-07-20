@@ -9,6 +9,38 @@
 # Or
 # - Run: `# bash <(curl -sL https://raw.githubusercontent.com/zapling/dotfiles-wayland/main/install.sh)`
 
+packages=(
+    alacritty
+    amd-ucode
+    base
+    btrfs-progs
+    firefox
+    git
+    greetd
+    greetd-tuigreet
+    linux-firmware
+    linux-lts
+    man-db
+    man-pages
+    neovim
+    networkmanager
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-extra
+    openssh
+    pipewire
+    pipewire-jack
+    sudo
+    sway
+    terminus-font
+    tt-liberation
+    unzip
+    wireplumber
+    wl-clipboard
+    zsh
+)
+
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
     echo "You must boot in UEFI mode to continue"
     exit 1
@@ -16,14 +48,14 @@ fi
 
 device=$1
 
-echo -e "Are you sure that '$device' should be used for install? (Disk will be wiped)?\n"
+echo -e "Are you sure that '$device' should be used for install? DISK WILL BE WIPED! (y/n) ?\n"
 read -n1 -s x
 [[ "$x" != "y" ]] && exit 1
 
-echo -e "Input password to use for installation: "
+echo -e "Input password to be used: "
 read -s password
 
-echo -e "Confirm password:"
+echo -e "Confirm password: "
 read -s password_confirm
 
 if [[ "$password" != "$password_confirm" ]]; then
@@ -69,7 +101,7 @@ mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@snapshots /
 
 mount "$part_boot" /mnt/boot
 
-pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode neovim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git alacritty zsh pipewire pipewire-jack wireplumber firefox unzip
+pacstrap /mnt ${packages[@]}
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo "z16" > /mnt/etc/hostname
