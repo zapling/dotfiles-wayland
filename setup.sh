@@ -8,20 +8,23 @@ fi
 h="/home/andreas/"
 
 # LiberationMono Nerd Font (LiterationMono)
-if [[ ! -d ~/.fonts ]]; then
+if [[ ! -d ${h}.fonts ]]; then
     curl "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/LiberationMono.zip" -L --output "/tmp/LiberationMono.zip" && \
         mkdir ${h}.fonts && \
         unzip /tmp/LiberationMono.zip -d ${h}.fonts && \
         fc-cache -fv
 fi
 
-if [ ! -d ~/.oh-my-zsh ]; then
+if [[ ! -d ${h}.oh-my-zsh ]]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     rm ${h}.zshrc
     rm ${h}.zshrc.pre-oh-my-zsh
 fi
 
 ln -s ${h}dotfiles/.oh-my-zsh/custom/themes/sunaku-zapling.zsh-theme ${h}.oh-my-zsh/custom/themes/
+
+[[ ! -d ${h}.ssh ]] && mkdir ${h}.ssh
+ln -s ${h}dotfiles/.ssh/config ${h}.ssh/
 
 ln -s ${h}dotfiles/.zshrc ${h}
 ln -s ${h}dotfiles/.zshenv ${h}
