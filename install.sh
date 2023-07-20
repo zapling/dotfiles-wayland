@@ -69,7 +69,7 @@ mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@snapshots /
 
 mount "$part_boot" /mnt/boot
 
-pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode vim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git
+pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode vim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git alacritty zsh pipewire pipewire-jack wireplumber firefox
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo "z16" > /mnt/etc/hostname
@@ -124,6 +124,9 @@ arch-chroot systemctl enable NetworkManager
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin
+arch-chroot /mnt chsh -s /usr/bin/zsh andreas
+
+arch-chroot /mnt su andreas -c "cd home/andreas && git clone https://github.com/zapling/dotfiles-wayland.git dotfiles"
 
 umount -R /mnt
 cryptsetup close luks
