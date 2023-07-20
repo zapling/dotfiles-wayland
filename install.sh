@@ -38,6 +38,7 @@ packages=(
     slurp
     sudo
     sway
+    swaybg
     swayidle
     swaylock
     terminus-font

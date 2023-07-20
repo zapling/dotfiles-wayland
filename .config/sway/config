@@ -18,11 +18,35 @@ set $gaps_focus 600
 set $term /usr/bin/alacritty
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
+# gruvbox colors
+set $darkred     "#cc241d" 
+set $red         "#fb4934" 
+set $darkgreen   "#98971a" 
+set $green       "#b8bb26"
+set $darkyellow  "#d79921" 
+set $yellow      "#fabd2f"
+set $darkblue    "#458588" 
+set $blue        "#83a598"
+set $darkmagenta "#b16286" 
+set $magenta     "#d3869b"
+set $darkcyan    "#689d6a" 
+set $cyan        "#8ec07c"
+set $darkwhite   "#a89984" 
+set $white       "#ebdbb2"
+
+set $bar_bg      "#272727"
+set $bar_work_fg "#888888"
+set $bar_work_bg "#333333"
+
+set $bar_urgent_border     "#2f343a"
+set $bar_urgent_background "#cc231c"
+set $bar_urgent_foreground "#dbdbb2"
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/dotfiles/wallpaper/blade-runner-2049-3840x2160.png fill
 
 #
 # Example configuration:
@@ -61,9 +85,16 @@ bar {
     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
 
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        background $bar_bg
+
+        # <colorclass>     <border>           <background>           <text>
+        focused_workspace  $darkgreen         $bar_bg                $darkgreen
+        active_workspace   $bar_work_bg       $bar_bg                $darkgreen
+        inactive_workspace $bar_work_bg       $bar_bg                $bar_work_fg
+        urgent_workspace   $bar_urgent_border $bar_urgent_background $bar_urgent_foreground
+        binding_mode       $bar_urgent_border $bar_urgent_background $bar_urgent_foreground
+
+        statusline $white
     }
 }
 
@@ -115,7 +146,7 @@ bar {
     for_window [title="Bluetooth Devices"] border pixel 1
 
     # Dropdown terminal
-    for_window [app_id="dropdown1"] border pixel 3
+    for_window [app_id="dropdown1"] border pixel 2
     for_window [app_id="dropdown1"] sticky enable
     for_window [app_id="dropdown1"] floating enable
     for_window [app_id="dropdown1"] scratchpad show
@@ -124,7 +155,7 @@ bar {
     for_window [app_id="dropdown1"] resize set 740 480
 
     # Dropdown terminal 2
-    for_window [app_id="dropdown2"] border pixel 3
+    for_window [app_id="dropdown2"] border pixel 2
     for_window [app_id="dropdown2"] sticky enable
     for_window [app_id="dropdown2"] floating enable
     for_window [app_id="dropdown2"] scratchpad show
@@ -139,6 +170,13 @@ bar {
     # Pavucontrol sound
     for_window [app_id="pavucontrol"] floating enable
     for_window [app_id="pavucontrol"] resize set 740 480
+
+    # class                 border     bground text       indicator child_border
+    client.focused          $darkgreen $bar_bg $darkgreen #000000 $darkgreen
+    #client.focused_inactive $darkgreen $bar_bg $darkgreen #000000 $darkgreen
+    client.unfocused $darkgreen $bar_bg $darkgreen #000000 $darkgreen
+    # client.urgent           #F84F13 #000000 #FFFFFF #F84F13   #989719
+    # client.placeholder      #F84F13 #000000 #FFFFFF #F84F13   #989719
 
 ### gaps
 
