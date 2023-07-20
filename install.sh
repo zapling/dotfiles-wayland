@@ -69,7 +69,7 @@ mount -o noatime,nodiratime,compress=zstd,space_cache=v2,ssd,subvol=@snapshots /
 
 mount "$part_boot" /mnt/boot
 
-pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode vim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git alacritty zsh pipewire pipewire-jack wireplumber firefox
+pacstrap /mnt linux-lts linux-firmware base btrfs-progs amd-ucode neovim networkmanager terminus-font greetd greetd-tuigreet ttf-liberation sway openssh sudo man-db man-pages git alacritty zsh pipewire pipewire-jack wireplumber firefox unzip
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo "z16" > /mnt/etc/hostname
