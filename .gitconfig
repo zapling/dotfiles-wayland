@@ -1,0 +1,22 @@
+[init]
+    defaultBranch = main
+
+[user]
+    name = Andreas Palm
+
+[include]
+    path = ~/.config/git/config_base
+
+[includeIf "gitdir:~/R/"]
+    path = ~/.config/git/config_work
+
+[core]
+    excludesfile = ~/.config/git/gitignore_global
+
+[pull]
+    rebase = true
+
+# https://git-scm.com/docs/git-rebase#Documentation/git-rebase.txt---autosquash
+[rebase]
+    autoStash = true
+    autoSquash = true
