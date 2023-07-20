@@ -1,4 +1,12 @@
 #!/bin/bash
+# Run installation:
+#
+# - Connect to wifi via: `# iwctl station wlan0 connect WIFI-NETWORK`
+
+if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
+    echo "You must boot in UEFI mode to continue"
+    exit 1
+fi
 
 device=$1
 
@@ -19,7 +27,7 @@ fi
 
 clear
 
-pacman -Sy --noconfirm --needed dialog terminus-font
+pacman -Sy --noconfirm --needed terminus-font
 
 loadkeys sv-latin1
 setfont ter-132b
@@ -105,9 +113,8 @@ EOF
 
 arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asterisks --cmd sway/g' /etc/greetd/config.toml
 
-# Can you enable services this way from the live usb?
-# arch-chroot systemctl enable greetd.service
-# arch-chroot systemctl enable NetworkManager
+arch-chroot systemctl enable greetd.service
+arch-chroot systemctl enable NetworkManager
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin
