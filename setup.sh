@@ -31,3 +31,4 @@ ln -s ${h}dotfiles/.psqlrc ${h}
 ln -s ${h}dotfiles/.config/git ${h}.config/
 ln -s ${h}dotfiles/.config/sway ${h}.config/
 ln -s ${h}dotfiles/.config/alacritty ${h}.config/
+ln -s ${h}dotfiles/.config/fontconfig ${h}.config/
