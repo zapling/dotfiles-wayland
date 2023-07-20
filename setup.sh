@@ -18,6 +18,7 @@ fi
 if [ ! -d ~/.oh-my-zsh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     rm ${h}.zshrc
+    rm ${h}.zshrc.pre-oh-my-zsh
 fi
 
 ln -s ${h}dotfiles/.oh-my-zsh/custom/themes/sunaku-zapling.zsh-theme ${h}.oh-my-zsh/custom/themes/
