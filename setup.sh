@@ -31,6 +31,9 @@ ln -s ${h}dotfiles/.zshenv ${h}
 ln -s ${h}dotfiles/.gitconfig ${h}
 ln -s ${h}dotfiles/.psqlrc ${h}
 
+[[ ! -d ${h}.local ]] && mkdir ${h}.local
+ln -s ${h}dotfiles/.local/bin ${h}.local/
+
 ln -s ${h}dotfiles/.config/git ${h}.config/
 ln -s ${h}dotfiles/.config/sway ${h}.config/
 ln -s ${h}dotfiles/.config/alacritty ${h}.config/
