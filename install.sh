@@ -13,6 +13,7 @@ packages=(
     alacritty
     amd-ucode
     base
+    brightnessctl
     btrfs-progs
     firefox
     git
