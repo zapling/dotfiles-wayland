@@ -16,7 +16,7 @@ if [[ ! -d ~/.fonts ]]; then
 fi
 
 if [ ! -d ~/.oh-my-zsh ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh && exit)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     rm ${h}.zshrc
 fi
 
@@ -27,6 +27,6 @@ ln -s ${h}dotfiles/.zshenv ${h}
 ln -s ${h}dotfiles/.gitconfig ${h}
 ln -s ${h}dotfiles/.psqlrc ${h}
 
-ln -s ${h}.config/git ${h}.config/
-ln -s ${h}.config/sway ${h}.config/
-ln -s ${h}.config/alacritty ${h}.config/
+ln -s ${h}dotfiles/.config/git ${h}.config/
+ln -s ${h}dotfiles/.config/sway ${h}.config/
+ln -s ${h}dotfiles/.config/alacritty ${h}.config/
