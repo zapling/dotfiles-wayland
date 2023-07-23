@@ -48,6 +48,7 @@ packages=(
     wireplumber
     wl-clipboard
     zsh
+    tlp
 )
 
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
@@ -162,6 +163,7 @@ arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asteris
 arch-chroot systemctl enable greetd.service
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable pipewire-pulse.service
+arch-chroot systemctl enable tlp.service
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin
