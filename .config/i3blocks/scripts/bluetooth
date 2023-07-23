@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+case "$BLOCK_BUTTON" in
+    1) blueberry
+esac
+
+bluetooth_status=$(bluetooth | awk '{print $3}')
+
+if [[ "$bluetooth_status" == "off" ]]; then
+    echo "<span foreground=\"#fb4833\">󰂲</span>"
+    exit
+fi
+
+echo "󰂯"

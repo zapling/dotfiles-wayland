@@ -13,6 +13,8 @@ packages=(
     alacritty
     amd-ucode
     base
+    blueberry
+    bluez-utils
     brightnessctl
     btrfs-progs
     firefox
@@ -165,6 +167,7 @@ arch-chroot systemctl enable greetd.service
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable pipewire-pulse.service
 arch-chroot systemctl enable tlp.service
+arch-chroot systemctl enable bluetooth.service
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin

@@ -99,6 +99,11 @@ color=#ebdbb2
 interval=5
 color=#ebdbb2
 
+[bluetooth]
+markup=pango
+interval=5
+color=#ebdbb2
+
 [wifi]
 markup=pango
 interval=5
