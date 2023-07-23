@@ -18,6 +18,7 @@ packages=(
     brightnessctl
     btrfs-progs
     firefox
+    gammastep
     git
     greetd
     greetd-tuigreet
