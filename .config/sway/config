@@ -69,6 +69,10 @@ input "type:keyboard" {
     xkb_options grp:alt_space_toggle,compose:menu
 }
 
+input type:touchpad {
+    tap enabled
+}
+
 ### Autostarts
 
 exec --no-startup-id /usr/bin/alacritty --class dropdown1
