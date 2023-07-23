@@ -60,10 +60,6 @@ init_color=#fabc2e
 on_color=#ebdbb2
 interval=5
 
-[microphone-status]
-interval=5
-color=#fb4833
-
 [battery-percentage]
 interval=60
 markup=pango
@@ -79,6 +75,10 @@ label=
 
 [keyboard-layout]
 interval=2
+color=#fb4833
+
+[microphone-status]
+interval=5
 color=#fb4833
 
 [volume]
