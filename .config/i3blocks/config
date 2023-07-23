@@ -1,0 +1,100 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+# Change $SCRIPT_DIR to the location of your scripts!
+command=/home/andreas/.config/i3blocks/scripts/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+#[docker-reclaimable-space]
+#interval=3600
+#color=#fb4833
+
+#[disk-usage]
+#interval=3600
+#color=#fb4833
+
+#[certificate-checker]
+#interval=10800 # every 3 hours
+#certificate=${HOME}/.cert/nm-openvpn/zimpler-cert.pem
+
+#[spotify]
+#interval=5
+#color=#1DB954
+
+#[docker-containers]
+#interval=60
+#color=#83a598
+
+#[weather-applet]
+#command=~/go/bin/./weatherapplet
+#interval=3600 # once per hour
+#color=#ebdbb2
+
+[vpn-connection]
+label= 
+init_color=#fabc2e
+on_color=#ebdbb2
+interval=5
+
+[microphone-status]
+interval=5
+color=#fb4833
+
+[battery-percentage]
+interval=60
+markup=pango
+color=#ebdbb2
+color_charging=#b8ba25
+color_discharging=#fb4833
+wrap_in_brackets=true
+
+[pacman-updates]
+interval=3600
+color=#f7a728
+label= 
+
+[keyboard-layout]
+interval=2
+color=#fb4833
+
+[volume]
+interval=2
+color=#ebdbb2
+
+# [volume-pulseaudio]
+# interval=2
+# signal=1
+# LONG_FORMAT="[${SYMB}${VOL}%]"
+# AUDIO_HIGH_SYMBOL=🔊 
+# AUDIO_MED_SYMBOL=🔉 
+# AUDIO_LOW_SYMBOL=🔈 
+# AUDIO_MUTED_SYMBOL=🔇 
+# DEFAULT_COLOR="#ebdbb2"
+
+[time]
+interval=5
+color=#ebdbb2

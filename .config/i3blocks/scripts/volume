@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print substr($5, 0, length($5) - 1)}')
+muted=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print substr($0,7)}')
+
+icon=""
+if [[ "$muted" == "no" ]]; then
+    [[ $volume -le 60 ]] && icon="󰕾"
+    [[ $volume -le 30 ]] && icon=""
+else
+    icon="󰖁"
+fi
+
+echo "[$icon $volume%]"

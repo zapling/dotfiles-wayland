@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+UPDATES=$(pacman -Qu | wc -l)
+if (( $UPDATES > 0 )); then
+    echo $UPDATES
+fi

@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+layout=$(swaymsg -t get_inputs | jq -r '.[] | select(.identifier == "6058:20564:ThinkPad_Extra_Buttons") | .xkb_active_layout_name' | awk '{print tolower(substr($0, 1, 3))}')
+if [[ "$layout" == "swe" ]]; then
+	echo "[se]"
+fi

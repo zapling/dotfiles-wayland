@@ -19,6 +19,7 @@ packages=(
     git
     greetd
     greetd-tuigreet
+    i3blocks
     jq
     linux-firmware
     linux-lts

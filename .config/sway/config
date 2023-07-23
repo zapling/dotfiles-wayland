@@ -80,9 +80,8 @@ exec --no-startup-id /usr/bin/alacritty --class dropdown2
 bar {
     position bottom
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+    font pango:LiterationMono Nerd Font 10
+    status_command i3blocks
 
     colors {
         background $bar_bg
@@ -180,8 +179,8 @@ bar {
 
 ### gaps
 
-workspace $ws1 gaps inner $gaps_inner
-workspace $ws2 gaps inner $gaps_inner
+workspace 1 gaps inner $gaps_inner
+workspace 2 gaps inner $gaps_inner
 
 ### sway base config
 
