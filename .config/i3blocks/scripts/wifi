@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+case "$BLOCK_BUTTON" in
+    1) nm-connection-editor
+esac
+
+ethernet_status=$(nmcli d status | grep ethernet | awk '{print $3}')
+if [[ "$ethernet_status" == "connected" ]]; then
+    echo "󰈀 "
+    exit
+fi
+
+if [[ "$ethernet_status" == "connecting" ]]; then
+    echo "<span foreground=\"#fabd2f\">󰈀 </span>"
+    exit
+fi
+
+wifi_radio_status=$(nmcli radio wifi)
+if [[ "$wifi_radio_status" == "disabled" ]]; then
+    echo "<span foreground=\"#fb4833\">󰤮 </span>"
+    exit
+fi
+
+wifi_state=$(nmcli -f STATE d | tail -1 | awk '{print $1}')
+if [[ "$wifi_state" == "disconnected" ]]; then
+    echo "<span foreground=\"#7c6f64\">󰤩 </span>"
+    exit
+fi
+
+if [[ "$wifi_state" == "connecting" ]]; then
+    echo ""
+    exit
+fi
+
+wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi | grep '*' | awk '{print $2}')
+
+icon="󰤨"
+[[ $wifi_strength -le 80 ]] && icon="󰤥"
+[[ $wifi_strength -le 60 ]] && icon="󰤢"
+[[ $wifi_strength -le 30 ]] && icon="󰤟"
+[[ $wifi_strength -le 10 ]] && icon="󰤯"
+echo "$icon "

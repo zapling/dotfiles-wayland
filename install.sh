@@ -27,6 +27,7 @@ packages=(
     man-pages
     neovim
     networkmanager
+    nm-connection-editor
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -43,12 +44,12 @@ packages=(
     swayidle
     swaylock
     terminus-font
+    tlp
     tt-liberation
     unzip
     wireplumber
     wl-clipboard
     zsh
-    tlp
 )
 
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then

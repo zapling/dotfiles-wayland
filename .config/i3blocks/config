@@ -98,3 +98,8 @@ color=#ebdbb2
 [time]
 interval=5
 color=#ebdbb2
+
+[wifi]
+markup=pango
+interval=5
+color=#ebdbb2
