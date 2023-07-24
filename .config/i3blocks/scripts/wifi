@@ -32,7 +32,7 @@ if [[ "$wifi_state" == "connecting" ]]; then
     exit
 fi
 
-wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi | grep '*' | awk '{print $2}')
+wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi list --rescan no | grep '*' | awk '{print $2}')
 
 icon="󰤨"
 [[ $wifi_strength -le 80 ]] && icon="󰤥"
