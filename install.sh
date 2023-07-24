@@ -27,6 +27,7 @@ packages=(
     greetd-tuigreet
     i3blocks
     jq
+    kanshi
     linux-firmware
     linux-lts
     make

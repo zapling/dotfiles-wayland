@@ -75,6 +75,8 @@ input type:touchpad {
 
 ### Autostarts
 
+exec /usr/bin/kanshi
+
 exec --no-startup-id /usr/bin/gammastep -l 57.70:11.97
 
 exec --no-startup-id /usr/bin/alacritty --class dropdown1
