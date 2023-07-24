@@ -28,15 +28,21 @@ if [[ "$wifi_state" == "disconnected" ]]; then
 fi
 
 if [[ "$wifi_state" == "connecting" ]]; then
-    echo ""
+    echo "<span foreground=\"#fabd2f\">󰤯 </span>"
     exit
 fi
 
-wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi list --rescan no | grep '*' | awk '{print $2}')
+wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi list --rescan no | grep '\*' | awk '{print $2}')
+wifi_ssid=$(nmcli -f IN-USE,SSID device wifi list --rescan no | grep '\*' | awk '{print $2}')
+
+if [[ "$BLOCK_BUTTON" == 3 ]]; then
+    echo "$wifi_ssid"
+    exit
+fi
 
 icon="󰤨"
 [[ $wifi_strength -le 80 ]] && icon="󰤥"
 [[ $wifi_strength -le 60 ]] && icon="󰤢"
 [[ $wifi_strength -le 30 ]] && icon="󰤟"
 [[ $wifi_strength -le 10 ]] && icon="󰤯"
-echo "$icon "
+echo "$wifi_ssid $icon "
