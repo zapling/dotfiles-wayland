@@ -176,6 +176,12 @@ bar {
     for_window [app_id="pavucontrol"] floating enable
     for_window [app_id="pavucontrol"] resize set 740 480
 
+    # Blueberry bluetooth control
+    for_window [app_id="blueberry.py"] floating enable
+
+    # Network
+    for_window [app_id="nm-connection-editor"] floating enable
+
     # class                 border     bground text       indicator child_border
     client.focused          $darkgreen $bar_bg $darkgreen #000000 $darkgreen
     #client.focused_inactive $darkgreen $bar_bg $darkgreen #000000 $darkgreen
