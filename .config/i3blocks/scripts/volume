@@ -1,4 +1,18 @@
 #!/usr/bin/bash
+
+case "$BLOCK_BUTTON" in
+    # Left click
+    1) pavucontrol ;;
+    # Scroll click
+    #2) pavucontrol ;;
+    # Right click
+    3) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+    # Scroll up
+    4) pactl set-sink-volume @DEFAULT_SINK@ +5% ;;
+    # Scoll down
+    5) pactl set-sink-volume @DEFAULT_SINK@ -5% ;;
+esac
+
 volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print substr($5, 0, length($5) - 1)}')
 muted=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print substr($0,7)}')
 
@@ -7,7 +21,12 @@ if [[ "$muted" == "no" ]]; then
     [[ $volume -le 60 ]] && icon="󰕾"
     [[ $volume -le 30 ]] && icon=""
 else
-    icon="󰖁"
+    icon="<span foreground=\"#fb4833\">󰖁</span>"
 fi
 
-echo "[$icon $volume%]"
+microphone_muted=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print substr($0,7)}')
+if [[ "$microphone_muted" == "yes" ]]; then
+    echo "[<span foreground=\"#fb4833\">󰍭</span> $icon $volume%]"
+else
+    echo "[󰍬 $icon $volume%]"
+fi

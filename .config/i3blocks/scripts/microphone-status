@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-muted=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print substr($0,7)}')
-if [[ "$muted" == "yes" ]]; then
-	echo "[󰍭]"
-fi

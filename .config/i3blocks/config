@@ -77,11 +77,8 @@ label=
 interval=2
 color=#fb4833
 
-[microphone-status]
-interval=5
-color=#fb4833
-
 [volume]
+markup=pango
 interval=2
 color=#ebdbb2
 
