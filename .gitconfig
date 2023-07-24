@@ -20,3 +20,6 @@
 [rebase]
     autoStash = true
     autoSquash = true
+
+[diff]
+    wsErrorHighlight = all
