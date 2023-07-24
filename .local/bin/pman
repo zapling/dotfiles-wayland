@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+cmd=$1 ; shift >/dev/null 2>&1
+case "$cmd" in
+    "list"|"ls")
+        pacman -Qu
+        ;;
+    "info")
+        pacman -Qi $1
+        ;;
+    "fetch"|"f")
+        pacman -Sy
+        updates=$(pacman -Qu | wc -l)
+        echo "$updates updates available"
+        ;;
+    "search"|"s")
+        pacman -Ss $1
+        ;;
+    "install"|"i")
+        pacman -S $1
+        ;;
+    "remove"|"rm")
+        pacman -Rs $1
+        ;;
+    "upgrade"|"u")
+        pacman -Syu
+        ;;
+    *)
+        printf "Usage: pman <command> [options]\n"
+        printf "pman is syntactic sugar for the pacman package manager\n"
+        printf "Commands:\n"
+        printf "    list,    ls   List available updates\n"
+        printf "    info          Information about installed package\n"
+        printf "    fetch,   f    Update package database\n"
+        printf "    search,  s    Search for a package\n"
+        printf "    install, i    Install a package\n"
+        printf "    remove,  rm   Remove a package\n"
+        printf "    upgrade, u    Install updates for all packages available\n"
+        printf "\n"
+        exit 1
+        ;;
+esac
