@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+# Decode JWT and show as text, does not ensure authenticity of the token.
+
+jwt="$1"
+arrIN=(${jwt//./ })
+
+echo "${arrIN[0]}" | base64 -d | jq
+echo "${arrIN[1]}" | base64 -d | jq
