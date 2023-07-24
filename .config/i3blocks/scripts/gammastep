@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+pid=$(pidof -x /usr/bin/gammastep)
+if [[ "$pid" != "" ]]; then
+    if [[ "$BLOCK_BUTTON" == 1 ]]; then
+        killall /usr/bin/gammastep
+        echo "<span foreground=\"#fb4833\">󰹏</span>"
+        exit
+    fi
+    echo "󰌵"
+else
+    if [[ "$BLOCK_BUTTON" == 1 ]]; then
+        swaymsg 'exec /usr/bin/gammastep -l 57.70:11.97' > /dev/null
+        echo "󰌵"
+        exit
+    fi
+    echo "<span foreground=\"#fb4833\">󰹏</span>"
+fi
