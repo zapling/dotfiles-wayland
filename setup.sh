@@ -35,6 +35,7 @@ ln -s ${h}dotfiles/.psqlrc ${h}
 ln -s ${h}dotfiles/.local/bin ${h}.local/
 
 ln -s ${h}dotfiles/.config/git ${h}.config/
+ln -s ${h}dotfiles/.config/nvim ${h}.config/
 ln -s ${h}dotfiles/.config/sway ${h}.config/
 ln -s ${h}dotfiles/.config/i3blocks ${h}.config/
 ln -s ${h}dotfiles/.config/alacritty ${h}.config/

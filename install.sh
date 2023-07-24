@@ -17,24 +17,30 @@ packages=(
     bluez-utils
     brightnessctl
     btrfs-progs
+    cmake
     firefox
     gammastep
+    gcc
     git
+    go
     greetd
     greetd-tuigreet
     i3blocks
     jq
     linux-firmware
     linux-lts
+    make
     man-db
     man-pages
     neovim
     networkmanager
     nm-connection-editor
+    nodejs
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
     noto-fonts-extra
+    npm
     openssh
     pavucontrol
     pipewire
@@ -48,6 +54,7 @@ packages=(
     swaylock
     terminus-font
     tlp
+    tree-sitter-cli
     tt-liberation
     unzip
     wireplumber
