@@ -73,6 +73,10 @@ input type:touchpad {
     tap enabled
 }
 
+input type:touch {
+    events disabled
+}
+
 ### Autostarts
 
 exec /usr/bin/kanshi
