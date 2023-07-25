@@ -60,6 +60,7 @@ packages=(
     unzip
     wireplumber
     wl-clipboard
+    wofi
     zsh
 )
 

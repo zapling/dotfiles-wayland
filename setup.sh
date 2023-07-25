@@ -41,3 +41,4 @@ ln -s ${h}dotfiles/.config/i3blocks ${h}.config/
 ln -s ${h}dotfiles/.config/alacritty ${h}.config/
 ln -s ${h}dotfiles/.config/fontconfig ${h}.config/
 ln -s ${h}dotfiles/.config/kanshi ${h}.config/
+ln -s ${h}dotfiles/.config/wofi ${h}.config/
