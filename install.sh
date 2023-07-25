@@ -47,6 +47,7 @@ packages=(
     pipewire
     pipewire-jack
     pipewire-pulse
+    ripgrep
     slurp
     sudo
     sway

@@ -8,6 +8,11 @@ require('telescope').setup {
       preview = {
           msg_bg_fillchar = "░",
       },
+      file_ignore_patterns = {
+          "node%_modules/.*",  -- npm packages
+          ".angular/cache/.*", -- angular cache
+          "vendor/*",          -- go dependencies
+      },
   },
   pickers = {
       live_grep = {
