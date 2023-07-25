@@ -31,6 +31,7 @@ return require("lazy").setup({
         dependencies = {'JoosepAlviste/nvim-ts-context-commentstring'}
     },
     'nvim-treesitter/nvim-treesitter-context',
+    { "elgiano/nvim-treesitter-angular", branch = "topic/jsx-fix" },
 
     -- Language Server Protocol
     'williamboman/mason.nvim', -- Package manager for LSP, linters etc
