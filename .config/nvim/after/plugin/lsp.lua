@@ -9,9 +9,10 @@ require('lspconfig').gopls.setup(require("zapling.lsp.go").config)
 require('lspconfig').lua_ls.setup(require("zapling.lsp.lua").config)
 require('lspconfig').bashls.setup({})
 
--- JS ecosystem
+-- Front-end ecosystem
 require('lspconfig').vtsls.setup(require("vtsls").lspconfig) -- tsserver alternative
 require('lspconfig').angularls.setup({})
+require('lspconfig').cssls.setup({})
 
 require("null-ls").setup(require("zapling.lsp.null_ls").config)
 
