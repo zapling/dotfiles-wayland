@@ -60,6 +60,7 @@ packages=(
     tree-sitter-cli
     tt-liberation
     unzip
+    vifm
     wireplumber
     wl-clipboard
     wofi
@@ -187,6 +188,17 @@ arch-chroot /mnt echo $password | passwd andreas --stdin
 arch-chroot /mnt chsh -s /usr/bin/zsh andreas
 
 arch-chroot /mnt su andreas -c "cd home/andreas && git clone https://github.com/zapling/dotfiles-wayland.git dotfiles"
+
+# Build and install aurutils
+arch-chroot /mnt su andreas -c "mkdir /home/andreas/.build && git clone https://aur.archlinux.org/aurutils.git /home/andreas/.build/aurutils"
+arch-chroot /mnt su andreas -c "cd /home/andreas/.build/aurutils && makepkg -si --noconfirm"
+arch-chroot /mnt install -d /home/andreas/aurpkgs -o andreas
+arch-chroot /mnt repo-add /home/andreas/aurpkgs/aurpkgs.db.tar.gz
+arch-chroot /mnt cat >> /etc/pacman.conf << EOF
+[aurpkgs]
+SigLevel = Optional TrustAll
+Server = file:///home/andreas/aurpkgs
+EOF
 
 umount -R /mnt
 cryptsetup close luks
