@@ -60,41 +60,10 @@ init_color=#fabc2e
 on_color=#ebdbb2
 interval=5
 
-[battery-percentage]
-interval=60
-markup=pango
-color=#ebdbb2
-color_charging=#b8ba25
-color_discharging=#fb4833
-wrap_in_brackets=true
-
 [pacman-updates]
 interval=3600
 color=#f7a728
 label= 
-
-[keyboard-layout]
-interval=2
-color=#fb4833
-
-[volume]
-markup=pango
-interval=2
-color=#ebdbb2
-
-# [volume-pulseaudio]
-# interval=2
-# signal=1
-# LONG_FORMAT="[${SYMB}${VOL}%]"
-# AUDIO_HIGH_SYMBOL=🔊 
-# AUDIO_MED_SYMBOL=🔉 
-# AUDIO_LOW_SYMBOL=🔈 
-# AUDIO_MUTED_SYMBOL=🔇 
-# DEFAULT_COLOR="#ebdbb2"
-
-[time]
-interval=5
-color=#ebdbb2
 
 [gammastep]
 markup=pango
@@ -108,5 +77,26 @@ color=#ebdbb2
 
 [network]
 markup=pango
+interval=5
+color=#ebdbb2
+
+[keyboard-layout]
+interval=2
+color=#fb4833
+
+[battery-percentage]
+interval=60
+markup=pango
+color=#ebdbb2
+color_charging=#b8ba25
+color_discharging=#fb4833
+wrap_in_brackets=true
+
+[volume]
+markup=pango
+interval=2
+color=#ebdbb2
+
+[time]
 interval=5
 color=#ebdbb2
