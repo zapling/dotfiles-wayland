@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+bluetooth_status=$(bluetooth | awk '{print $3}')
+bluetooth_icon="󰂯"
+[[ "$bluetooth_status" == "off" ]] && bluetooth_icon="󰂲"
+
+op=$( echo -e "$bluetooth_icon Bluetooth\n Poweroff\n Reboot\n Suspend\n Lock\n Logout" | wofi -i -k /dev/null --dmenu | awk '{print tolower($2)}' )
+case $op in
+        bluetooth)
+                bluetooth toggle
+                ;;
+        poweroff)
+                systemctl poweroff
+                ;;
+        reboot)
+                systemctl reboot
+                ;;
+        suspend)
+                systemctl suspend
+                ;;
+        lock)
+		        swaylock -f -c 000000
+                ;;
+        logout)
+                swaymsg exit
+                ;;
+esac
