@@ -202,6 +202,7 @@ EOF
 
 # Install aur packages
 arch-chroot /mnt aur sync --no-view --no-confirm swaync && pacman -S swaync # Notification center
+arch-chroot /mnt aur sync --no-view --no-confirm slack-desktop-wayland && pacman -S slack-desktop-wayland
 
 umount -R /mnt
 cryptsetup close luks
