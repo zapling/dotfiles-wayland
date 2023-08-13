@@ -16,7 +16,7 @@ set $gaps_inner 50
 set $gaps_focus 600
 
 set $term /usr/bin/alacritty
-set $menu wofi --show run
+set $menu ~/.local/bin/wofi-application-menu
 
 # gruvbox colors
 set $darkred     "#cc241d"

@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+applications=(
+    "alacritty"
+    "blueberry"
+    "firefox"
+    "nm-connection-editor"
+    "pavucontrol"
+    "slack"
+)
+
+wofi_str=$(printf "\n%s" "${applications[@]}")
+wofi_str=${wofi_str:1}
+
+op=$( echo -e "$wofi_str" | wofi -i -k /dev/null --dmenu )
+case $op in
+    "slack")
+        op="/usr/bin/slack --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer --force-dark-mode"
+        ;;
+esac
+
+echo "$op" | bash > /dev/null &
