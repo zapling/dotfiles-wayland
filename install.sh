@@ -13,6 +13,7 @@ packages=(
     alacritty
     amd-ucode
     base
+    base-devel
     blueberry
     bluez-utils
     brightnessctl
