@@ -200,6 +200,9 @@ SigLevel = Optional TrustAll
 Server = file:///home/andreas/aurpkgs
 EOF
 
+# Install aur packages
+arch-chroot /mnt aur sync --no-view --no-confirm swaync && pacman -S swaync # Notification center
+
 umount -R /mnt
 cryptsetup close luks
 systemctl reboot

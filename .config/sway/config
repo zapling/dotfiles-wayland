@@ -83,6 +83,7 @@ exec /usr/bin/kanshi
 exec /usr/bin/gammastep -l 57.70:11.97
 exec /usr/bin/alacritty --class dropdown1
 exec /usr/bin/alacritty --class dropdown2
+exec /usr/bin/swaync
 
 ### Statusbar
 
@@ -124,7 +125,7 @@ bar {
     #bindsym $mod+l exec "dm-tool switch-to-greeter"
     bindsym $mod+Shift+Delete exec ~/.local/bin/wofi-system-menu
     bindsym $mod+Shift+s exec pavucontrol
-    #bindsym $mod+n exec --no-startup-id "kill -s USR1 $(pidof deadd-notification-center)"
+    bindsym $mod+n exec swaync-client -t
 
     # Screen brightness
     bindsym XF86MonBrightnessUp exec brightnessctl set 10+
