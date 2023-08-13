@@ -63,6 +63,7 @@ packages=(
     wireplumber
     wl-clipboard
     wofi
+    xdg-utils
     zsh
 )
 
