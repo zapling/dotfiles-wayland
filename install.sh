@@ -19,6 +19,7 @@ packages=(
     brightnessctl
     btrfs-progs
     cmake
+    docker
     firefox
     gammastep
     gcc
@@ -182,10 +183,12 @@ arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable pipewire-pulse.service
 arch-chroot systemctl enable tlp.service
 arch-chroot systemctl enable bluetooth.service
+arch-chroot systemctl enable docker.service
 
 arch-chroot /mnt useradd -m andreas
 arch-chroot /mnt echo $password | passwd andreas --stdin
 arch-chroot /mnt chsh -s /usr/bin/zsh andreas
+arch-chroot /mnt usermod -a -G docker andreas # Allow user to perform docker actions without root
 
 arch-chroot /mnt su andreas -c "cd home/andreas && git clone https://github.com/zapling/dotfiles-wayland.git dotfiles"
 
