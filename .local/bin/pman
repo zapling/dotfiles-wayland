@@ -9,8 +9,8 @@ case "$cmd" in
         pacman -Qi $1
         ;;
     "fetch"|"f")
-        pacman -Sy
-        updates=$(pacman -Qu | wc -l)
+        pacman -Sy && \
+        updates=$(pacman -Qu | wc -l) && \
         echo "$updates updates available"
         ;;
     "search"|"s")
