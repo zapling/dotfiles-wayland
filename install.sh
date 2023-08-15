@@ -166,7 +166,7 @@ linux /vmlinuz-linux-lts
 initrd /amd-ucode.img
 initrd /initramfs-linux-lts.img
 EOF
-echo "options cryptdevice=UUID=$root_disk_id:luks:allow-discards root=/dev/mapper/luks rootflags=subvol=@ rd.luks.options=discard" >> /mnt/boot/loader/entries/arch.conf
+echo "options cryptdevice=UUID=$root_disk_id:luks:allow-discards root=/dev/mapper/luks rootflags=subvol=@ rd.luks.options=discard console=tty1" >> /mnt/boot/loader/entries/arch.conf
 
 cat > /mnt/boot/loader/loader.conf << EOF
 default arch.conf
@@ -176,6 +176,7 @@ editor no
 auto-firmware no
 EOF
 
+arch-chroot /mnt sed -i 's/vt = 1/vt = 2/' /etc/greetd/config.toml
 arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asterisks --cmd sway/g' /etc/greetd/config.toml
 
 arch-chroot systemctl enable greetd.service
