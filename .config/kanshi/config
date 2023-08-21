@@ -3,6 +3,11 @@ profile {
     output "Microstep MAG274QRF-QD CA8A671500064" mode 2560x1440 position 0,0
 }
 
+profile work {
+    output eDP-1 disable
+    output "BNQ BenQ PD3205U B5N00995019" mode 3840x2160 position 0,0 scale 1.4
+}
+
 profile {
     output eDP-1 enable
 }
