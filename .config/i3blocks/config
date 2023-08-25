@@ -29,9 +29,9 @@ command=/home/andreas/.config/i3blocks/scripts/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
-#[docker-reclaimable-space]
-#interval=3600
-#color=#fb4833
+[docker-reclaimable-space]
+interval=3600
+color=#fb4833
 
 #[disk-usage]
 #interval=3600
@@ -45,9 +45,9 @@ markup=none
 #interval=5
 #color=#1DB954
 
-#[docker-containers]
-#interval=60
-#color=#83a598
+[docker-containers]
+interval=60
+color=#83a598
 
 #[weather-applet]
 #command=~/go/bin/./weatherapplet
