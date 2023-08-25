@@ -23,15 +23,6 @@ protectDropdownTerminal
 # Source private stuff
 [ -e ~/.private ] && source ~/.private
 
-function killall() {
-    if [[ "$1" == "firefox" ]]; then
-        command killall /usr/lib/firefox/firefox
-        return
-    fi
-
-    command killall $@
-}
-
 # Dialog if user meant to open vim or really vi
 function vi() {
     echo -e "vi, did you mean vim? (y/n)"
@@ -99,6 +90,6 @@ function docker() {
 
 alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
-alias copy="xclip -sel clip"
 alias task="go-task"
 alias k="kubectl"
+
