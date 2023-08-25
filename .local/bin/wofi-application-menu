@@ -7,6 +7,7 @@ applications=(
     "nm-connection-editor"
     "pavucontrol"
     "slack"
+    "swayshot"
 )
 
 wofi_str=$(printf "\n%s" "${applications[@]}")
@@ -16,6 +17,9 @@ op=$( echo -e "$wofi_str" | wofi -i -k /dev/null --dmenu )
 case $op in
     "slack")
         op="/usr/bin/slack --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer --force-dark-mode"
+        ;;
+    "swayshot")
+        op="XDG_PICTURES_DIR=$HOME/Documents/Screenshots swayshot region"
         ;;
 esac
 
