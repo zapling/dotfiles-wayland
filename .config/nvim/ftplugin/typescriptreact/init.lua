@@ -9,7 +9,19 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   pattern = '*.ts,*.tsx',
   group = augroup_typescript,
   callback = function()
-      vim.lsp.buf.format({filter = function(client) return client.name ~= "tsserver" end})
+      local clients = vim.lsp.buf_get_clients()
+
+      local servers = {}
+      for _, client in pairs(clients) do
+          servers[client.name] = 1
+      end
+
+      if servers['rome'] then
+          vim.lsp.buf.format({filter = function(client) return client.name == 'rome' end})
+      else
+          vim.lsp.buf.format({filter = function(client) return client.name == 'vtsls' end})
+      end
+
       vtsls.commands.add_missing_imports()
   end,
   desc = 'Format buffer before save with client NOT named tsserver',
