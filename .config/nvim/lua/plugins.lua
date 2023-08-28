@@ -61,7 +61,7 @@ return require("lazy").setup({
     -- Misc
     'zapling/vim-go-utils',
     {'zapling/plantuml.nvim', dependencies = {'nvim-lua/plenary.nvim'}, lazy = true},
-    -- {
+    {'lukas-reineke/indent-blankline.nvim'},
     --     dir = '~/P/reviewer.nvim',
     --     dependencies = 'nvim-lua/plenary.nvim',
     --     lazy = true,
