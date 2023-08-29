@@ -1,6 +1,7 @@
 local null_ls = require("null-ls")
 local vtsls = require("vtsls")
 local Job = require'plenary.job'
+local path = require'plenary.path'
 
 -- vim.keymap.set('', '<Leader>gd', function() vtsls.commands.goto_source_definition() end, {silent = true})
 
@@ -18,12 +19,24 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
       end
 
       if servers['rome'] then
+          local rome_cfg_path = path:new("."):find_upwards("rome.json")
+          local rome_cfg = path:new(rome_cfg_path):read()
+          local rome_cfg_json = vim.fn.json_decode(rome_cfg)
+
+          if rome_cfg_json.formatter == nil then
+              return
+          end
+
+          if rome_cfg_json.formatter.enabled ~= true then
+              return
+          end
+
           local bufnr = vim.fn.bufnr("%")
           local filename = vim.fn.expand('%')
           local buffer_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
           local buffer_content = table.concat(buffer_lines, '\n')
 
-          local formatted_buffer_lines = nil
+          local rome_formatter_output = nil
           Job:new({
               command = 'rome',
               args = {'format', '--stdin-file-path='..filename},
@@ -32,11 +45,11 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
                   if exit_code ~= 0 then
                       return
                   end
-                  formatted_buffer_lines = result:result()
+                  rome_formatter_output = result:result()
               end,
           }):sync()
 
-          vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, formatted_buffer_lines)
+          vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, rome_formatter_output)
       else
           vim.lsp.buf.format({filter = function(client) return client.name == 'vtsls' end})
       end
