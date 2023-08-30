@@ -30,6 +30,7 @@ ln -s ${h}dotfiles/.zshrc ${h}
 ln -s ${h}dotfiles/.zshenv ${h}
 ln -s ${h}dotfiles/.gitconfig ${h}
 ln -s ${h}dotfiles/.psqlrc ${h}
+ln -s ${h}dotfiles/.omnisharp ${h}
 
 [[ ! -d ${h}.local ]] && mkdir ${h}.local
 ln -s ${h}dotfiles/.local/bin ${h}.local/

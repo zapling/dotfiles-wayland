@@ -9,6 +9,8 @@ require('lspconfig').gopls.setup(require("zapling.lsp.go").config)
 require('lspconfig').lua_ls.setup(require("zapling.lsp.lua").config)
 require('lspconfig').bashls.setup({})
 
+require'lspconfig'.omnisharp.setup({}) -- csharp lsp
+
 -- Front-end ecosystem
 require('lspconfig').vtsls.setup(require("vtsls").lspconfig) -- tsserver alternative
 require('lspconfig').angularls.setup({})

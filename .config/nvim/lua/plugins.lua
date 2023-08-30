@@ -38,6 +38,7 @@ return require("lazy").setup({
     'williamboman/mason-lspconfig.nvim',
     'jay-babu/mason-null-ls.nvim',
     'yioneko/nvim-vtsls', -- tsserver wrapper for lsp
+    'Hoffs/omnisharp-extended-lsp.nvim', -- csharp goto_def custom handler
 
     'neovim/nvim-lspconfig',
     {'jose-elias-alvarez/null-ls.nvim', dependencies = {'nvim-lua/plenary.nvim'}},

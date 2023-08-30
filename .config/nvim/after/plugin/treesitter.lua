@@ -17,6 +17,7 @@ require'nvim-treesitter.configs'.setup {
       'hcl',
       'terraform',
       'markdown',
+      'c_sharp',
   },
   highlight = {
     enable = true
