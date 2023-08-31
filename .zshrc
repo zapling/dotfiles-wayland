@@ -94,4 +94,5 @@ alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
 alias k="kubectl"
+alias kx="kubectx"
 
