@@ -57,9 +57,11 @@ packages=(
     swayidle
     swaylock
     terminus-font
+    thunar
     tlp
     tree-sitter-cli
     tt-liberation
+    tumbler
     unzip
     vifm
     wireplumber
