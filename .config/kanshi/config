@@ -1,4 +1,4 @@
-profile {
+profile home {
     output eDP-1 disable
     output "Microstep MAG274QRF-QD CA8A671500064" mode 2560x1440 position 0,0
 }
