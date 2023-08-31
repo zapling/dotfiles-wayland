@@ -143,8 +143,8 @@ bar {
     for_window [class="^.*"] border pixel 0
 
     # File manager
-    for_window [class="Thunar"] floating enable
-    for_window [class="Thunar"] border pixel 1
+    for_window [app_id="thunar"] floating enable
+    for_window [app_id="thunar"] border pixel 1
 
     # Network Manager configuration editor
     for_window [class="Nm-connection-editor"] floating enable
