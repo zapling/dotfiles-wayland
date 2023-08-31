@@ -22,6 +22,7 @@ protectDropdownTerminal
 
 # Source private stuff
 [ -e ~/.private ] && source ~/.private
+[ -e ~/.local/bin/work/load-ertia-k8s-configs ] && source ~/.local/bin/work/load-ertia-k8s-configs
 
 # Dialog if user meant to open vim or really vi
 function vi() {
@@ -50,6 +51,7 @@ function git() {
     if [[ $confirm -eq 1 ]]; then
         echo "Are you being retarded? Press any key to continue..."
         read -sk1
+        echo ""
     fi
 
     command git $@

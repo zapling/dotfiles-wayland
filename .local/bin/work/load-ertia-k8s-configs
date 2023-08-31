@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [[ "$ERTIA_CUSTOMER_CONFIGS" == "" ]]; then
+    return 0
+fi
+
+CUSTOMERS=($(ls -1 $ERTIA_CUSTOMER_CONFIGS))
+
+for customer in ${CUSTOMERS[@]}
+do
+    # skip this one for now
+    if [[ "$customer" == "df-prod" ]]; then
+        continue
+    fi
+
+    kubeconfig_path="$ERTIA_CUSTOMER_CONFIGS/$customer/.kube/config"
+    if [[ "$KUBECONFIG" != "" ]]; then
+        export KUBECONFIG="$KUBECONFIG:$kubeconfig_path"
+    else
+        export KUBECONFIG="$kubeconfig_path"
+    fi
+done
