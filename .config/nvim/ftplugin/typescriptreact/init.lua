@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
           servers[client.name] = 1
       end
 
-      if servers['rome'] then
+      if servers['biome'] then
           biome.format_on_save()
       else
           vim.lsp.buf.format({filter = function(client) return client.name == 'vtsls' end})

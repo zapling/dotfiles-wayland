@@ -40,7 +40,8 @@ return require("lazy").setup({
     'yioneko/nvim-vtsls', -- tsserver wrapper for lsp
     'Hoffs/omnisharp-extended-lsp.nvim', -- csharp goto_def custom handler
 
-    'neovim/nvim-lspconfig',
+    -- 'neovim/nvim-lspconfig',
+    {'chrisgrieser/nvim-lspconfig', branch = "add-biome" },
     {'jose-elias-alvarez/null-ls.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
 
     -- Snippets
