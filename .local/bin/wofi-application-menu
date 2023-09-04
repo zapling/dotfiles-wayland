@@ -3,11 +3,15 @@
 applications=(
     "alacritty"
     "blueberry"
+    "chromium"
     "firefox"
     "nm-connection-editor"
     "pavucontrol"
     "slack"
+    "slack-chromium"
+    "spotify-chromium"
     "swayshot"
+    "discord-chromium"
 )
 
 wofi_str=$(printf "\n%s" "${applications[@]}")
@@ -18,9 +22,18 @@ case $op in
     "slack")
         op="/usr/bin/slack --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer --force-dark-mode"
         ;;
+    "slack-chromium")
+        op="chromium --new-window --app=https://fabled-ab.slack.com"
+        ;;
+    "spotify-chromium")
+        op="chromium --new-window --app=https://open.spotify.com"
+        ;;
+    "discord-chromium")
+        op="chromium --new-window --app=https://discord.com/app"
+        ;;
     "swayshot")
         op="XDG_PICTURES_DIR=$HOME/Documents/Screenshots swayshot region"
         ;;
 esac
 
-echo "$op" | bash > /dev/null &
+eval $op &
