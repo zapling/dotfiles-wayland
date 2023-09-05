@@ -10,6 +10,9 @@
 [includeIf "gitdir:~/R/"]
     path = ~/.config/git/config_work
 
+[includeIf "gitdir:~/R/mpk"]
+    path = ~/.config/git/config_work_mpk
+
 [core]
     excludesfile = ~/.config/git/gitignore_global
 
