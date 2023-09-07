@@ -16,6 +16,7 @@ require('lspconfig').vtsls.setup(require("vtsls").lspconfig) -- tsserver alterna
 require('lspconfig').angularls.setup({})
 require('lspconfig').cssls.setup({})
 require('lspconfig').biome.setup({})
+require('lspconfig').eslint.setup(require("zapling.lsp.eslint").config)
 
 require("null-ls").setup(require("zapling.lsp.null_ls").config)
 
