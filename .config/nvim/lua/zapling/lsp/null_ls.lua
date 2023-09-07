@@ -38,7 +38,6 @@ M.config = {
         vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
             pattern = '*.' .. file_ext,
             callback = function()
-                print('but we also format with prettier')
                 vim.lsp.buf.format({
                     filter = function(c) return c.name == 'null-ls' end
                 })
