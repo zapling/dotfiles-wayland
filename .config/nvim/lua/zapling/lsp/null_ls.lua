@@ -20,29 +20,31 @@ M.config = {
         -- shell / bash
         null_ls.builtins.diagnostics.shellcheck,
 
-        null_ls.builtins.formatting.eslint_d.with({
-            on_attach = function()
-                Job:new({command = 'eslint_d', args = {'restart'}}):sync()
-            end,
-            condition = function(utils)
-                return utils.root_has_file({".eslintrc"})
-            end,
-        }),
+        null_ls.builtins.formatting.prettier,
+    },
+    -- attach prettier on save to every buffer
+    on_attach = function(client, bufnr)
+        local source = null_ls.get_source({
+            name = "prettier",
+            method = null_ls.methods.FORMATTING,
+        })[1]
 
-        null_ls.builtins.diagnostics.eslint_d.with({
-            on_attach = function()
-                Job:new({command = 'eslint_d', args = {'restart'}}):sync()
+        if source.name ~= "prettier" then
+            return
+        end
+
+        local file_ext = vim.fn.expand('%:e')
+
+        vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+            pattern = '*.' .. file_ext,
+            callback = function()
+                print('but we also format with prettier')
+                vim.lsp.buf.format({
+                    filter = function(c) return c.name == 'null-ls' end
+                })
             end,
-            condition = function(utils)
-                return utils.root_has_file({".eslintrc"})
-            end,
-        }),
-        null_ls.builtins.code_actions.eslint_d.with({
-            condition = function(utils)
-                return utils.root_has_file({".eslintrc"})
-            end,
-        }),
-    }
+        })
+    end,
 }
 
 return M
