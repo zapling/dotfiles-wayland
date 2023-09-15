@@ -49,10 +49,10 @@ color=#fb4833
 interval=60
 color=#83a598
 
-#[weather-applet]
-#command=~/go/bin/./weatherapplet
-#interval=3600 # once per hour
-#color=#ebdbb2
+[weather-applet]
+command=~/go/bin/./weatherapplet
+interval=3600 # once per hour
+color=#ebdbb2
 
 [vpn-connection]
 label= 
