@@ -29,6 +29,7 @@ end
 local git_rebase_current_branch = function()
     local current_branch = get_current_branch()
     if current_branch == nil then
+        print('Not in a git repo')
         return
     end
 
@@ -46,6 +47,7 @@ local git_rebase_current_branch = function()
     }):sync()
 
     if origin_head_branch == nil then
+        print('Failed to get origin HEAD')
         return
     end
 
@@ -65,6 +67,7 @@ local git_rebase_current_branch = function()
     }):sync()
 
     if num_commits == nil then
+        print('No commits to rebase')
         return
     end
 
