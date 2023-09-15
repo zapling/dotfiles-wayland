@@ -81,6 +81,10 @@ input "76:613:Apple_Inc._Magic_Trackpad" {
     natural_scroll disabled
 }
 
+input "1452:613:Apple_Inc._Magic_Trackpad" {
+    natural_scroll disabled
+}
+
 ### Autostarts
 
 exec /usr/bin/kanshi
