@@ -15,7 +15,7 @@ require'lspconfig'.omnisharp.setup({}) -- csharp lsp
 require('lspconfig').vtsls.setup(require("vtsls").lspconfig) -- tsserver alternative
 require('lspconfig').angularls.setup({})
 require('lspconfig').cssls.setup({})
-require('lspconfig').biome.setup({})
+require('lspconfig').biome.setup(require("zapling.lsp.biome").config)
 require('lspconfig').eslint.setup(require("zapling.lsp.eslint").config)
 
 require("null-ls").setup(require("zapling.lsp.null_ls").config)
