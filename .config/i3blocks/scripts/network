@@ -21,7 +21,7 @@ if [[ "$wifi_radio_status" == "disabled" ]]; then
     exit
 fi
 
-wifi_state=$(nmcli -f STATE d | tail -1 | awk '{print $1}')
+wifi_state=$(nmcli device | grep 'wlp4s0' | awk '{print $3}')
 if [[ "$wifi_state" == "disconnected" ]]; then
     echo "<span foreground=\"#7c6f64\">󰤩 </span>"
     exit
