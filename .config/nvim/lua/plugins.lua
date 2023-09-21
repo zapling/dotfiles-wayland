@@ -33,15 +33,21 @@ return require("lazy").setup({
     'nvim-treesitter/nvim-treesitter-context',
     { "elgiano/nvim-treesitter-angular", branch = "topic/jsx-fix" },
 
-    -- Language Server Protocol
+    -- LSP
+    'neovim/nvim-lspconfig',
+    'yioneko/nvim-vtsls', -- tsserver wrapper for lsp
+    'Hoffs/omnisharp-extended-lsp.nvim', -- csharp goto_def custom handler
+    {'jose-elias-alvarez/null-ls.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
+
+    -- Linters
+    'mfussenegger/nvim-lint',
+
+    -- Formatters
+
+    -- Mason, because we love working with stone
     'williamboman/mason.nvim', -- Package manager for LSP, linters etc
     'williamboman/mason-lspconfig.nvim',
     'jay-babu/mason-null-ls.nvim',
-    'yioneko/nvim-vtsls', -- tsserver wrapper for lsp
-    'Hoffs/omnisharp-extended-lsp.nvim', -- csharp goto_def custom handler
-
-    'neovim/nvim-lspconfig',
-    {'jose-elias-alvarez/null-ls.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
 
     -- Snippets
     'L3MON4D3/LuaSnip', -- note: required by cmp

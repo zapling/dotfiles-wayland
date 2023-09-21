@@ -5,20 +5,20 @@ local M = {}
 
 M.config = {
     sources = {
-        null_ls.builtins.diagnostics.golangci_lint.with({
-            args = {
-                "run",
-                "--fix=false",
-                "--build-tags=integration_test",
-                "--out-format=json",
-                "$DIRNAME",
-                "--path-prefix",
-                "$ROOT"
-            },
-        }),
+        -- null_ls.builtins.diagnostics.golangci_lint.with({
+        --     args = {
+        --         "run",
+        --         "--fix=false",
+        --         "--build-tags=integration_test",
+        --         "--out-format=json",
+        --         "$DIRNAME",
+        --         "--path-prefix",
+        --         "$ROOT"
+        --     },
+        -- }),
 
         -- shell / bash
-        null_ls.builtins.diagnostics.shellcheck,
+        -- null_ls.builtins.diagnostics.shellcheck,
 
         null_ls.builtins.formatting.prettier,
     },

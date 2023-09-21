@@ -19,6 +19,7 @@
   "null-ls.nvim": { "branch": "main", "commit": "0010ea927ab7c09ef0ce9bf28c2b573fc302f5a7" },
   "nvim-cmp": { "branch": "main", "commit": "5dce1b778b85c717f6614e3f4da45e9f19f54435" },
   "nvim-colorizer.lua": { "branch": "master", "commit": "dde3084106a70b9a79d48f426f6d6fec6fd203f7" },
+  "nvim-lint": { "branch": "master", "commit": "75a837ce983c0fb94c1abd81a11371dc62c404a8" },
   "nvim-lspconfig": { "branch": "master", "commit": "cc388d3f6b9c7c943ae2b2dcd46ad470fd257f91" },
   "nvim-treesitter": { "branch": "master", "commit": "f9034812d8335356ef3ede49110d1569624033fa" },
   "nvim-treesitter-angular": { "branch": "topic/jsx-fix", "commit": "024f5fbcc6fab26aa5699cd632e02d0ae98c2314" },
