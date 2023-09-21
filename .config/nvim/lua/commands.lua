@@ -154,14 +154,32 @@ local function open_line_in_browser()
       end,
     }):sync()
 
-    local link = 'https://' .. host .. '/' .. namespace .. '/' .. repo
-
-    if string.find(host, "gitlab") then
-        link = link .. '/-'
+    local function get_github_url()
+        return string.format('https://%s/%s/%s/tree/%s/%s#L%s', host, namespace, repo, head_sha1, filepath, linenum)
     end
 
-    link = link .. '/tree/' .. head_sha1 .. '/'
-    link = link .. filepath .. '#L' .. linenum
+    local function get_gitlab_url()
+        return string.format('https://%s/%s/%s/-/tree/%s/%s#L%s', host, namespace, repo, head_sha1, filepath, linenum)
+    end
+
+    local function get_bitbucket_url()
+        return string.format('https://%s/%s/%s/src/%s/%s#lines-%s', host, namespace, repo, head_sha1, filepath, linenum)
+    end
+
+    local link = nil
+
+    if string.find(host, "github") then
+        link = get_github_url()
+    elseif string.find(host, "gitlab") then
+        link = get_gitlab_url()
+    elseif string.find(host, "bitbucket") then
+        link = get_bitbucket_url()
+    end
+
+    if link == nil then
+        print('Unsupported host: ' .. host)
+        return
+    end
 
     Job:new({command = 'xdg-open', args = { link }}):sync()
 end
