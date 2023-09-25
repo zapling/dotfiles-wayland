@@ -26,11 +26,17 @@ function LspHover()
     vim.lsp.buf.hover()
 end
 
+function LspSignatureHelp()
+    vim.api.nvim_command('set eventignore=CursorHold')
+    vim.api.nvim_command('autocmd CursorMoved <buffer> ++once set eventignore=""')
+    vim.lsp.buf.signature_help()
+end
+
 -- 0.6.1 seems to have fixed this issue? Leaving it for a while just in case
 function LspDiagnosticsFocus()
     -- vim.api.nvim_command('set eventignore=WinLeave')
     -- vim.api.nvim_command('autocmd CursorMoved <buffer> ++once set eventignore=""')
-    vim.diagnostic.open_float(nil, {focusable = true, scope = 'line'})
+    vim.diagnostic.open_float(nil, { focusable = true, scope = 'line' })
 end
 
 -- WIP! This didn't work out as planned for all cases, jump manually for now
@@ -57,4 +63,3 @@ end
 --     end
 -- end
 --
-
