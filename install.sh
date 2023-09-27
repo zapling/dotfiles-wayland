@@ -19,6 +19,7 @@ packages=(
     brightnessctl
     btrfs-progs
     cmake
+    direnv
     docker
     firefox
     gammastep

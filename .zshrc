@@ -8,6 +8,8 @@ plugins=(git ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
+eval "$(direnv hook zsh)"
+
 # Soft disable 'exit' on dropdown terminals
 protectDropdownTerminal () {
 	ID=$(ps -p $$ -o ppid= | tr -d '[:space:]')
