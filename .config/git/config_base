@@ -1,3 +1,6 @@
 # vi:syntax=.gitconfig:
 [user]
     email = andreaspalm98@gmail.com
+
+[url "ssh://git@github.com/zapling"]
+    insteadof = https://github.com/zapling
