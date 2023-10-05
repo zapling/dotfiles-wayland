@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+cmd=$1 ; shift >/dev/null 2>&1
+case "$cmd" in
+    "list"|"ls")
+        nmcli device wifi list
+        ;;
+    "connect")
+        nmcli device wifi connect $@
+        ;;
+    *)
+
+        printf "Usage: wifi <command> [options]\n"
+        printf "Commands:\n"
+        printf "    list,    ls   List available wifi networks\n"
+        printf "    connect       Connect to a wifi network [--password=XZC]\n"
+        exit 1
+        ;;
+esac
