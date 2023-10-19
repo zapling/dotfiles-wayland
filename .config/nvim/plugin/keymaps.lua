@@ -37,6 +37,7 @@ map('', '<Leader>k', '<Cmd>lua LspHover()<CR>', {silent = true})
 map('n', '<C-k>', '<Cmd>lua LspSignatureHelp()<CR>', {silent = true})
 map('', '<Leader>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', {silent = true})
 map('', '<Leader>r', '<Cmd>lua vim.lsp.buf.rename()<CR>', {silent = true})
+map('', '<Leader>c', '<Cmd>lua vim.lsp.buf.code_action()<CR>', { silent = true})
 
 -- file navigation and search
 map('', '<Leader>p', '<Cmd>lua require(\'telescope.builtin\').find_files({hidden = true})<CR>', {})

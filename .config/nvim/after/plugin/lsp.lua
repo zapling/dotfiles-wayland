@@ -3,13 +3,13 @@ require("mason").setup({
     PATH = 'skip',
 })
 
-require("mason-lspconfig").setup({automatic_installation = true})
+require("mason-lspconfig").setup({ automatic_installation = true })
 
 require('lspconfig').gopls.setup(require("zapling.lsp.go").config)
 require('lspconfig').lua_ls.setup(require("zapling.lsp.lua").config)
 require('lspconfig').bashls.setup({})
 
-require'lspconfig'.omnisharp.setup({}) -- csharp lsp
+require 'lspconfig'.omnisharp.setup({}) -- csharp lsp
 
 -- Front-end ecosystem
 require('lspconfig').vtsls.setup(require("vtsls").lspconfig) -- tsserver alternative
@@ -18,7 +18,10 @@ require('lspconfig').cssls.setup({})
 require('lspconfig').biome.setup(require("zapling.lsp.biome").config)
 require('lspconfig').eslint.setup(require("zapling.lsp.eslint").config)
 
-require("null-ls").setup(require("zapling.lsp.null_ls").config)
-
--- Needs to setup after null-ls
-require("mason-null-ls").setup({automatic_installation = true})
+require('nvim-lightbulb').setup({
+    autocmd = { enabled = true },
+    sign = {
+        text = "󰛩",
+        hl = "DiagnosticSignHint"
+    }
+})

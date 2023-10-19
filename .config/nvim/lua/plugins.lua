@@ -2,22 +2,22 @@ return require("lazy").setup({
     -- Core (feels like native vim functionality)
     -- 'tpope/vim-commentary',                        -- Toggle code comments
     { 'echasnovski/mini.comment', version = false },
-    'tpope/vim-surround',                          -- Edit 'surroundings'
-    'tpope/vim-abolish',                           -- Coercion, e.g 'crs' (coerce to snake_case)
-    'tpope/vim-repeat',                            -- . repetition for custom motions
-    'FooSoft/vim-argwrap',                         -- Wrap function arguments with keypress
+    'tpope/vim-surround',  -- Edit 'surroundings'
+    'tpope/vim-abolish',   -- Coercion, e.g 'crs' (coerce to snake_case)
+    'tpope/vim-repeat',    -- . repetition for custom motions
+    'FooSoft/vim-argwrap', -- Wrap function arguments with keypress
     {
         'unblevable/quick-scope',
         init = require('zapling.quickscope').init
-    },                                             -- f,F,t,F motion highlighting
-    'ntpeters/vim-better-whitespace',              -- show that fucking whitespace
-    'sindrets/winshift.nvim',                      -- move windows around easily
-    'stefandtw/quickfix-reflector.vim',            -- editable quickfix window
+    },                                  -- f,F,t,F motion highlighting
+    'ntpeters/vim-better-whitespace',   -- show that fucking whitespace
+    'sindrets/winshift.nvim',           -- move windows around easily
+    'stefandtw/quickfix-reflector.vim', -- editable quickfix window
 
     -- Git
     'tpope/vim-fugitive',
-    {'lewis6991/gitsigns.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
-    {'sindrets/diffview.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
+    { 'lewis6991/gitsigns.nvim',  dependencies = { 'nvim-lua/plenary.nvim' } },
+    { 'sindrets/diffview.nvim',   dependencies = { 'nvim-lua/plenary.nvim' } },
 
     -- Theme and styling
     'ellisonleao/gruvbox.nvim',
@@ -28,49 +28,50 @@ return require("lazy").setup({
     {
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
-        dependencies = {'JoosepAlviste/nvim-ts-context-commentstring'}
+        dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' }
     },
     'nvim-treesitter/nvim-treesitter-context',
-    { "elgiano/nvim-treesitter-angular", branch = "topic/jsx-fix" },
+    { "elgiano/nvim-treesitter-angular",          branch = "topic/jsx-fix" },
 
     -- LSP
     'neovim/nvim-lspconfig',
-    'yioneko/nvim-vtsls', -- tsserver wrapper for lsp
+    'yioneko/nvim-vtsls',                -- tsserver wrapper for lsp
     'Hoffs/omnisharp-extended-lsp.nvim', -- csharp goto_def custom handler
-    {'jose-elias-alvarez/null-ls.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
+    'kosayoda/nvim-lightbulb',           -- visualise code actions
 
     -- Linters
     'mfussenegger/nvim-lint',
 
     -- Formatters
+    'stevearc/conform.nvim',
 
     -- Mason, because we love working with stone
     'williamboman/mason.nvim', -- Package manager for LSP, linters etc
     'williamboman/mason-lspconfig.nvim',
-    'jay-babu/mason-null-ls.nvim',
+    'rshkarin/mason-nvim-lint',
 
     -- Snippets
     'L3MON4D3/LuaSnip', -- note: required by cmp
 
     -- Completion
-    'hrsh7th/nvim-cmp',         -- auto completion
-    'hrsh7th/cmp-buffer',       -- source buffers
-    'hrsh7th/cmp-path',         -- source path
-    'hrsh7th/cmp-nvim-lua',     -- source nvim lua
-    'hrsh7th/cmp-nvim-lsp',    -- source nvim lsp
+    'hrsh7th/nvim-cmp',     -- auto completion
+    'hrsh7th/cmp-buffer',   -- source buffers
+    'hrsh7th/cmp-path',     -- source path
+    'hrsh7th/cmp-nvim-lua', -- source nvim lua
+    'hrsh7th/cmp-nvim-lsp', -- source nvim lsp
     -- use 'saadparwaiz1/cmp_luasnip' -- source luasnips
-    'onsails/lspkind-nvim',     -- fancy icons for completion
+    'onsails/lspkind-nvim', -- fancy icons for completion
 
     -- Search / Navigation
-    {'nvim-telescope/telescope.nvim', dependencies = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}},
-    {'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    { 'nvim-telescope/telescope.nvim',            dependencies = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } } },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
 
     -- Misc
     'zapling/vim-go-utils',
-    {'zapling/plantuml.nvim', dependencies = {'nvim-lua/plenary.nvim'}, lazy = true},
-    {'lukas-reineke/indent-blankline.nvim'},
-    {'zapling/biome.nvim', dependencies = {'nvim-lua/plenary.nvim'}},
-    {'NvChad/nvim-colorizer.lua'},
+    { 'zapling/plantuml.nvim',              dependencies = { 'nvim-lua/plenary.nvim' }, lazy = true },
+    { 'lukas-reineke/indent-blankline.nvim' },
+    { 'zapling/biome.nvim',                 dependencies = { 'nvim-lua/plenary.nvim' } },
+    { 'NvChad/nvim-colorizer.lua' },
     --     dir = '~/P/reviewer.nvim',
     --     dependencies = 'nvim-lua/plenary.nvim',
     --     lazy = true,

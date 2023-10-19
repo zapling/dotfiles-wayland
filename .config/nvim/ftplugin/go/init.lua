@@ -1,6 +1,3 @@
-local null_ls = require("null-ls")
-local null_ls_diagnostics = require("null-ls.diagnostics")
-
 local function quick_jump(direction)
     local flags = 'bz'
     local regex = [[^\\(package\\|import\\|type\\|const\\|var\\|func\\)]]
@@ -14,15 +11,15 @@ local function quick_jump(direction)
     vim.api.nvim_exec(command, nil)
 end
 
-vim.keymap.set('n', '[[', function() quick_jump('up') end, { silent = true, buffer = true})
-vim.keymap.set('n', ']]', function() quick_jump('down') end, { silent = true, buffer = true})
-vim.keymap.set('v', '[[', function() quick_jump('up') end, { silent = true, buffer = true})
-vim.keymap.set('v', ']]', function() quick_jump('down') end, { silent = true, buffer = true})
+vim.keymap.set('n', '[[', function() quick_jump('up') end, { silent = true, buffer = true })
+vim.keymap.set('n', ']]', function() quick_jump('down') end, { silent = true, buffer = true })
+vim.keymap.set('v', '[[', function() quick_jump('up') end, { silent = true, buffer = true })
+vim.keymap.set('v', ']]', function() quick_jump('down') end, { silent = true, buffer = true })
 
 -- https://github.com/neovim/nvim-lspconfig/issues/115
 local function organize_imports(timeout_ms)
     local params = vim.lsp.util.make_range_params()
-    params.context = {only = {"source.organizeImports"}}
+    params.context = { only = { "source.organizeImports" } }
     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, timeout_ms)
     for _, res in pairs(result or {}) do
         for _, r in pairs(res.result or {}) do
@@ -35,7 +32,7 @@ local function organize_imports(timeout_ms)
     end
 end
 
-local augroup_go = vim.api.nvim_create_augroup('GO_LSP', { clear = true})
+local augroup_go = vim.api.nvim_create_augroup('GO_LSP', { clear = true })
 
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     pattern = '*.go',
@@ -45,7 +42,7 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
             return
         end
 
-        vim.lsp.buf.format({async = false})
+        vim.lsp.buf.format({ async = false })
         organize_imports(3000)
     end,
     desc = 'Run gofmt and re-organize imports',
@@ -55,30 +52,12 @@ vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI' }, {
     pattern = '*.go',
     group = augroup_go,
     callback = function()
-        local source = nil
-
-        -- Try and get arthur source first
-        source = null_ls.get_source({
-            name = 'arthur go lint',
-            method = null_ls.methods.DIAGNOSTICS_ON_SAVE
-        })[2]
-
-        -- Try and get golangci_lint
-        if source == nil then
-            source = null_ls.get_source({
-                name = 'golangci_lint',
-                method = null_ls.methods.DIAGNOSTICS_ON_SAVE
-            })[1] -- TODO: should this be 2 as well?
-        end
-
-        if source == nil then
-            return
-        end
-
-        local namespace = null_ls_diagnostics.get_namespace(source.id)
-        if namespace ~= nil then
-            vim.diagnostic.reset(namespace)
+        local namespaces = vim.diagnostic.get_namespaces()
+        for namespace, source in pairs(namespaces) do
+            if source.name == 'golangcilint' then
+                vim.diagnostic.reset(namespace)
+            end
         end
     end,
-    desc = 'Reset/Clear golangci_lint diagnostics when text is changed',
+    desc = 'Reset golangci-lint diagnostics when text is changed',
 })
