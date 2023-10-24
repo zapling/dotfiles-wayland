@@ -32,6 +32,7 @@ return require("lazy").setup({
     },
     'nvim-treesitter/nvim-treesitter-context',
     { "elgiano/nvim-treesitter-angular",          branch = "topic/jsx-fix" },
+    'vrischmann/tree-sitter-templ',
 
     -- LSP
     'neovim/nvim-lspconfig',

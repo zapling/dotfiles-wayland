@@ -6,6 +6,8 @@ require("mason").setup({
 require("mason-lspconfig").setup({ automatic_installation = true })
 
 require('lspconfig').gopls.setup(require("zapling.lsp.go").config)
+require('lspconfig').templ.setup({})
+
 require('lspconfig').lua_ls.setup(require("zapling.lsp.lua").config)
 require('lspconfig').bashls.setup({})
 
