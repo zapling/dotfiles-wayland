@@ -92,6 +92,17 @@ function docker() {
     command docker $@
 }
 
+function frm() {
+    CUR=$(pwd)
+    FILENAME=$(uuidgen)
+
+    cd ~/P/frame
+    go build -o /tmp/$FILENAME frame.go
+
+    cd $CUR
+    /tmp/./$FILENAME $@
+}
+
 alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
