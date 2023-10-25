@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+UNTIL_DATE=$1
+
+if [[ "$UNTIL_DATE" == "" ]]; then
+    UNTIL_DATE=$(date '+%Y-%m-%d')
+fi
+
+FROM_DATE=$(date '+%Y-%m-%d' -d "$UNTIL_DATE -1 day")
+
+AUTHOR=$(git config user.email)
+
+PROJECT_NAME=$(pwd)
+
+log=$(git log --color=always --since="$FROM_DATE" --until="$UNTIL_DATE" --author="$AUTHOR")
+log=$(echo -e "${bold}${PROJECT_NAME}\n\n${normal} $log")
+
+echo "$log" | less
