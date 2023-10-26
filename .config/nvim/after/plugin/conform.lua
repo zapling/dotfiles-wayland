@@ -59,6 +59,7 @@ require("conform").setup({
         typescriptreact = frontend_fmt,
         html = frontend_fmt,
         css = frontend_fmt,
+        json = frontend_fmt,
     },
 })
 
