@@ -71,7 +71,6 @@ return require("lazy").setup({
     'zapling/vim-go-utils',
     { 'zapling/plantuml.nvim',              dependencies = { 'nvim-lua/plenary.nvim' }, lazy = true },
     { 'lukas-reineke/indent-blankline.nvim' },
-    { 'zapling/biome.nvim',                 dependencies = { 'nvim-lua/plenary.nvim' } },
     { 'NvChad/nvim-colorizer.lua' },
     --     dir = '~/P/reviewer.nvim',
     --     dependencies = 'nvim-lua/plenary.nvim',
