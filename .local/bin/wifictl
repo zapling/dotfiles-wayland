@@ -3,17 +3,21 @@
 cmd=$1 ; shift >/dev/null 2>&1
 case "$cmd" in
     "list"|"ls")
-        nmcli device wifi list
+        nmcli device wifi list --rescan yes
         ;;
     "connect")
         nmcli device wifi connect $@
         ;;
+    "disconnect")
+        nmcli device disconnect wlp4s0
+        ;;
     *)
 
-        printf "Usage: wifi <command> [options]\n"
+        printf "Usage: wifictl <command> [options]\n"
         printf "Commands:\n"
         printf "    list,    ls   List available wifi networks\n"
-        printf "    connect       Connect to a wifi network [--password=XZC]\n"
+        printf "    connect       Connect to a wifi network [password XZC]\n"
+        printf "    disconnect    Disconnect from any connected wifi netowork\n"
         exit 1
         ;;
 esac
