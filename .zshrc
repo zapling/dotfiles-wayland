@@ -96,10 +96,16 @@ function frm() {
     CUR=$(pwd)
     FILENAME=$(uuidgen)
 
-    cd ~/P/frame
-    go build -o /tmp/$FILENAME frame.go
+    cd ~/P/frame && go build -o /tmp/$FILENAME frame.go
+
+    EXIT_CODE=$?
 
     cd $CUR
+
+    if [[ $EXIT_CODE -gt 0 ]]; then
+        return $EXIT_CODE
+    fi
+
     /tmp/./$FILENAME $@
 }
 
