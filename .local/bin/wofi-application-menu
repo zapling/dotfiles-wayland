@@ -12,6 +12,7 @@ applications=(
     "spotify-chromium"
     "swayshot"
     "discord-chromium"
+    "edge"
 )
 
 wofi_str=$(printf "\n%s" "${applications[@]}")
@@ -27,6 +28,9 @@ case $op in
         ;;
     "spotify-chromium")
         op="chromium --new-window --app=https://open.spotify.com"
+        ;;
+    "edge")
+        op="microsoft-edge-stable --ozone-platform-hint=wayland"
         ;;
     "discord-chromium")
         op="chromium --new-window --app=https://discord.com/app"
