@@ -1,6 +1,16 @@
+require("ibl").setup({ enabled = false })
 
-vim.g.indent_blankline_filetype = {'yaml', 'yml', 'html', 'json', 'cs'}
-
-vim.cmd [[hi IndentBlanklineChar guifg=#504945 gui=nocombine]]
-
-require("indent_blankline").setup({})
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+    pattern = { '*.yaml', '*.yml', '*.html', '*.json', '*.cs' },
+    callback = function()
+        require("ibl").setup_buffer(0, {
+            enabled = true,
+            indent = {
+                char = '▏'
+            },
+            scope = {
+                enabled = false
+            }
+        })
+    end,
+})

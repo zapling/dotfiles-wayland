@@ -20,7 +20,7 @@ return require("lazy").setup({
     { 'sindrets/diffview.nvim',   dependencies = { 'nvim-lua/plenary.nvim' } },
 
     -- Theme and styling
-    'ellisonleao/gruvbox.nvim',
+    { 'ellisonleao/gruvbox.nvim', commit = '7fb36e0f67aa6f3d7f3e54f37ca7032ea1af0b59', pin = true },
     'nvim-lualine/lualine.nvim',
     'kyazdani42/nvim-web-devicons', -- note: requires patched fonts
 
