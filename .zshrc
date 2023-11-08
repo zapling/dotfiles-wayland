@@ -24,7 +24,8 @@ protectDropdownTerminal
 
 # Source private stuff
 [ -e ~/.private ] && source ~/.private
-[ -e ~/.local/bin/work/load-ertia-k8s-configs ] && source ~/.local/bin/work/load-ertia-k8s-configs
+# [ -e ~/.local/bin/work/load-ertia-k8s-configs ] && source ~/.local/bin/work/load-ertia-k8s-configs
+[ -e ~/.local/bin/work/load-customer-k8s-configs ] && source ~/.local/bin/work/load-customer-k8s-configs
 
 # Dialog if user meant to open vim or really vi
 function vi() {

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+if [[ ! -d "$HOME/.kube/customer-configs" ]]; then
+    return 1
+fi
+
+CONFIGS=($(ls -1 $HOME/.kube/customer-configs))
+
+for config_file in ${CONFIGS[@]}
+do
+    config_path="$HOME/.kube/customer-configs/$config_file"
+
+    if [[ "$KUBECONFIG" == "" ]]; then
+        export KUBECONFIG="$config_path"
+    else
+        export KUBECONFIG="$KUBECONFIG:$config_path"
+    fi
+done
