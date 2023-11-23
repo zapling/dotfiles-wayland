@@ -21,6 +21,7 @@ PROMPT='%(?..%{$fg_bold[red]%}exit %?
 '%{$bold_color%}$(git_prompt_status)%{$reset_color%}'\
 '%10>..>$(git_prompt_info)%>>'\
 '%{$fg_bold[$user_color]%}%~%{$reset_color%}'\
+'${kube_context}'\
 '%(!.#. $) '
 
 PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
@@ -40,6 +41,8 @@ precmd() {
         command_benchmark=''
     fi
     unset time_before_command
+
+    kube_context=$(kube_context)
 }
 
 benchmark() {
@@ -58,4 +61,13 @@ format_timestamp() {
     local min_str=$((($min > 0)) && echo " ${min}m" || echo '')
     local sec_str=$((($hour == 0 && $sec > 0)) && echo " ${sec}s" || echo '')
     echo ${hour_str}${min_str}${sec_str}
+}
+
+kube_context() {
+    if [[ "$KUBECONFIG" == "" ]]; then
+        return
+    fi
+
+    context=$(awk '/^current-context:/{print $2;exit;}' <$KUBECONFIG)
+    echo " %{$fg[blue]%}(${context})%{$reset_color%}"
 }
