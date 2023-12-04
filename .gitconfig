@@ -26,3 +26,9 @@
 
 [diff]
     wsErrorHighlight = all
+
+[url "ssh://git@github.com/zapling"]
+    insteadof = https://github.com/zapling
+
+[url "ssh://git@github.com/ertia-io"]
+    insteadof = https://github.com/ertia-io

@@ -17,6 +17,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Override JQ colors so null values are red, works better than grey on dark background
 export JQ_COLORS='0;31:0;39:0;39:0;39:0;32:1;39:1;39'
 
-export GOPRIVATE="github.com/zapling/*"
+export GOPRIVATE="github.com/zapling/*,github.com/ertia-io/*"
 
 # Work
