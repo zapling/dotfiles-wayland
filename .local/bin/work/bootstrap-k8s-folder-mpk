@@ -45,7 +45,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://bitbucket.org/matpriskollen/mpkprices_admin.git
+    repoURL: https://bitbucket.org/matpriskollen/${appName}.git
     targetRevision: main
     path: .k8s/helm
     helm:
