@@ -1,0 +1,218 @@
+#!/usr/bin/bash
+
+if [[ -d .k8s ]]; then
+    echo "A folder named '.k8s' already exists in the directory"
+    exit 1
+fi
+
+defaultAppName=$(basename $(pwd))
+read -p "appName (blank = $defaultAppName): " appName
+[[ "$appName" == "" ]] && appName=$defaultAppName
+
+defaultAppOwner=""
+read -p "appOwner (blank = $defaultAppOwner): " appOwner
+[[ "$appOwner" == "" ]] && appOwner=$defaultAppOwner
+
+appTestDomain=""
+read -p "appTestDomain: " appTestDomain
+
+appProdDomain=""
+read -p "appProdDomain: " appProdDomain
+
+mkdir .k8s .k8s/argo .k8s/helm .k8s/helm/templates
+
+# Argo
+
+function getArgoApplicationYaml() {
+    imageTag=$1
+    valuesFile=$2
+
+    cat <<EOF
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ${appName}
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app/name: ${appName}
+    app/ownwer: ${appOwner}
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: app=mpkdev/${appName}:${imageTag}
+    argocd-image-updater.argoproj.io/app.update-strategy: digest
+spec:
+  project: default
+  source:
+    repoURL: https://bitbucket.org/matpriskollen/mpkprices_admin.git
+    targetRevision: main
+    path: .k8s/helm
+    helm:
+      valueFiles:
+        - ${valuesFile}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+EOF
+}
+
+applicationTestYaml=$(getArgoApplicationYaml "main" "values-test.yaml")
+applicationProdYaml=$(getArgoApplicationYaml "release" "values-prod.yaml")
+
+echo "$applicationTestYaml" > .k8s/argo/application-test.yaml
+echo "$applicationProdYaml" > .k8s/argo/application-prod.yaml
+
+# Helm
+
+cat << EOF > .k8s/helm/Chart.yaml
+apiVersion: v2
+name: $appName
+description: A Helm chart for $appName.
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+EOF
+
+cat << EOF > .k8s/helm/values.yaml
+replicaCount: 1
+
+image:
+  repository: mpkdev/$appName
+  tag: ""
+
+deployEnv: none
+
+domain: ""
+EOF
+
+cat << EOF > .k8s/helm/values-test.yaml
+replicaCount: 1
+
+image:
+  repository: mpkdev/$appName
+  tag: "main"
+
+deployEnv: test
+
+domain: "$appTestDomain"
+EOF
+
+cat << EOF > .k8s/helm/values-prod.yaml
+replicaCount: 1
+
+image:
+  repository: mpkdev/$appName
+  tag: "release"
+
+deployEnv: prod
+
+domain: "$appProdDomain"
+EOF
+
+
+cat << EOF > .k8s/helm/templates/deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    fabled.se/owner: $appOwner
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+        - name: registry-secret-mpkdev
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: {{ .Chart.Name }}-envvars
+          ports:
+            - name: http
+              containerPort: 3000
+EOF
+
+
+cat << EOF > .k8s/helm/templates/ingress.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: apps
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/issue-temporary-certificate: "true"
+    ingress.pomerium.io/allow_public_unauthenticated_access: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+    - host: {{ .Values.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Chart.Name }}
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - {{ .Values.domain }}
+      secretName: {{ .Chart.Name }}-tls
+EOF
+
+cat << EOF > .k8s/helm/templates/service.yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    fabled.se/owner: $appOwner
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
+      protocol: TCP
+  selector:
+    app: {{ .Chart.Name }}
+EOF
+
+cat << EOF > .k8s/helm/templates/envvars.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-envvars
+data:
+  TZ: "Europe/Stockholm"
+{{- if eq .Values.deployEnv "test"}}
+{{- end }}
+{{- if eq .Values.deployEnv "prod"}}
+{{- end }}
+EOF
+
+if [[ "$EDITOR" != "" ]]; then
+    $EDITOR .k8s/helm/templates/envvars.yaml
+fi
