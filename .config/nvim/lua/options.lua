@@ -51,23 +51,23 @@ vim.opt.incsearch      = true
 vim.opt.ignorecase     = true
 vim.opt.smartcase      = true
 
-vim.opt.inccommand     = 'nosplit'                    -- see substitute result as you type
+vim.opt.inccommand     = 'nosplit'                         -- see substitute result as you type
 vim.opt.completeopt    = { "menu", "menuone", "noselect" } -- needed for nvim-compe
 
-vim.opt.showmode       = false                        -- hide current mode
+vim.opt.showmode       = false                             -- hide current mode
 
-vim.opt.relativenumber = true                         -- use releative numbers
-vim.opt.number         = true                         -- but show current line number
-vim.opt.wrap           = false                        -- never render lines as wrapped
+vim.opt.relativenumber = true                              -- use releative numbers
+vim.opt.number         = true                              -- but show current line number
+vim.opt.wrap           = false                             -- never render lines as wrapped
 
-vim.opt.cursorline     = true                         -- use cursorline...
-vim.opt.cursorlineopt  = { 'number' }                 -- but only highlight the linenumber
+vim.opt.cursorline     = true                              -- use cursorline...
+vim.opt.cursorlineopt  = { 'number' }                      -- but only highlight the linenumber
 
-vim.opt.colorcolumn    = '100'                        -- 100 chars line indicator
+vim.opt.colorcolumn    = '100'                             -- 100 chars line indicator
 
-vim.opt.signcolumn     = 'yes'                        -- always show sign column
+vim.opt.signcolumn     = 'yes'                             -- always show sign column
 
-vim.opt.textwidth      = 0                            -- never auto break lines when typing
+vim.opt.textwidth      = 0                                 -- never auto break lines when typing
 
 vim.opt.tabstop        = 4
 vim.opt.softtabstop    = 4
