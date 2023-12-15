@@ -24,14 +24,6 @@ protectDropdownTerminal
 
 # Source private stuff
 [ -e ~/.private ] && source ~/.private
-[ -e ~/.kube/kube.conf ] && export KUBECONFIG=/home/andreas/.kube/kube.conf
-
-# Dialog if user meant to open vim or really vi
-function vi() {
-    echo -e "vi, did you mean vim? (y/n)"
-    read -sk x
-    [[ "$x" == "y" ]] && nvim $@ || command vi $@
-}
 
 # Dialog before doing stupid stuff
 function git() {
@@ -109,9 +101,12 @@ function frm() {
     /tmp/./$FILENAME $@
 }
 
+alias vi="nvim --clean"
 alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
 alias k="kubectl"
 alias kx="kubectx"
 
+# Work
+alias ert="~/R/ertia/ertia"
