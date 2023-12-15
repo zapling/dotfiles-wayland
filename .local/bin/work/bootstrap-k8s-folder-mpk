@@ -5,19 +5,32 @@ if [[ -d .k8s ]]; then
     exit 1
 fi
 
-defaultAppName=$(basename $(pwd))
-read -p "appName (blank = $defaultAppName): " appName
-[[ "$appName" == "" ]] && appName=$defaultAppName
+appName=$1
+appOwner=$2
+appTestDomain=$3
+appProdDomain=$4
 
-defaultAppOwner=""
-read -p "appOwner (blank = $defaultAppOwner): " appOwner
-[[ "$appOwner" == "" ]] && appOwner=$defaultAppOwner
+if [[ "$appName" == "" ]]; then
+    defaultAppName=$(basename $(pwd))
+    read -p "appName (blank = $defaultAppName): " appName
+    [[ "$appName" == "" ]] && appName=$defaultAppName
+fi
 
-appTestDomain=""
-read -p "appTestDomain: " appTestDomain
+if [[ "$appOwner" == "" ]]; then
+    defaultAppOwner=""
+    read -p "appOwner (blank = $defaultAppOwner): " appOwner
+    [[ "$appOwner" == "" ]] && appOwner=$defaultAppOwner
+fi
 
-appProdDomain=""
-read -p "appProdDomain: " appProdDomain
+if [[ "$appTestDomain" == "" ]]; then
+    appTestDomain=""
+    read -p "appTestDomain: " appTestDomain
+fi
+
+if [[ "$appProdDomain" == "" ]]; then
+    appProdDomain=""
+    read -p "appProdDomain: " appProdDomain
+fi
 
 mkdir .k8s .k8s/argo .k8s/helm .k8s/helm/templates
 
@@ -213,6 +226,117 @@ data:
 {{- end }}
 EOF
 
+if [[ -e "bitbucket-pipelines.yml" ]]; then
+    cat << 'EOF' >> bitbucket-pipelines.yml
+# bootstrap-k8s-folder-mpk
+definitions:
+  steps:
+    - step: &buildTagPush
+        name: Build, tag and push
+        services:
+          - docker
+        script:
+          - BRANCH=$(echo $BITBUCKET_BRANCH | sed 's/\//-/g')
+          - IMAGE_NAME=mpkdev/${BITBUCKET_REPO_SLUG}
+          - VERSION="${BRANCH}-${BITBUCKET_COMMIT}"
+
+          - docker build -t ${IMAGE_NAME}:${VERSION} --build-arg NPM_TOKEN=$NPM_TOKEN .
+
+          - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          - docker push ${IMAGE_NAME}:${VERSION}
+
+          - docker tag ${IMAGE_NAME}:${VERSION} ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+          - docker push ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+          - docker tag ${IMAGE_NAME}:${VERSION} ${IMAGE_NAME}:${BRANCH}
+          - docker push ${IMAGE_NAME}:${BRANCH}
+
+pipelines:
+  branches:
+    main:
+      - step: *buildTagPush
+      - step:
+          name: Deploy to new prod
+          trigger: manual
+          script:
+            - export RELEASE_TAG=release-$(date '+%y%m%dT%H%M%S')
+            - git tag ${RELEASE_TAG} ${BITBUCKET_COMMIT}
+            - git push origin ${RELEASE_TAG}
+  tags:
+    'release-*':
+      - step:
+          name: Tag and push a release
+          services:
+            - docker
+          script:
+            - IMAGE_NAME=mpkdev/$BITBUCKET_REPO_SLUG
+            - REL_VERSION=${BITBUCKET_TAG#*-}
+
+            - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            - docker pull ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+            - docker tag ${IMAGE_NAME}:${BITBUCKET_COMMIT} ${IMAGE_NAME}:${BITBUCKET_TAG}
+            - docker tag ${IMAGE_NAME}:${BITBUCKET_COMMIT} ${IMAGE_NAME}:release
+            - docker push ${IMAGE_NAME}:${BITBUCKET_TAG}
+            - docker push ${IMAGE_NAME}:release
+
+EOF
+else
+    cat << 'EOF' > bitbucket-pipelines.yml
+image: atlassian/default-image:2.14
+
+definitions:
+  services:
+    docker:
+      memory: 3072
+  steps:
+    - step: &buildTagPush
+        name: Build, tag and push
+        services:
+          - docker
+        script:
+          - BRANCH=$(echo $BITBUCKET_BRANCH | sed 's/\//-/g')
+          - IMAGE_NAME=mpkdev/${BITBUCKET_REPO_SLUG}
+          - VERSION="${BRANCH}-${BITBUCKET_COMMIT}"
+
+          - docker build -t ${IMAGE_NAME}:${VERSION} --build-arg NPM_TOKEN=$NPM_TOKEN .
+
+          - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+          - docker push ${IMAGE_NAME}:${VERSION}
+
+          - docker tag ${IMAGE_NAME}:${VERSION} ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+          - docker push ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+          - docker tag ${IMAGE_NAME}:${VERSION} ${IMAGE_NAME}:${BRANCH}
+          - docker push ${IMAGE_NAME}:${BRANCH}
+
+pipelines:
+  branches:
+    main:
+      - step: *buildTagPush
+      - step:
+          name: Deploy to new prod
+          trigger: manual
+          script:
+            - export RELEASE_TAG=release-$(date '+%y%m%dT%H%M%S')
+            - git tag ${RELEASE_TAG} ${BITBUCKET_COMMIT}
+            - git push origin ${RELEASE_TAG}
+  tags:
+    'release-*':
+      - step:
+          name: Tag and push a release
+          services:
+            - docker
+          script:
+            - IMAGE_NAME=mpkdev/$BITBUCKET_REPO_SLUG
+            - REL_VERSION=${BITBUCKET_TAG#*-}
+
+            - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+            - docker pull ${IMAGE_NAME}:${BITBUCKET_COMMIT}
+            - docker tag ${IMAGE_NAME}:${BITBUCKET_COMMIT} ${IMAGE_NAME}:${BITBUCKET_TAG}
+            - docker tag ${IMAGE_NAME}:${BITBUCKET_COMMIT} ${IMAGE_NAME}:release
+            - docker push ${IMAGE_NAME}:${BITBUCKET_TAG}
+            - docker push ${IMAGE_NAME}:release
+EOF
+fi
+
 if [[ "$EDITOR" != "" ]]; then
-    $EDITOR .k8s/helm/templates/envvars.yaml
+    $EDITOR bitbucket-pipelines.yml
 fi
