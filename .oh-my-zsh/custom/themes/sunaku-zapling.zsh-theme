@@ -68,6 +68,10 @@ kube_context() {
         return
     fi
 
+    if [[ ! -e "$KUBECONFIG" ]]; then
+        return
+    fi
+
     context=$(awk '/^current-context:/{print $2;exit;}' <$KUBECONFIG)
     echo " %{$fg[blue]%}(${context})%{$reset_color%}"
 }
