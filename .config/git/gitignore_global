@@ -2,3 +2,5 @@
 .git/
 *.key
 *.pem
+go.work
+go.work.sum
