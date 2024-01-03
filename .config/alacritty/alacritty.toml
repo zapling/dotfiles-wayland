@@ -1,0 +1,77 @@
+[env]
+TERM = "xterm-256color"
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[font]
+size = 11
+
+[font.normal]
+family = "LiterationMono Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "LiterationMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "LiterationMono Nerd Font"
+style = "Italic"
+
+[font.bold_italic]
+family = "LiterationMono Nerd Font"
+style = "Bold Italic"
+
+# Base16 Gruvbox dark, soft 256 - alacritty color config
+# Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+[colors.primary]
+background = "0x272727"
+# background = "0x32302f"
+foreground = "0xd5c4a1"
+
+[colors.cursor]
+cursor = "0xd5c4a1"
+text = "0x32302f"
+
+[colors.normal]
+black = "0x32302f"
+blue = "0x83a598"
+cyan = "0x8ec07c"
+green = "0xb8bb26"
+magenta = "0xd3869b"
+red = "0xfb4934"
+white = "0xd5c4a1"
+yellow = "0xfabd2f"
+
+[colors.bright]
+black = "0x665c54"
+blue = "0x83a598"
+cyan = "0x8ec07c"
+green = "0xb8bb26"
+magenta = "0xd3869b"
+red = "0xfb4934"
+white = "0xfbf1c7"
+yellow = "0xfabd2f"
+
+[[colors.indexed_colors]]
+color = "0xfe8019"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xd65d0e"
+index = 17
+
+[[colors.indexed_colors]]
+color = "0x3c3836"
+index = 18
+
+[[colors.indexed_colors]]
+color = "0x504945"
+index = 19
+
+[[colors.indexed_colors]]
+color = "0xbdae93"
+index = 20
+
+[[colors.indexed_colors]]
+color = "0xebdbb2"
+index = 21
