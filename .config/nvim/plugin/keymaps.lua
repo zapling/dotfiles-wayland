@@ -59,3 +59,5 @@ map('n', '<Leader>it', '<Cmd>TimestampUTC<CR>', {silent = true})
 
 -- go coverage
 map('', '<Leader>lc', '<Cmd>GoCoverageToggle<CR>', {silent = true})
+
+map('', '<Leader><Tab><Tab>', ':set invlist<CR>', {silent = true})
