@@ -1,0 +1,62 @@
+#!/usr/bin/bash
+
+set -e
+
+if ! type "python" > /dev/null; then
+    echo "This script requires python"
+    exit 1
+fi
+
+if [[ "$KUBECONFIG" == "" ]]; then
+    echo "No KUBECONFIG env var set"
+    exit 1
+fi
+
+PG_SERVICE=${1:-"services/postgres-r"}
+case $PG_SERVICE in
+    "--r")
+        PG_SERVICE="services/postgres-r"
+        ;;
+    "--ro")
+        PG_SERVICE="services/postgres-ro"
+        ;;
+    "--rw")
+        PG_SERVICE="services/postgres-rw"
+        ;;
+esac
+
+case $PG_SERVICE in
+    "services/postgres-r")
+        ;;
+    "services/postgres-ro")
+        ;;
+    "services/postgres-rw")
+        ;;
+    *)
+        echo "Invalid service: $PG_SERVICE"
+        exit 1
+esac
+
+creds=$(kubectl get secrets -n db postgres-cluster --template='{{.data.username}},{{.data.password}},{{.data.database}}')
+IFS=, read -r username password database <<< "$creds"
+
+username=$(echo "$username" | base64 -d)
+password=$(echo "$password" | base64 -d)
+database=$(echo "$database" | base64 -d)
+
+# Get a random available port
+bind_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
+
+kubectl port-forward -n db "$PG_SERVICE" "$bind_port:5432" > /dev/null 2>&1 &
+pid=$!
+
+# Ensure that the port forward is killed when script exits
+trap '{
+    kill $pid > /dev/null 2>&1
+}' EXIT
+
+# Wait for port forward
+sleep 0.5
+
+connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
+psql "$connection_str"
