@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 set -e
+set -m
 
 if ! type "python" > /dev/null; then
     echo "This script requires python"
@@ -46,17 +47,17 @@ database=$(echo "$database" | base64 -d)
 
 # Get a random available port
 bind_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
+connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
 
-kubectl port-forward -n db "$PG_SERVICE" "$bind_port:5432" > /dev/null 2>&1 &
-pid=$!
+cmd="kubectl port-forward -n db $PG_SERVICE $bind_port:5432"
+eval "$cmd > /dev/null 2>&1 &"
 
 # Ensure that the port forward is killed when script exits
 trap '{
-    kill $pid > /dev/null 2>&1
+    pkill -f "$cmd"
 }' EXIT
 
 # Wait for port forward
 sleep 0.5
 
-connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
 psql "$connection_str"
