@@ -18,29 +18,17 @@ if [[ "$KUBECONFIG" == "" ]]; then
     exit 1
 fi
 
-PG_SERVICE=${1:-"services/postgres-r"}
-case $PG_SERVICE in
+FORWARD_TARGET=${1:-"services/postgres-r"}
+case $FORWARD_TARGET in
     "--r")
-        PG_SERVICE="services/postgres-r"
+        FORWARD_TARGET="services/postgres-r"
         ;;
     "--ro")
-        PG_SERVICE="services/postgres-ro"
+        FORWARD_TARGET="services/postgres-ro"
         ;;
     "--rw")
-        PG_SERVICE="services/postgres-rw"
+        FORWARD_TARGET="services/postgres-rw"
         ;;
-esac
-
-case $PG_SERVICE in
-    "services/postgres-r")
-        ;;
-    "services/postgres-ro")
-        ;;
-    "services/postgres-rw")
-        ;;
-    *)
-        echo "Invalid service: $PG_SERVICE"
-        exit 1
 esac
 
 creds=$(kubectl get secrets -n db postgres-cluster --template='{{.data.username}},{{.data.password}},{{.data.database}}')
@@ -54,7 +42,7 @@ database=$(echo "$database" | base64 -d)
 bind_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
 connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
 
-cmd="kubectl port-forward -n db $PG_SERVICE $bind_port:5432"
+cmd="kubectl port-forward -n db $FORWARD_TARGET $bind_port:5432"
 eval "$cmd > /dev/null 2>&1 &"
 
 # Ensure that the port forward is killed when script exits
