@@ -18,16 +18,16 @@ if [[ "$KUBECONFIG" == "" ]]; then
     exit 1
 fi
 
-FORWARD_TARGET=${1:-"services/postgres-r"}
-case $FORWARD_TARGET in
+forward_target=${1:-"services/postgres-r"}
+case $forward_target in
     "--r")
-        FORWARD_TARGET="services/postgres-r"
+        forward_target="services/postgres-r"
         ;;
     "--ro")
-        FORWARD_TARGET="services/postgres-ro"
+        forward_target="services/postgres-ro"
         ;;
     "--rw")
-        FORWARD_TARGET="services/postgres-rw"
+        forward_target="services/postgres-rw"
         ;;
 esac
 
@@ -42,7 +42,7 @@ database=$(echo "$database" | base64 -d)
 bind_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
 connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
 
-cmd="kubectl port-forward -n db $FORWARD_TARGET $bind_port:5432"
+cmd="kubectl port-forward -n db $forward_target $bind_port:5432"
 eval "$cmd > /dev/null 2>&1 &"
 
 # Ensure that the port forward is killed when script exits
@@ -53,4 +53,16 @@ trap '{
 # Wait for port forward
 sleep 0.5
 
-psql "$connection_str"
+psqlrc="/tmp/.psql-dbi-$bind_port"
+
+if [[ -e ~/.psqlrc ]]; then
+    cp ~/.psqlrc "$psqlrc"
+fi
+
+prefix="${forward_target//services\//}"
+
+cat << EOF >> "$psqlrc"
+\set PROMPT1 '($prefix) %/%R%x%# '
+EOF
+
+PSQLRC=$psqlrc psql "$connection_str"
