@@ -13,6 +13,18 @@ if ! type "psql" > /dev/null; then
     exit 1
 fi
 
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    printf "Usage: dbi <service/pod>\n"
+    printf "dbi is an helper to connect to cloudnative-pg databases\n"
+    printf "Example:\n"
+    printf "    dbi --r  (alias for services/postgres-r) (default)\n"
+    printf "    dbi --ro (alias for services/postgres-ro)\n"
+    printf "    dbi --rw (alias for services/postgres-rw)\n"
+    printf "    dbi postgres-X (X is a number)\n"
+    printf "\n"
+    exit
+fi
+
 if [[ "$KUBECONFIG" == "" ]]; then
     echo "No KUBECONFIG env var set"
     exit 1
