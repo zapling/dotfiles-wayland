@@ -31,7 +31,7 @@ return require("lazy").setup({
         dependencies = { 'JoosepAlviste/nvim-ts-context-commentstring' }
     },
     'nvim-treesitter/nvim-treesitter-context',
-    { "elgiano/nvim-treesitter-angular",          branch = "topic/jsx-fix" },
+    { "elgiano/nvim-treesitter-angular", branch = "topic/jsx-fix" },
     'vrischmann/tree-sitter-templ',
 
     -- LSP
@@ -50,6 +50,7 @@ return require("lazy").setup({
     'williamboman/mason.nvim', -- Package manager for LSP, linters etc
     'williamboman/mason-lspconfig.nvim',
     'rshkarin/mason-nvim-lint',
+    { 'zapling/mason-lock.nvim',         init = function() require("mason-lock").setup() end },
 
     -- Snippets
     'L3MON4D3/LuaSnip', -- note: required by cmp
