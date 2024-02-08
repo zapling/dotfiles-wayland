@@ -185,7 +185,11 @@ arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asteris
 arch-chroot systemctl enable greetd.service
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable pipewire-pulse.service
-arch-chroot systemctl enable tlp.service
+#
+# 2024-02-08: TLP somehow prevents suspend, been unable to fix it.
+# Look into using 'power-profiles-daemon' instead.
+# arch-chroot systemctl enable tlp.service
+#
 arch-chroot systemctl enable bluetooth.service
 arch-chroot systemctl enable docker.service
 
