@@ -6,6 +6,18 @@ wrap_in_brackets=${wrap_in_brackets:-false}
 
 PERCENTAGE=""
 STATUS=""
+POWERMODE="$(powerprofilesctl get)"
+case "$POWERMODE" in
+    "power-saver")
+        POWERMODE="<span foreground=\"$color_charging\">󰢟</span>"
+        ;;
+    "balanced")
+        POWERMODE="<span foreground=\"#fabd2f\">B</span>"
+        ;;
+    "performance")
+        POWERMODE="<span foreground=\"$color_discharging\">󱊦</span>"
+        ;;
+esac
 
 SOURCES=$(ls /sys/class/power_supply | grep BAT)
 [[ -z "$SOURCES" ]] && exit 1 # Any battery in the machine?
@@ -30,7 +42,7 @@ done
 
 if [[ "$wrap_in_brackets" == "true" ]]; then
     INFO="[ $INFO ]"
-    PERCENTAGE="[ $PERCENTAGE ]"
+    PERCENTAGE="[ $PERCENTAGE $POWERMODE ]"
 fi
 
 if [[ "$button" -eq 1 ]]; then

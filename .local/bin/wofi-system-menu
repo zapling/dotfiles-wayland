@@ -4,7 +4,7 @@ bluetooth_status=$(bluetooth | awk '{print $3}')
 bluetooth_icon="󰂯"
 [[ "$bluetooth_status" == "off" ]] && bluetooth_icon="󰂲"
 
-op=$( echo -e "$bluetooth_icon Bluetooth\n Poweroff\n Reboot\n Suspend\n Lock\n Logout" | wofi -i -k /dev/null --dmenu | awk '{print tolower($2)}' )
+op=$( echo -e "󱐥 Powermode\n$bluetooth_icon Bluetooth\n Poweroff\n Reboot\n Suspend\n Lock\n Logout" | wofi -i -k /dev/null --dmenu | awk '{print tolower($2)}' )
 case $op in
         bluetooth)
                 bluetooth toggle
@@ -24,4 +24,18 @@ case $op in
         logout)
                 swaymsg exit
                 ;;
+        powermode)
+            selected_power_mode=$(echo -e "PowerSaver\nBalanced\nPerformance" | wofi --dmenu -i -k /dev/null)
+            case "$selected_power_mode" in
+                "PowerSaver")
+                    powerprofilesctl set power-saver
+                    ;;
+                "Balanced")
+                    powerprofilesctl set balanced
+                    ;;
+                "Performance")
+                    powerprofilesctl set performance
+                    ;;
+            esac
+            ;;
 esac
