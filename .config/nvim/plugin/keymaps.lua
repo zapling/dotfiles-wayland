@@ -37,6 +37,7 @@ map('', '<Leader>gK', '<Cmd>lua vim.diagnostic.goto_prev({float = true, severity
 map('', '<Leader>d', '<Cmd>lua LspDiagnosticsFocus()<CR>', {silent = true})
 map('', '<Leader>k', '<Cmd>lua LspHover()<CR>', {silent = true})
 map('n', '<C-k>', '<Cmd>lua LspSignatureHelp()<CR>', {silent = true})
+map('i', '<C-k>', '<Cmd>lua LspSignatureHelp()<CR>', {silent = true})
 map('', '<Leader>f', '<Cmd>lua vim.lsp.buf.formatting()<CR>', {silent = true})
 map('', '<Leader>r', '<Cmd>lua vim.lsp.buf.rename()<CR>', {silent = true})
 map('', '<Leader>c', '<Cmd>lua vim.lsp.buf.code_action()<CR>', { silent = true})
