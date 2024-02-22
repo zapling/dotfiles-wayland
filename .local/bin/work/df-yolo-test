@@ -1,0 +1,30 @@
+#!/usr/bin/bash
+
+if [[ ! -e ".git/config" ]]; then
+    echo "Not inside a git repo"
+    exit 1
+fi
+
+git_url=$(grep ":spoonish-tech/df-" ".git/config")
+
+if [[ "$git_url" == "" ]]; then
+    echo "Not a df repository"
+    exit 1
+fi
+
+folder_name=$(basename "$PWD" | tr '[:upper:]' '[:lower:]')
+
+docker_repository="gothenburg/$folder_name"
+master_tag="${docker_repository}:master"
+
+docker build -t "$master_tag" . && \
+    docker push "$master_tag"
+
+echo "Pushed local build of $folder_name to df-test"
+cat << EOF
+___  _ ____  _     ____ 
+\  \///  _ \/ \   /  _ \ 
+ \  / | / \|| |   | / \|
+ / /  | \_/|| |_/\| \_/|
+/_/   \____/\____/\____/
+EOF
