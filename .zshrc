@@ -16,7 +16,15 @@ protectDropdownTerminal () {
 	PARAM=$(ps -p $ID o args=)
 	if [[ $PARAM =~ "dropdown" ]];
 	then
-		alias exit="echo \"You should not exit a dropdown terminal!\" && printf 'Use \\\exit to force exit.\n'"
+        function exit() {
+            if [[ "$1" == "-f" ]]; then
+                builtin exit
+            fi
+            echo "You should not exit a dropdown terminal!"
+            echo "Use restart-dropdown-terminals to restart terminals"
+            printf "Use \\\exit to force exit\n"
+            return 1
+        }
 	fi
 }
 
@@ -107,6 +115,8 @@ alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
 alias k="kubectl"
 alias kx="kubectx"
+
+alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
 alias ert="~/R/ertia/ertia"

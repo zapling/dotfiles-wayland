@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+pid1=$(pgrep -f "alacritty --class dropdown1")
+pid2=$(pgrep -f "alacritty --class dropdown2")
+
+[[ "$pid1" != "" ]] && kill "$pid1"
+[[ "$pid2" != "" ]] && kill "$pid2"
+
+(cd ~ && alacritty --class dropdown1 &) &
+(cd ~ && alacritty --class dropdown2 &) &
