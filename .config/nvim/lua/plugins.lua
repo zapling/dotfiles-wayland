@@ -50,6 +50,7 @@ return require("lazy").setup({
     'williamboman/mason.nvim', -- Package manager for LSP, linters etc
     'williamboman/mason-lspconfig.nvim',
     'rshkarin/mason-nvim-lint',
+    'zapling/mason-conform.nvim',
     { 'zapling/mason-lock.nvim',         init = function() require("mason-lock").setup() end },
 
     -- Snippets

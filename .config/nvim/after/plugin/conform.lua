@@ -26,11 +26,13 @@ function find_upwards(filename)
     return ""
 end
 
+-- Only ever try and run prettier if we find a config for it
 require("conform").formatters.prettier = vim.tbl_deep_extend("force", require("conform.formatters.prettier"), {
     cwd = util.root_file({ ".prettierrc" }),
     require_cwd = true,
 })
 
+-- Only ever try and run biome if we find a config for it, and formatting is enabled
 require("conform").formatters.biome = vim.tbl_deep_extend("force", require("conform.formatters.biome"), {
     condition = function(ctx)
         local cfg_path = find_upwards("biome.json")
@@ -63,6 +65,8 @@ require("conform").setup({
     },
 })
 
+require("mason-conform").setup()
+
 local js_and_ts_filetypes = { js = 1, jsx = 1, ts = 1, tsx = 1 }
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
@@ -79,5 +83,5 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
         require("conform").format({ bufnr = args.buf, lsp_fallback = true })
     end,
-    desc = 'Format with conform.nvim on save'
+    desc = 'Format with conform.nvim on save, fallbacks to lsp'
 })
