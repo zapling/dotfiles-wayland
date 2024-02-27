@@ -60,16 +60,16 @@ function git() {
 }
 
 function git-checkout-date () {
-    date_input=$1
-    time_input=${2:-00:00:00}
-    branch_input=${3:-main}
-
-    if [[ "$date_input" == "" ]]; then
-        echo "git-checkout-date <date> [time] [branch]"
-        return 1
+    default_branch=$(git branch --show-current)
+    if [[ "$default_branch" == "" ]]; then
+        default_branch="main"
     fi
 
-    git checkout "${branch}@{${date_input} ${time_input}}"
+    date_input=$1
+    time_input=${2:-00:00}
+    branch_input=${3:-$default_branch}
+
+    git checkout `git rev-list -n 1 --first-parent --before="$date_input $time_input" $branch_input`
 }
 
 function docker() {
