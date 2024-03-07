@@ -116,6 +116,9 @@ alias task="go-task"
 alias k="kubectl"
 alias kx="kubectx"
 
+alias dit="docker run -it --rm --entrypoint bash"
+alias ditsh="docker run -it --rm --entrypoint sh"
+
 alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
