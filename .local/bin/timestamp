@@ -4,19 +4,30 @@ function timestamp() {
     cmd=$1 ; shift > /dev/null 2>&1
     case "$cmd" in
         # YYYYMMDDHHMMSS (local time)
-        "")
+        "plain")
             date '+%F%T' | tr -d ':-'
             ;;
         # seconds since epoch (unix)
         "unix")
             date "+%s"
             ;;
-        # yyyy-mm-ddThh:mm:ss.mms+00:00 (utc)
-        "utc")
-            date '+%FT%T.%N+00:00' --utc
+        # 2024-03-20T13:38:41Z
+        "rfc3339")
+            date "+%Y-%m-%dT%H:%M:%SZ" --utc
+            ;;
+        # 2024-03-20T13:39:02.319558366Z
+        "rfc3339nano")
+            date "+%Y-%m-%dT%H:%M:%S.%NZ" --utc
             ;;
         *)
-            echo "Unsupported option"
+            cat << EOF
+Unsupported option ${cmd}
+Possible options:
+    plain       20060102150405 (Local time)
+    unix        1710941818 (Local time, seconds since epoch)
+    rfc3339     2024-03-20T13:38:41Z (UTC)
+    rfc3339nano 2024-03-20T13:39:02.319558366Z (UTC)
+EOF
             return 1
     esac
 }
