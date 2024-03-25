@@ -9,7 +9,7 @@ h="/home/andreas/"
 
 # LiberationMono Nerd Font (LiterationMono)
 if [[ ! -d ${h}.fonts ]]; then
-    curl "https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/LiberationMono.zip" -L --output "/tmp/LiberationMono.zip" && \
+    curl "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/LiberationMono.zip" -L --output "/tmp/LiberationMono.zip" && \
         mkdir ${h}.fonts && \
         unzip /tmp/LiberationMono.zip -d ${h}.fonts && \
         fc-cache -fv
