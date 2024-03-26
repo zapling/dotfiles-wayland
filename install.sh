@@ -182,6 +182,10 @@ EOF
 arch-chroot /mnt sed -i 's/vt = 1/vt = 2/' /etc/greetd/config.toml
 arch-chroot /mnt sed -i 's/agreety --cmd \/bin\/sh/tuigreet --remember --asterisks --cmd sway/g' /etc/greetd/config.toml
 
+# Disable buggy kernel moudle on z16 (AMD Sensor Fusion Hub)
+# 2023-03-26: Having this enabled prevents udev-worker from freezing which makes suspend not work
+arch-chroot /mnt echo blacklist amd_sfh > /etc/modprobe.d/blacklist.conf
+
 arch-chroot systemctl enable greetd.service
 arch-chroot systemctl enable NetworkManager
 arch-chroot systemctl enable pipewire-pulse.service
