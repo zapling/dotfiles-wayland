@@ -5,12 +5,12 @@
   "css-lsp": "4.8.0",
   "eslint-lsp": "4.8.0",
   "eslint_d": "13.1.2",
-  "golangci-lint": "v1.55.2",
-  "gopls": "v0.14.2",
+  "golangci-lint": "v1.57.1",
+  "gopls": "v0.15.2",
   "lua-language-server": "3.7.4",
   "omnisharp": "v1.39.11",
   "prettier": "3.2.5",
   "shellcheck": "v0.9.0",
-  "templ": "v0.2.543",
+  "templ": "v0.2.648",
   "vtsls": "0.1.25"
 }
