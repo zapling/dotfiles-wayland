@@ -15,7 +15,8 @@ fi
 folder_name=$(basename "$PWD" | tr '[:upper:]' '[:lower:]')
 
 docker_repository="gothenburg/$folder_name"
-master_tag="${docker_repository}:master"
+main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed -e 's/refs\/remotes\/origin\///') # Get main branch from remote origin
+master_tag="${docker_repository}:${main_branch}"
 
 docker build -t "$master_tag" . && \
     docker push "$master_tag"
