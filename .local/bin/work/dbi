@@ -55,6 +55,7 @@ bind_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(
 connection_str="postgresql://$username:$password@localhost:$bind_port/$database"
 
 cmd="kubectl port-forward -n db $forward_target $bind_port:5432"
+echo "Port forwarding localhost:$bind_port => $forward_target:5432"
 eval "$cmd > /dev/null 2>&1 &"
 
 # Ensure that the port forward is killed when script exits
