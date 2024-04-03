@@ -1,4 +1,4 @@
-local Job = require'plenary.job'
+local Job = require 'plenary.job'
 
 local function get_current_branch()
     local branch = nil
@@ -36,7 +36,7 @@ local git_rebase_current_branch = function()
     local origin_head_branch = nil
     Job:new({
         command = "git",
-        args = {"symbolic-ref", "refs/remotes/origin/HEAD"},
+        args = { "symbolic-ref", "refs/remotes/origin/HEAD" },
         on_exit = function(j, return_val)
             if return_val ~= 0 then
                 return
@@ -95,7 +95,7 @@ local function insert_timestamp()
     local timestamp = nil
     Job:new({
         command = 'timestamp',
-        args = {'utc'},
+        args = { 'rfc3339' },
         on_exit = function(j, return_val)
             if return_val ~= 0 then
                 return
@@ -113,15 +113,15 @@ local function open_line_in_browser()
 
     local origin = nil
     Job:new({
-      command = 'git',
-      args = { 'config', '--get', 'remote.origin.url' },
-      on_exit = function(j, return_val)
-        if return_val ~= 0 then
-            return
-        end
+        command = 'git',
+        args = { 'config', '--get', 'remote.origin.url' },
+        on_exit = function(j, return_val)
+            if return_val ~= 0 then
+                return
+            end
 
-        origin = j:result()[1]
-      end,
+            origin = j:result()[1]
+        end,
     }):sync()
 
     if origin == nil then
@@ -137,21 +137,21 @@ local function open_line_in_browser()
         return ""
     end
 
-    host = host:sub(2, host:len()-1)                -- remove starting "@" and ending ":"
-    namespace = namespace:sub(2, namespace:len()-1) -- remove starting ":" and ending "/"
-    repo = repo:sub(2, repo:len()-4)                -- remove starting "/" and ending ".git"
+    host = host:sub(2, host:len() - 1)              -- remove starting "@" and ending ":"
+    namespace = namespace:sub(2, namespace:len() - 1) -- remove starting ":" and ending "/"
+    repo = repo:sub(2, repo:len() - 4)              -- remove starting "/" and ending ".git"
 
     local head_sha1 = nil
     Job:new({
-      command = 'git',
-      args = { 'rev-parse', 'HEAD'},
-      on_exit = function(j, return_val)
-        if return_val ~= 0 then
-            return
-        end
+        command = 'git',
+        args = { 'rev-parse', 'HEAD' },
+        on_exit = function(j, return_val)
+            if return_val ~= 0 then
+                return
+            end
 
-        head_sha1 = j:result()[1]
-      end,
+            head_sha1 = j:result()[1]
+        end,
     }):sync()
 
     local function get_github_url()
@@ -181,7 +181,7 @@ local function open_line_in_browser()
         return
     end
 
-    Job:new({command = 'xdg-open', args = { link }}):sync()
+    Job:new({ command = 'xdg-open', args = { link } }):sync()
 end
 
 vim.api.nvim_create_user_command('Gitrebase', git_rebase_current_branch, {})
