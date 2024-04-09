@@ -46,6 +46,7 @@ color=#fb4833
 #color=#1DB954
 
 [timetracker]
+command=~/.local/bin/timetracker --current
 label=󱎫 
 interval=60
 color=#ebdbb2

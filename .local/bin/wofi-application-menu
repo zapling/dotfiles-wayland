@@ -40,6 +40,9 @@ case $op in
     "swayshot")
         op="XDG_PICTURES_DIR=$HOME/Documents/Screenshots swayshot region"
         ;;
+    "timetracker")
+        op="$HOME/.local/bin/timetracker"
+        ;;
     *)
         ;;
 esac

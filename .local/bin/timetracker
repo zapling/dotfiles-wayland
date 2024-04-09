@@ -1,19 +1,53 @@
 #!/usr/bin/bash
 
 timetracker_path=$HOME/.local/share/timetracker
-timetracker_file=${timetracker_path}/start
+timetracker_file=${timetracker_path}/current
 
 [[ ! -d "$timetracker_path" ]] && mkdir "$timetracker_path"
 
-if [[ -e "$timetracker_file" ]]; then
-    start=$(cat "$timetracker_file")
-    current=$(date +%s)
-    diff=$((current - start))
+if [[ "$1" == "--current" ]]; then
+    if [[ ! -e "$timetracker_file" ]]; then
+        exit
+    fi
+
+    data=$(cat "$timetracker_file")
+    assignment=$(echo "$data" | awk '{ print $1 }')
+    start=$(echo "$data" | awk '{ print $2 }')
+    now=$(date +%s)
+
+    diff=$((now - start))
     time=$(printf %02d:%02d $((diff / 3600)) $((diff / 60 % 60)))
+    echo "$time $assignment"
+    exit
+fi
+
+# End session if one is active
+if [[ -e "$timetracker_file" ]]; then
+    data=$(cat "$timetracker_file")
+
+    assignment=$(echo "$data" | awk '{ print $1 }')
+    start=$(echo "$data" | awk '{ print $2 }')
+    stop=$(date +%s)
+
+    diff=$((stop - start))
+    time=$(printf %02d:%02d $((diff / 3600)) $((diff / 60 % 60)))
+
+    # Write history file for later reference
+    cat << EOF > "$timetracker_path/$(date +%Y-%m-%d-%a)-$assignment-$stop"
+# Assignment Start(unix) Stop(unix) Total(HH:MM)
+$assignment $start $stop $time
+EOF
     rm "$timetracker_file"
     notify-send "Timetracker" "Session stopped: $time"
     exit
-else
-    date +%s > "$timetracker_file"
-    notify-send "Timetracker" "Session started"
 fi
+
+assignment=$(echo "" | wofi --dmenu --prompt Assignment 2> /dev/null)
+if [[ "$assignment" == "" ]]; then
+    notify-send "Timetracker" "Error: Session must have an assigment. Aborted."
+    exit 1
+fi
+
+timestamp_now=$(date +%s)
+echo "$assignment $timestamp_now" > "$timetracker_file"
+notify-send "Timetracker" "$assignment session started."
