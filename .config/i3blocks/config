@@ -45,6 +45,11 @@ color=#fb4833
 #interval=5
 #color=#1DB954
 
+[timetracker]
+label=󱎫 
+interval=60
+color=#ebdbb2
+
 [docker-containers]
 interval=60
 color=#83a598

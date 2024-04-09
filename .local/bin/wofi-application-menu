@@ -4,6 +4,8 @@ applications=(
     "alacritty"
     "blueberry"
     "chromium"
+    "discord-chromium"
+    "edge"
     "firefox"
     "nm-connection-editor"
     "pavucontrol"
@@ -11,8 +13,8 @@ applications=(
     "slack-chromium"
     "spotify-chromium"
     "swayshot"
-    "discord-chromium"
-    "edge"
+    "timetracker"
+    "wdisplays"
 )
 
 wofi_str=$(printf "\n%s" "${applications[@]}")
@@ -37,6 +39,8 @@ case $op in
         ;;
     "swayshot")
         op="XDG_PICTURES_DIR=$HOME/Documents/Screenshots swayshot region"
+        ;;
+    *)
         ;;
 esac
 

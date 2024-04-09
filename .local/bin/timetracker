@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+timetracker_path=$HOME/.local/share/timetracker
+timetracker_file=${timetracker_path}/start
+
+[[ ! -d "$timetracker_path" ]] && mkdir "$timetracker_path"
+
+if [[ -e "$timetracker_file" ]]; then
+    start=$(cat "$timetracker_file")
+    current=$(date +%s)
+    diff=$((current - start))
+    time=$(printf %02d:%02d $((diff / 3600)) $((diff / 60 % 60)))
+    rm "$timetracker_file"
+    notify-send "Timetracker" "Session stopped: $time"
+    exit
+else
+    date +%s > "$timetracker_file"
+    notify-send "Timetracker" "Session started"
+fi

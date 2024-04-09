@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+timetracker_path=$HOME/.local/share/timetracker
+timetracker_file=${timetracker_path}/start
+
+[[ ! -d "$timetracker_path" ]] && mkdir "$timetracker_path"
+
+if [[ ! -e "$timetracker_file" ]]; then
+    exit
+fi
+
+start=$(cat "$timetracker_file")
+current=$(date +%s)
+diff=$((current - start))
+time=$(printf %02d:%02d $((diff / 3600)) $((diff / 60 % 60)))
+echo "$time"
