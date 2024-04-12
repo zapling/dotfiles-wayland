@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+target=${1:-}
+case $target in
+    "analytics")
+        conn_str=$MYSQL_ANALYTICS
+        ;;
+    *)
+        echo "Unsupported target '$target'"
+        exit 1
+        ;;
+esac
+
+if [[ "$conn_str" == "" ]]; then
+    echo "Required ENV VAR is not set"
+    exit 1
+fi
+
+# Ensure we are connected via VPN
+connected_to_vpn=$(nmcli connection show --active | grep mpk)
+if [[ "$connected_to_vpn" == "" ]]; then
+    nmcli connection up mpk
+fi
+
+args=$(convert-mysql-conn-str "$conn_str")
+mariadb $args
