@@ -32,3 +32,6 @@
 
 [url "ssh://git@github.com/ertia-io"]
     insteadof = https://github.com/ertia-io
+
+[url "ssh://git@github.com/dinafastighetergo"]
+    insteadof = https://github.com/dinafastighetergo
