@@ -1,9 +1,9 @@
 #!/usr/bin/bash
-CONFIGS=$(find /home/andreas/.kube/customer-configs/. -type f | tr '\n' ':')
+configs=$(find /home/andreas/.kube/customer-configs/. -type f | tr '\n' ':')
 
 if [[ -e /home/andreas/.kube/kube.conf ]]; then
     timestamp=$(date +%s)
     cp /home/andreas/.kube/kube.conf /home/andreas/.kube/kube.conf.backup_${timestamp}
 fi
 
-KUBECONFIG=$CONFIGS kubectl config view --flatten > /home/andreas/.kube/kube.conf
+KUBECONFIG=$configs kubectl config view --flatten > /home/andreas/.kube/kube.conf
