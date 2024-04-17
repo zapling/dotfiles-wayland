@@ -9,10 +9,10 @@ STATUS=""
 POWERMODE="$(powerprofilesctl get)"
 case "$POWERMODE" in
     "power-saver")
-        POWERMODE="<span foreground=\"$color_charging\">󰢟</span>"
+        POWERMODE="<span foreground=\"#fabd2f\">󰢟</span>"
         ;;
     "balanced")
-        POWERMODE="<span foreground=\"#fabd2f\">B</span>"
+        POWERMODE="<span foreground=\"#ebddb2\">󰢟</span>"
         ;;
     "performance")
         POWERMODE="<span foreground=\"$color_discharging\">󱊦</span>"
