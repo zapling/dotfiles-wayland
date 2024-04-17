@@ -38,6 +38,7 @@ packages=(
     man-pages
     neovim
     networkmanager
+    networkmanager-openvpn
     nm-connection-editor
     nodejs
     noto-fonts
@@ -46,6 +47,7 @@ packages=(
     noto-fonts-extra
     npm
     openssh
+    openvpn
     pavucontrol
     pipewire
     pipewire-jack
