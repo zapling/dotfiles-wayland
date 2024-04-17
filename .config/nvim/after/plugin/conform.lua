@@ -74,10 +74,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     callback = function(args)
         local file_ext = vim.fn.expand('%:e')
         if js_and_ts_filetypes[file_ext] then
-            local callback = function()
-                require("conform").format({ bufnr = args.buf })
-            end
-            vtsls.commands.add_missing_imports(0, callback, callback)
+            require("conform").format({ bufnr = args.buf }, function()
+                vtsls.commands.add_missing_imports(args.buf)
+            end)
             return
         end
 
