@@ -64,7 +64,7 @@ trap '{
 }' EXIT
 
 # Wait for port forward
-sleep 0.5
+sleep 1
 
 psqlrc="/tmp/.psql-dbi-$bind_port"
 
