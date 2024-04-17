@@ -2,8 +2,8 @@
 
 target=${1:-}
 case $target in
-    "analytics")
-        conn_str=$MYSQL_ANALYTICS
+    "analytics-prod")
+        conn_str=$PROD_MYSQL_ANALYTICS
         ;;
     *)
         echo "Unsupported target '$target'"
