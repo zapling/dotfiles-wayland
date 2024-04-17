@@ -12,6 +12,7 @@ case "$cmd" in
         pacman -Sy && \
         updates=$(pacman -Qu | wc -l) && \
         echo "$updates updates available"
+        echo -e "\nAlways check https://archlinux.org/news/ before updating"
         ;;
     "search"|"s")
         pacman -Ss $1
