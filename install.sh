@@ -74,6 +74,13 @@ packages=(
     zsh
 )
 
+# packages_dotnet=(
+#     aspnet-runtime
+#     dotnet-runtime
+#     dotnet-sdk
+#     mono-msbuild
+# )
+
 if [ ! -f /sys/firmware/efi/fw_platform_size ]; then
     echo "You must boot in UEFI mode to continue"
     exit 1
