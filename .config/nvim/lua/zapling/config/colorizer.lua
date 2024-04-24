@@ -1,5 +1,5 @@
-require 'colorizer'.setup({
+return {
     user_default_options = {
         names = false,
     },
-})
+}

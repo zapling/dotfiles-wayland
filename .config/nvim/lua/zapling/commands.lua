@@ -1,8 +1,8 @@
-local Job = require 'plenary.job'
+local M = {}
 
 local function get_current_branch()
     local branch = nil
-    Job:new({
+    require('plenary.job'):new({
         command = "git",
         args = { "branch", "--show-current" },
         on_exit = function(j, return_val)
@@ -34,7 +34,7 @@ local git_rebase_current_branch = function()
     end
 
     local origin_head_branch = nil
-    Job:new({
+    require('plenary.job'):new({
         command = "git",
         args = { "symbolic-ref", "refs/remotes/origin/HEAD" },
         on_exit = function(j, return_val)
@@ -54,7 +54,7 @@ local git_rebase_current_branch = function()
     local compare = 'origin/' .. origin_head_branch .. '..' .. current_branch
 
     local num_commits = nil
-    Job:new({
+    require('plenary.job'):new({
         command = "git",
         args = { "rev-list", "--count", compare },
         on_exit = function(j, return_val)
@@ -78,7 +78,7 @@ end
 
 local function insert_uuid()
     local uuid = nil
-    Job:new({
+    require('plenary.job'):new({
         command = 'uuidgen',
         on_exit = function(j, return_val)
             if return_val ~= 0 then
@@ -93,7 +93,7 @@ end
 
 local function insert_timestamp()
     local timestamp = nil
-    Job:new({
+    require('plenary.job'):new({
         command = 'timestamp',
         args = { 'rfc3339' },
         on_exit = function(j, return_val)
@@ -112,7 +112,7 @@ local function open_line_in_browser()
     local linenum = vim.fn.line('.')
 
     local origin = nil
-    Job:new({
+    require('plenary.job'):new({
         command = 'git',
         args = { 'config', '--get', 'remote.origin.url' },
         on_exit = function(j, return_val)
@@ -137,12 +137,12 @@ local function open_line_in_browser()
         return ""
     end
 
-    host = host:sub(2, host:len() - 1)              -- remove starting "@" and ending ":"
+    host = host:sub(2, host:len() - 1)                -- remove starting "@" and ending ":"
     namespace = namespace:sub(2, namespace:len() - 1) -- remove starting ":" and ending "/"
-    repo = repo:sub(2, repo:len() - 4)              -- remove starting "/" and ending ".git"
+    repo = repo:sub(2, repo:len() - 4)                -- remove starting "/" and ending ".git"
 
     local head_sha1 = nil
-    Job:new({
+    require('plenary.job'):new({
         command = 'git',
         args = { 'rev-parse', 'HEAD' },
         on_exit = function(j, return_val)
@@ -181,10 +181,14 @@ local function open_line_in_browser()
         return
     end
 
-    Job:new({ command = 'xdg-open', args = { link } }):sync()
+    require('plenary.job'):new({ command = 'xdg-open', args = { link } }):sync()
 end
 
-vim.api.nvim_create_user_command('Gitrebase', git_rebase_current_branch, {})
-vim.api.nvim_create_user_command('GitOpen', open_line_in_browser, {})
-vim.api.nvim_create_user_command('UUIDGen', insert_uuid, {})
-vim.api.nvim_create_user_command('TimestampUTC', insert_timestamp, {})
+M.setup = function()
+    vim.api.nvim_create_user_command('Gitrebase', git_rebase_current_branch, {})
+    vim.api.nvim_create_user_command('GitOpen', open_line_in_browser, {})
+    vim.api.nvim_create_user_command('UUIDGen', insert_uuid, {})
+    vim.api.nvim_create_user_command('TimestampUTC', insert_timestamp, {})
+end
+
+return M
