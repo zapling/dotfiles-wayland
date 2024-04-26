@@ -7,7 +7,7 @@ M.enable_theme = function()
     vim.opt.termguicolors = true -- truecolors
     vim.opt.background = 'dark'
 
-    local gruvbox_colors = require("gruvbox.palette").colors
+    local gruvbox_colors = require('gruvbox').palette
     require("gruvbox").setup({
         overrides = {
             Operator = { fg = gruvbox_colors.light0_soft, italic = false, bold = false },
@@ -16,6 +16,17 @@ M.enable_theme = function()
             -- GO: NewThing() should be green, not some other color
             ["@constructor.go"] = { fg = gruvbox_colors.bright_green },
             -- ["@lsp.typemod.variable.defaultLibrary.typescript"] = { fg = gruvbox_colors.bright_orange }
+
+            -- Fix GitSigns background not being correct
+            -- https://github.com/ellisonleao/gruvbox.nvim/issues/304
+            GitSignsAdd = { link = "GruvboxGreenSign" },
+            GitSignsChange = { link = "GruvboxAquaSign" },
+            GitSignsDelete = { link = "GruvboxRedSign" },
+
+            -- Revert diff colors back to how they where before 2.0
+            diffAdded = { link = "GruvboxGreen" },
+            diffRemoved = { link = "GruvboxRed" },
+            diffChanged = { link = "GruvboxAqua" },
         },
         italic = {
             strings = false,

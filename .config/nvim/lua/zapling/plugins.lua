@@ -79,8 +79,8 @@ local get_plugins = function(should_lazyload)
         -- Theme and styling
         {
             'ellisonleao/gruvbox.nvim',
-            commit = '7fb36e0f67aa6f3d7f3e54f37ca7032ea1af0b59',
-            pin = should_lazyload
+            -- commit = '7fb36e0f67aa6f3d7f3e54f37ca7032ea1af0b59',
+            -- pin = true
         },
         {
             'nvim-lualine/lualine.nvim',
