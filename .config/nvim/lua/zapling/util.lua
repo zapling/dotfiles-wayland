@@ -24,4 +24,20 @@ function M.find_upwards(filename)
     return ""
 end
 
+function M.get_git_origin_head()
+    local origin_head_branch = nil
+    require('plenary.job'):new({
+        command = "git",
+        args = { "symbolic-ref", "refs/remotes/origin/HEAD" },
+        on_exit = function(j, return_val)
+            if return_val ~= 0 then
+                return
+            end
+
+            origin_head_branch = j:result()[1]:sub(21)
+        end,
+    }):sync()
+    return origin_head_branch
+end
+
 return M

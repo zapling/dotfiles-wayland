@@ -23,9 +23,14 @@ local select_one_or_multi = function(prompt_bufnr)
 end
 
 M.files_compared_to_main = function()
+    local origin_head = require('zapling.util').get_git_origin_head()
+    if origin_head == nil then
+        origin_head = 'main'
+    end
+
     require('telescope.builtin').find_files({
-        find_command = { 'git', 'diff', '--name-only', 'main' },
-        prompt_title = 'Git files modified compared to main'
+        find_command = { 'git', 'diff', '--name-only', origin_head },
+        prompt_title = 'Git files modified compared to ' .. origin_head
     })
 end
 

@@ -33,19 +33,7 @@ local git_rebase_current_branch = function()
         return
     end
 
-    local origin_head_branch = nil
-    require('plenary.job'):new({
-        command = "git",
-        args = { "symbolic-ref", "refs/remotes/origin/HEAD" },
-        on_exit = function(j, return_val)
-            if return_val ~= 0 then
-                return
-            end
-
-            origin_head_branch = j:result()[1]:sub(21)
-        end,
-    }):sync()
-
+    local origin_head_branch = require('zapling.util').get_git_origin_head()
     if origin_head_branch == nil then
         print('Failed to get origin HEAD')
         return
@@ -189,6 +177,13 @@ M.setup = function()
     vim.api.nvim_create_user_command('GitOpen', open_line_in_browser, {})
     vim.api.nvim_create_user_command('UUIDGen', insert_uuid, {})
     vim.api.nvim_create_user_command('TimestampUTC', insert_timestamp, {})
+    vim.api.nvim_create_user_command(
+        'FilesChangedComparedToMain',
+        function()
+            require('zapling.config.telescope').files_compared_to_main()
+        end,
+        {}
+    )
 end
 
 return M
