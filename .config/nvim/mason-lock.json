@@ -6,7 +6,7 @@
   "eslint-lsp": "4.8.0",
   "eslint_d": "13.1.2",
   "golangci-lint": "v1.57.1",
-  "gopls": "v0.15.2",
+  "gopls": "v0.15.3",
   "lua-language-server": "3.7.4",
   "omnisharp": "v1.39.8",
   "prettier": "3.2.5",
