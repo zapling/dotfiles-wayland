@@ -1,21 +1,5 @@
 local M = {}
 
-local function get_current_branch()
-    local branch = nil
-    require('plenary.job'):new({
-        command = "git",
-        args = { "branch", "--show-current" },
-        on_exit = function(j, return_val)
-            if return_val ~= 0 then
-                return
-            end
-
-            branch = j:result()[1]
-        end,
-    }):sync()
-    return branch
-end
-
 local function get_substr(text, pattern)
     local i, j = string.find(text, pattern)
 
@@ -27,7 +11,7 @@ local function get_substr(text, pattern)
 end
 
 local git_rebase_current_branch = function()
-    local current_branch = get_current_branch()
+    local current_branch = require('zapling.util').get_git_current_branch()
     if current_branch == nil then
         print('Not in a git repo')
         return

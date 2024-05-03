@@ -40,4 +40,20 @@ function M.get_git_origin_head()
     return origin_head_branch
 end
 
+function M.get_git_current_branch()
+    local branch = nil
+    require('plenary.job'):new({
+        command = "git",
+        args = { "branch", "--show-current" },
+        on_exit = function(j, return_val)
+            if return_val ~= 0 then
+                return
+            end
+
+            branch = j:result()[1]
+        end,
+    }):sync()
+    return branch
+end
+
 return M
