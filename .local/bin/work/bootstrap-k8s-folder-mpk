@@ -6,20 +6,13 @@ if [[ -d .k8s ]]; then
 fi
 
 appName=$1
-appOwner=$2
-appTestDomain=$3
-appProdDomain=$4
+appTestDomain=$2
+appProdDomain=$3
 
 if [[ "$appName" == "" ]]; then
     defaultAppName=$(basename $(pwd))
     read -p "appName (blank = $defaultAppName): " appName
     [[ "$appName" == "" ]] && appName=$defaultAppName
-fi
-
-if [[ "$appOwner" == "" ]]; then
-    defaultAppOwner=""
-    read -p "appOwner (blank = $defaultAppOwner): " appOwner
-    [[ "$appOwner" == "" ]] && appOwner=$defaultAppOwner
 fi
 
 if [[ "$appTestDomain" == "" ]]; then
@@ -51,7 +44,6 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
   labels:
     app/name: ${appName}
-    app/ownwer: ${appOwner}
   annotations:
     argocd-image-updater.argoproj.io/image-list: app=mpkdev/${appName}:${imageTag}
     argocd-image-updater.argoproj.io/app.update-strategy: digest
@@ -93,42 +85,31 @@ version: 0.0.1
 appVersion: 0.0.1
 EOF
 
-cat << EOF > .k8s/helm/values.yaml
+function getValuesYaml() {
+    tag=${1:-}
+    deployEnv=${2:-}
+    domain=${3:-}
+    cat << EOF
 replicaCount: 1
 
 image:
   repository: mpkdev/$appName
-  tag: ""
+  tag: "$tag"
 
-deployEnv: none
+deployEnv: "$deployEnv"
 
-domain: ""
+domains:
+  - "$domain"
 EOF
+}
 
-cat << EOF > .k8s/helm/values-test.yaml
-replicaCount: 1
+valuesTemplateYaml=$(getValuesYaml "" "" "")
+valuesTestYaml=$(getValuesYaml "main" "test" "$appTestDomain")
+valuesProdYaml=$(getValuesYaml "main" "prod" "$appProdDomain")
 
-image:
-  repository: mpkdev/$appName
-  tag: "main"
-
-deployEnv: test
-
-domain: "$appTestDomain"
-EOF
-
-cat << EOF > .k8s/helm/values-prod.yaml
-replicaCount: 1
-
-image:
-  repository: mpkdev/$appName
-  tag: "release"
-
-deployEnv: prod
-
-domain: "$appProdDomain"
-EOF
-
+echo "$valuesTemplateYaml" > .k8s/helm/values.yaml
+echo "$valuesTestYaml" > .k8s/helm/values-test.yaml
+echo "$valuesProdYaml" > .k8s/helm/values-prod.yaml
 
 cat << EOF > .k8s/helm/templates/deployment.yaml
 ---
@@ -136,8 +117,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
-  labels:
-    fabled.se/owner: $appOwner
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -152,16 +131,15 @@ spec:
         - name: registry-secret-mpkdev
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
-                name: {{ .Chart.Name }}-envvars
+                name: "{{ .Chart.Name }}-envvars"
           ports:
             - name: http
               containerPort: 3000
 EOF
-
 
 cat << EOF > .k8s/helm/templates/ingress.yaml
 ---
@@ -177,19 +155,23 @@ metadata:
     ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
-    - host: {{ .Values.domain }}
+    {{ range .Values.domains }}
+    - host: {{ . }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Chart.Name }}
+                name: {{ $.Chart.Name }}
                 port:
                   number: 3000
+    {{ end }}
   tls:
     - hosts:
-        - {{ .Values.domain }}
+        {{ range .Values.domains }}
+        - {{ . }}
+        {{ end }}
       secretName: {{ .Chart.Name }}-tls
 EOF
 
@@ -199,8 +181,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Chart.Name }}
-  labels:
-    fabled.se/owner: $appOwner
 spec:
   type: ClusterIP
   ports:
@@ -217,7 +197,7 @@ cat << EOF > .k8s/helm/templates/envvars.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Chart.Name }}-envvars
+  name: "{{ .Chart.Name }}-envvars"
 data:
   TZ: "Europe/Stockholm"
 {{- if eq .Values.deployEnv "test"}}
