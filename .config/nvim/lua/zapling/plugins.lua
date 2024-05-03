@@ -253,6 +253,7 @@ local get_plugins = function(should_lazyload)
                 'nvim-treesitter/nvim-treesitter',
                 'nvim-telescope/telescope-fzf-native.nvim',
             },
+            cmd = 'Telescope',
             lazy = should_lazyload
         },
         {
