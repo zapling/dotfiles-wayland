@@ -186,6 +186,7 @@ local get_plugins = function(should_lazyload)
             'williamboman/mason.nvim',
             dependencies = { 'zapling/mason-lock.nvim' },
             lazy = should_lazyload,
+            cmd = 'Mason',
             opts = function()
                 return require('zapling.config.mason')
             end
@@ -194,6 +195,10 @@ local get_plugins = function(should_lazyload)
             'zapling/mason-lock.nvim',
             dependencies = { 'williamboman/mason.nvim' },
             lazy = should_lazyload,
+            cmd = { 'MasonLock', 'MasonLockRestore' },
+            opts = function()
+                return {}
+            end,
         },
         {
             'williamboman/mason-lspconfig.nvim',
@@ -213,7 +218,6 @@ local get_plugins = function(should_lazyload)
                 return require('zapling.config.mason_nvim_lint')
             end,
         },
-
         {
             'zapling/mason-conform.nvim',
             dependencies = {
@@ -233,6 +237,7 @@ local get_plugins = function(should_lazyload)
                 'hrsh7th/cmp-nvim-lua',
                 'hrsh7th/cmp-nvim-lsp',
                 'onsails/lspkind-nvim',
+                'L3MON4D3/LuaSnip',
             },
             lazy = should_lazyload,
             opts = function()
@@ -240,9 +245,6 @@ local get_plugins = function(should_lazyload)
             end,
             event = 'InsertEnter',
         },
-
-        -- Snippets
-        { 'L3MON4D3/LuaSnip', lazy = should_lazyload }, -- note: required by cmp
 
         -- Search / Navigation
         {
