@@ -266,6 +266,11 @@ local get_plugins = function(should_lazyload)
 
         -- Misc
         {
+            'towolf/vim-helm',
+            lazy = should_lazyload,
+            ft = 'yaml'
+        },
+        {
             'zapling/vim-go-utils',
             lazy = should_lazyload,
             ft = 'go'
