@@ -256,7 +256,10 @@ local get_plugins = function(should_lazyload)
                 'nvim-telescope/telescope-fzf-native.nvim',
             },
             cmd = 'Telescope',
-            lazy = should_lazyload
+            lazy = should_lazyload,
+            config = function()
+                require('zapling.config.telescope').setup()
+            end,
         },
         {
             'nvim-telescope/telescope-fzf-native.nvim',
