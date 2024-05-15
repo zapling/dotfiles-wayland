@@ -92,6 +92,43 @@ function docker() {
     command docker $@
 }
 
+# Start a temp docker container with the given entrypoint
+function drun() {
+    image=$1
+    entrypoint=${2:-sh}
+    if [[ "$image" == "" ]]; then
+        echo "drun [IMAGE] [ENTRYPOINT]"
+        return 1
+    fi
+    command docker run -it --rm --entrypoint $entrypoint $image
+}
+
+# Attach to a running docker container with the given entrypoint
+function dattach() {
+    container=$1
+    entrypoint=${2:-sh}
+    if [[ "$container" == "" ]]; then
+        echo "dattach [CONTAINER] [ENTRYPOINT]"
+        return 1
+    fi
+
+    command docker exec -it $container $entrypoint
+}
+
+# Attach to a running k8s pod with the given entrypoint
+function kattach() {
+    namespace=$1
+    pod=$2
+
+    if [[ "$namespace" == "" ]] || [[ "$pod" == "" ]]; then
+        echo "kattach [NAMESPACE] [POD] [ENTRYPOINT]"
+        return 1
+    fi
+
+    entrypoint=${3:-sh}
+    kubectl exec --stdin --tty -n $namespace $pod -- $entrypoint
+}
+
 function frm() {
     CUR=$(pwd)
     FILENAME=$(uuidgen)
@@ -115,11 +152,7 @@ alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
 alias k="kubectl"
 alias kx="kubectx"
-
-alias dit="docker run -it --rm --entrypoint bash"
-alias ditsh="docker run -it --rm --entrypoint sh"
-
 alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
-alias ert="~/R/ertia/ertia"
+alias ert="~/R/ertia/ertia/ertia"
