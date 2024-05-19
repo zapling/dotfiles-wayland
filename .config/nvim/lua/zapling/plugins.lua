@@ -223,6 +223,9 @@ local get_plugins = function(should_lazyload)
             dependencies = {
                 'williamboman/mason.nvim'
             },
+            opts = function()
+                return require('zapling.config.mason_conform')
+            end,
             lazy = should_lazyload,
         },
 
@@ -271,7 +274,7 @@ local get_plugins = function(should_lazyload)
         {
             'towolf/vim-helm',
             lazy = should_lazyload,
-            ft = 'yaml'
+            ft = 'helm'
         },
         {
             'zapling/vim-go-utils',
