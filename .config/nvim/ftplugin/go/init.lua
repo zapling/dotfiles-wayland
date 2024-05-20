@@ -34,11 +34,20 @@ end
 
 local augroup_go = vim.api.nvim_create_augroup('GO_LSP', { clear = true })
 
+local goPlsIsReady = false
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = augroup_go,
+    callback = function()
+        goPlsIsReady = true
+    end,
+})
+
 vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
     pattern = '*.go',
     group = augroup_go,
     callback = function()
-        if not vim.lsp.buf.server_ready() then
+        if not goPlsIsReady then
             return
         end
 
