@@ -5,9 +5,10 @@ if [[ ! -e ".git/config" ]]; then
     exit 1
 fi
 
-git_url=$(grep ":spoonish-tech/df-" ".git/config")
+git_url1=$(grep ":spoonish-tech/df-" ".git/config")
+git_url2=$(grep ":dinafastighetergo/" ".git/config")
 
-if [[ "$git_url" == "" ]]; then
+if [[ "$git_url1" == "" && "$git_url2" == "" ]]; then
     echo "Not a df repository"
     exit 1
 fi
@@ -19,10 +20,9 @@ main_branch=$(git symbolic-ref refs/remotes/origin/HEAD | sed -e 's/refs\/remote
 master_tag="${docker_repository}:${main_branch}"
 
 docker build -t "$master_tag" . && \
-    docker push "$master_tag"
-
-echo "Pushed local build of $folder_name to df-test"
-cat << EOF
+    docker push "$master_tag" && \
+    echo "Pushed local build of $folder_name to df-test" && \
+    cat << EOF
 ___  _ ____  _     ____ 
 \  \///  _ \/ \   /  _ \ 
  \  / | / \|| |   | / \|
