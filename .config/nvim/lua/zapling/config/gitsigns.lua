@@ -11,4 +11,5 @@ return {
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ']c', '<cmd>lua require"gitsigns".next_hunk({wrap = false})<CR>', {});
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '[c', '<cmd>lua require"gitsigns".prev_hunk({wrap = false})<CR>', {});
     end,
+    attach_to_untracked = true,
 }
