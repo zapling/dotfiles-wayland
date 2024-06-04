@@ -39,6 +39,14 @@ M.setup = function()
         defaults = {
             preview = {
                 msg_bg_fillchar = "░",
+                filetype_hook = function(filepath, bufnr, opts)
+                    local match = string.match(filepath, ".min.js")
+                    if match == nil then
+                        return true
+                    end
+                    require("telescope.previewers.utils").set_preview_message(bufnr, 0, "Preview disabled for file", "░")
+                    return false
+                end,
             },
             file_ignore_patterns = {
                 "node%_modules/.*",  -- npm packages
@@ -69,6 +77,7 @@ M.setup = function()
             }
         }
     })
+    require('telescope').load_extension('fzf')
 end
 
 return M

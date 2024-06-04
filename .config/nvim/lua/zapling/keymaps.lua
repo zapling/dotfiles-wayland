@@ -31,7 +31,8 @@ M.setup = function()
 
     -- lsp
     map('', '<Leader>gd', '<Cmd>lua require\'telescope.builtin\'.lsp_definitions()<CR>', { silent = true })
-    map('', '<Leader>gD', '<Cmd>lua require\'telescope.builtin\'.lsp_implementations()<CR>', { silent = true })
+    map('', '<Leader>gi', '<Cmd>lua require\'telescope.builtin\'.lsp_implementations()<CR>', { silent = true })
+    map('', '<Leader>gr', '<Cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', { silent = true })
     map('', '<Leader>gj', '<Cmd>lua vim.diagnostic.goto_next({float = true})<CR>', { silent = true })
     map('', '<Leader>gJ',
         '<Cmd>lua vim.diagnostic.goto_next({float = true, severity = vim.diagnostic.severity.ERROR})<CR>',
