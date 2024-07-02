@@ -156,3 +156,4 @@ alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
 alias ert="~/R/ertia/ertia/ertia"
+alias earthly="~/.local/bin/earthly-linux-amd64"

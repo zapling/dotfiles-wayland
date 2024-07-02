@@ -277,6 +277,11 @@ local get_plugins = function(should_lazyload)
             ft = 'helm'
         },
         {
+            'earthly/earthly.vim',
+            lazy = should_lazyload,
+            ft = 'Earthfile'
+        },
+        {
             'zapling/vim-go-utils',
             lazy = should_lazyload,
             ft = 'go'
