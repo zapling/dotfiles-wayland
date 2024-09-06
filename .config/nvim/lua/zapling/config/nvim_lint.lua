@@ -3,6 +3,7 @@ local M = {}
 local linters_by_ft = {
     go = { 'golangcilint' },
     sh = { 'shellcheck' },
+    bash = { 'shellcheck' },
 }
 
 M.get_filetypes = function()
