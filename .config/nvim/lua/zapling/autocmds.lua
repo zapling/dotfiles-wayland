@@ -17,12 +17,6 @@ M.setup = function()
 
     -- Auto equalize splits when Vim is resized
     vim.api.nvim_command('autocmd VimResized * wincmd =')
-
-    -- Set correct syntax for .env.local
-    vim.api.nvim_create_autocmd({ 'BufRead' }, {
-        pattern = '.env.local',
-        command = 'setlocal syntax=sh'
-    })
 end
 
 return M

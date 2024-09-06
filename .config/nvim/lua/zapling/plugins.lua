@@ -98,7 +98,7 @@ local get_plugins = function(should_lazyload)
                 'JoosepAlviste/nvim-ts-context-commentstring'
             },
             build = ':TSUpdate',
-            ft = require('zapling.config.treesitter').get_filetypes(),
+            ft = { 'dotenv', unpack(require('zapling.config.treesitter').get_filetypes()) },
             config = function()
                 require('zapling.config.treesitter').setup()
             end,

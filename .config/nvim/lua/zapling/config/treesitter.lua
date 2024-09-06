@@ -34,6 +34,7 @@ M.setup = function()
             additional_vim_regex_highlighting = false,
         },
     })
+    vim.treesitter.language.register('bash', { 'dotenv' })
 end
 
 return M
