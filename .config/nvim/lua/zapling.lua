@@ -24,7 +24,15 @@ M.ensure_lazy_is_installed = function()
 end
 
 M.setup = function()
-    local should_lazyload = M.is_lazy_installed()
+    local should_lazyload = true
+    if M.is_lazy_installed() ~= true then
+        should_lazyload = false
+    end
+
+    local nvim_lazyload = os.getenv("NVIM_LAZYLOAD")
+    if nvim_lazyload ~= "" and nvim_lazyload == "false" then
+        should_lazyload = false
+    end
 
     M.ensure_lazy_is_installed()
 
