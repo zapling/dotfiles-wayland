@@ -43,6 +43,10 @@ M.register_filetypes = function()
     vim.filetype.add({
         extension = {
             templ = "templ",
+        },
+        pattern = {
+            -- Set .env.* files as dotenv
+            ["%.env%.[%w_.-]+"] = "dotenv",
         }
     })
 end
