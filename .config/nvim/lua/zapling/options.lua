@@ -45,6 +45,7 @@ M.register_filetypes = function()
             templ = "templ",
         },
         pattern = {
+            [".envrc"] = "bash",
             -- Set .env.* files as dotenv
             ["%.env%.[%w_.-]+"] = "dotenv",
         }
