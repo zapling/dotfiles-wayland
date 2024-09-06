@@ -20,6 +20,7 @@ local filetypes = {
     'markdown',
     'c_sharp',
     'templ',
+    'sql',
 }
 
 M.get_filetypes = function()
