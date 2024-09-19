@@ -146,6 +146,15 @@ function frm() {
     /tmp/./$FILENAME $@
 }
 
+function make() {
+    if [[ -f "./Earthfile" ]]; then
+        print "\033[1;33mEarthfile detected, switching to earthly\033[0m\n"
+        earthly $@
+        return
+    fi
+    command make $@
+}
+
 alias vi="nvim --clean"
 alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
