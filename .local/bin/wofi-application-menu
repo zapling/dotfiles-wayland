@@ -3,6 +3,7 @@
 applications=(
     "alacritty"
     "blueberry"
+    "bruno"
     "chromium"
     "discord-chromium"
     "edge"
@@ -42,6 +43,9 @@ case $op in
         ;;
     "timetracker")
         op="$HOME/.local/bin/timetracker"
+        ;;
+    "bruno")
+        op="/usr/bin/bruno --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer --force-dark-mode"
         ;;
     *)
         ;;
