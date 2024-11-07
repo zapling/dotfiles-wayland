@@ -131,7 +131,6 @@ bar {
     bindsym $mod+Shift+f exec thunar
 
     # System
-    #bindsym $mod+l exec "dm-tool switch-to-greeter"
     bindsym $mod+Shift+Delete exec ~/.local/bin/wofi-system-menu
     bindsym $mod+Shift+s exec pavucontrol
     bindsym $mod+n exec swaync-client -t
