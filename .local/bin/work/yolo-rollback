@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [[ ! -e ./Earthfile ]]; then
+    echo "No earthfile found!"
+    exit 1
+fi
+
+environment="test"
+
+if [[ "$1" != "" ]]; then
+    environment="$1"
+fi
+
+earthly-linux-amd64 \
+    --ci --secret kubeConfig="$(cat "$KUBECONFIG")" \
+    +rollback-yolo-deploy-$environment
