@@ -1,3 +1,4 @@
+zstyle :omz:plugins:ssh-agent identities ~/.ssh/id_ed25519 ~/.ssh/keys/{github_personal,bitbucket_mpk}
 export ZSH=$HOME/.oh-my-zsh
 
 HISTORY_IGNORE="(jwt-decode*|systemctl poweroff)"
@@ -149,7 +150,7 @@ function frm() {
 function make() {
     if [[ -f "./Earthfile" ]]; then
         print "\033[1;33mEarthfile detected, switching to earthly\033[0m\n"
-        earthly $@
+        ~/.local/bin/earthly-linux-amd64 $@
         return
     fi
     command make $@
