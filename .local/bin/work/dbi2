@@ -150,8 +150,28 @@ trap '{
     pkill -f "$cmd"
 }' EXIT
 
-# Wait for port forward
-sleep 1
+# Wait for port forward to be done. Waits maximum 5s (10 * 0.5s = 5s).
+for i in $(seq 1 10); do
+    is_ready=$(python - <<EOF
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.settimeout(1)
+try:
+    s.connect(("127.0.0.1", ${local_port}))
+    print("true")
+except:
+    print("false")
+EOF
+    )
+    if [[ "$is_ready" == "true" ]]; then
+        break
+    elif [[ i -eq 5 ]]; then
+        echo "Could not connect to localhost:${local_port}, is the port forwarding not working?"
+        exit 1
+    fi
+    sleep 0.5
+done
 
 tmp_dir="/tmp/.psql-dbi-${local_port}"
 mkdir -p "$tmp_dir"
