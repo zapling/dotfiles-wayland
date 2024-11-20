@@ -173,24 +173,45 @@ EOF
     sleep 0.5
 done
 
-tmp_dir="/tmp/.psql-dbi-${local_port}"
-mkdir -p "$tmp_dir"
+# Create temporary folder for psqlrc and any output files
+tmp_dir_root="/tmp/.psql-dbi2-$(date "+%s")"
+tmp_dir_config="$tmp_dir_root/config"
+tmp_dir_output="$tmp_dir_root/output"
+output_dir="dbi2-output-$(date "+%s")"
 
-psqlrc="${tmp_dir}/.psqlrc"
+psqlrc_path="$tmp_dir_config/.psqlrc"
+
+mkdir -p "$tmp_dir_root"
+mkdir -p "$tmp_dir_config"
+mkdir -p "$tmp_dir_output"
+
+# This dir needs broad permissions so the user within the docker container
+# can write to it.
+chmod 777 "$tmp_dir_output"
 
 if [[ -e ~/.psqlrc ]]; then
-    cp ~/.psqlrc "$psqlrc"
+    cp ~/.psqlrc "$psqlrc_path"
 fi
 
+# Add service name to psql prompt
 prefix="${service//services\//}"
-
-cat << EOF >> "$psqlrc"
+cat << EOF >> "$psqlrc_path"
 \set PROMPT1 '($prefix) %/%R%x%# '
+\echo ''
+\echo -- Files written to /output will be added to ${output_dir}/
+\echo ''
 EOF
 
 docker run \
     --name="psql-$pg_username-localhost-$pg_port" \
     --rm \
     --network="host" \
-    -v "${tmp_dir}:/data" \
-    -it "$imageName" bash -c "PSQLRC=/data/.psqlrc psql $connection_string"
+    -v "${tmp_dir_config}:/config" \
+    -v "${tmp_dir_output}:/output" \
+    -it "$imageName" bash -c "PSQLRC=/config/.psqlrc psql $connection_string"
+
+# Create output dir if there was any output files from the docker container
+if find "$tmp_dir_output" -mindepth 1 -maxdepth 1 | read; then
+    mkdir "$output_dir"
+    cp -r "$tmp_dir_output/." "$output_dir/."
+fi
