@@ -3,16 +3,70 @@
 set -e # Exit the script on error
 set -m # Run all jobs in their own process group
 
-target=${1:-}
+service_read_write="rw" # Points to the primary instance of the cluster (read/write).
+service_read_only="ro" # Points to the replicas, where available (read-only).
+service_read="r" # Points to any PostgreSQL instance in the cluster (read).
 
-if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
-    printf "Usage: dbi2 <cluster-name>\n"
-    printf "dbi2 is an helper to connect to postgres databases operated by cloudnative-pg.\n"
-    printf "Example:\n"
-    printf "\tdbi2\n"
-    printf "\tdbi2 postgres-cluster\n"
-    exit
-fi
+option_port_forward_only=false
+option_superuser=false
+option_service="$service_read_only"
+option_port=""
+
+# https://stackoverflow.com/a/7069755
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+        echo "dbi2 - An helper to connect to postgres databases operated by cloudnative-pg"
+        echo " "
+        echo "dbi2 [options] [cluster]"
+        echo " "
+        echo "options:"
+        echo "--rw                      connect with read/write (primary)"
+        echo "--ro                      connect with read-only (replicas)"
+        echo "--r                       connect with read (any instance)"
+        echo "--port                    use a specific port instead of a random one"
+        echo "--only-port-forward       only perform port forwarding"
+        echo "--root                    connect to db as superuser"
+        echo "-h, --help                show brief help"
+        exit 0
+        ;;
+    "--rw")
+        shift
+        option_service="$service_read_write"
+        ;;
+    "--ro")
+        shift
+        option_service="$service_read_only"
+        ;;
+    "--r")
+        shift
+        option_service="$service_read"
+        ;;
+    "--port")
+        shift
+        if test $# -gt 0; then
+            option_port="$1"
+            shift
+        else
+            echo "no port specified"
+            exit 1
+        fi
+        ;;
+    "--only-port-forward")
+        shift
+        option_port_forward_only=true
+        ;;
+    "--root")
+        shift
+        option_superuser=true
+        ;;
+    *)
+        break
+        ;;
+  esac
+done
+
+target=${1:-}
 
 if ! type "python" > /dev/null; then
     echo "This script requires python"
@@ -48,13 +102,19 @@ elif [[ ${#clusters[@]} -gt 1 ]] && [[ "$target" == "" ]]; then
     exit 1
 fi
 
-imageName=$(kubectl get clusters -n db "$target" -o=jsonpath='{.spec.imageName}')
-
-if [ -z "$(docker images -q "$imageName" 2> /dev/null)" ]; then
-    docker pull "$imageName"
+if [[ $option_port_forward_only == false ]]; then
+    imageName=$(kubectl get clusters -n db "$target" -o=jsonpath='{.spec.imageName}')
+    if [ -z "$(docker images -q "$imageName" 2> /dev/null)" ]; then
+        docker pull "$imageName"
+    fi
 fi
 
-credentials=$(kubectl get secrets -n db "${target}-superuser" --template='{{.data.username}},{{.data.password}},{{.data.port}},{{.data.dbname}}')
+secretName="${target}-app"
+if [[ $option_superuser == true ]]; then
+    secretName="${target}-superuser"
+fi
+
+credentials=$(kubectl get secrets -n db "${secretName}" --template='{{.data.username}},{{.data.password}},{{.data.port}},{{.data.dbname}}')
 IFS=, read pg_username pg_password pg_port pg_dbname <<< "$credentials"
 
 pg_username=$(echo "$pg_username" | base64 -d)
@@ -63,14 +123,27 @@ pg_port=$(echo "$pg_port" | base64 -d)
 pg_dbname=$(echo "$pg_dbname" | base64 -d)
 
 # Get a random available port
-local_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
+
+local_port="$option_port"
+if [[ "$local_port" == "" ]]; then
+    local_port=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
+fi
 
 connection_string="postgresql://$pg_username:$pg_password@localhost:$local_port"
 
-service="services/${target}-rw"
+service="services/${target}-${option_service}"
 cmd="kubectl port-forward -n db $service $local_port:$pg_port"
 echo "Port forwarding localhost:$local_port => $service:$pg_port"
-eval "$cmd > /dev/null 2>&1 &"
+
+if [[ $option_port_forward_only == true ]]; then
+    echo ""
+    echo "$connection_string"
+    echo ""
+    eval "$cmd"
+    exit
+else
+    eval "$cmd > /dev/null 2>&1 &"
+fi
 
 # Ensure that the port forward is killed when script exits
 trap '{
@@ -96,6 +169,8 @@ cat << EOF >> "$psqlrc"
 EOF
 
 docker run \
+    --name="psql-$pg_username-localhost-$pg_port" \
+    --rm \
     --network="host" \
     -v "${tmp_dir}:/data" \
     -it "$imageName" bash -c "PSQLRC=/data/.psqlrc psql $connection_string"
