@@ -120,8 +120,8 @@ bar {
 ### Key bindings
 
     # Dropdown terminals
-    bindsym $mod+u [app_id="dropdown1"] scratchpad show
-    bindsym $mod+Shift+u [app_id="dropdown2"] scratchpad show
+    bindsym $mod+u exec ~/.local/bin/swayvm-toggle-scratchpad dropdown1
+    bindsym $mod+Shift+u exec ~/.local/bin/swayvm-toggle-scratchpad dropdown2
 
     # Browser
     bindsym $mod+Shift+t exec firefox
