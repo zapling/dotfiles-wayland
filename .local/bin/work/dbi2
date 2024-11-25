@@ -11,6 +11,7 @@ option_port_forward_only=false
 option_superuser=false
 option_service="$service_read_only"
 option_port=""
+option_input_file=""
 
 # https://stackoverflow.com/a/7069755
 while test $# -gt 0; do
@@ -25,6 +26,7 @@ while test $# -gt 0; do
         echo "--ro                      connect with read-only (replicas)"
         echo "--r                       connect with read (any instance)"
         echo "--port                    use a specific port instead of a random one"
+        echo "--input-file              file to be passed to psql as stdin"
         echo "--only-port-forward       only perform port forwarding"
         echo "--root                    connect to db as superuser"
         echo "-h, --help                show brief help"
@@ -41,6 +43,16 @@ while test $# -gt 0; do
     "--r")
         shift
         option_service="$service_read"
+        ;;
+    "--input-file")
+        shift
+        if test $# -gt 0; then
+            option_input_file="$1"
+            shift
+        else
+            echo "no file specified"
+            exit 1
+        fi
         ;;
     "--port")
         shift
@@ -176,6 +188,7 @@ done
 # Create temporary folder for psqlrc and any output files
 tmp_dir_root="/tmp/.psql-dbi2-$(date "+%s")"
 tmp_dir_config="$tmp_dir_root/config"
+tmp_dir_input="$tmp_dir_root/input"
 tmp_dir_output="$tmp_dir_root/output"
 output_dir="dbi2-output-$(date "+%s")"
 
@@ -183,7 +196,17 @@ psqlrc_path="$tmp_dir_config/.psqlrc"
 
 mkdir -p "$tmp_dir_root"
 mkdir -p "$tmp_dir_config"
+mkdir -p "$tmp_dir_input"
 mkdir -p "$tmp_dir_output"
+
+if [[ "$option_input_file" != "" ]]; then
+    if [[ -e "$option_input_file" ]]; then
+        cp "$option_input_file" "$tmp_dir_input/input.sql"
+    else
+        echo "file $option_input_file does not exists"
+        exit 1
+    fi
+fi
 
 # This dir needs broad permissions so the user within the docker container
 # can write to it.
@@ -196,19 +219,36 @@ fi
 # Add service name to psql prompt
 prefix="${service//services\//}"
 cat << EOF >> "$psqlrc_path"
-\set PROMPT1 '($prefix) %/%R%x%# '
+\set PROMPT1 '($prefix)($pg_username) %/%R%x%# '
+EOF
+
+if [[ "$option_input_file" != "" ]]; then
+    cat << EOF >> "$psqlrc_path"
 \echo ''
-\echo -- Files written to /output will be added to ${output_dir}/
+\echo -- Running input-file $option_input_file...
 \echo ''
 EOF
+else
+    cat << EOF >> "$psqlrc_path"
+\echo ''
+\echo -- Files written to /output will be added to folder ${output_dir}
+\echo ''
+EOF
+fi
+
+cmd="PSQLRC=/config/.psqlrc psql $connection_string"
+if [[ "$option_input_file" != "" ]]; then
+    cmd="PSQLRC=/config/.psqlrc psql $connection_string < /input/input.sql"
+fi
 
 docker run \
     --name="psql-$pg_username-localhost-$pg_port" \
     --rm \
     --network="host" \
     -v "${tmp_dir_config}:/config" \
+    -v "${tmp_dir_input}:/input" \
     -v "${tmp_dir_output}:/output" \
-    -it "$imageName" bash -c "PSQLRC=/config/.psqlrc psql $connection_string"
+    -it "$imageName" bash -c "$cmd"
 
 # Create output dir if there was any output files from the docker container
 if find "$tmp_dir_output" -mindepth 1 -maxdepth 1 | read; then
