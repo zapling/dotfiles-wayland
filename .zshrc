@@ -17,6 +17,8 @@ protectDropdownTerminal () {
 	PARAM=$(ps -p $ID o args=)
 	if [[ $PARAM =~ "dropdown" ]];
 	then
+        # Prevent CTRL-D on dropdown terminals
+        setopt IGNORE_EOF
         function exit() {
             if [[ "$1" == "-f" ]]; then
                 builtin exit
