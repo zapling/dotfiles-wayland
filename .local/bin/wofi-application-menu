@@ -4,6 +4,7 @@ applications=(
     "alacritty"
     "blueberry"
     "bruno"
+    "calculator"
     "chromium"
     "discord-chromium"
     "edge"
@@ -46,6 +47,9 @@ case $op in
         ;;
     "bruno")
         op="/usr/bin/bruno --ozone-platform-hint=wayland --enable-features=WaylandWindowDecorations --enable-features=WebRTCPipeWireCapturer --force-dark-mode"
+        ;;
+    "calculator")
+        op="galculator"
         ;;
     *)
         ;;

@@ -195,6 +195,10 @@ bar {
     # Network
     for_window [app_id="nm-connection-editor"] floating enable
 
+    # Galculator
+    for_window [app_id="galculator"] floating enable
+    for_window [app_id="galculator"] border pixel 2
+
     # class                 border     bground text       indicator child_border
     client.focused          $darkgreen $bar_bg $darkgreen #000000 $darkgreen
     #client.focused_inactive $darkgreen $bar_bg $darkgreen #000000 $darkgreen

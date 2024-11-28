@@ -22,6 +22,7 @@ packages=(
     direnv
     docker
     firefox
+    galculator
     gammastep
     gcc
     git
