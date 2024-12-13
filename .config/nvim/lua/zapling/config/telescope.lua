@@ -40,12 +40,18 @@ M.setup = function()
             preview = {
                 msg_bg_fillchar = "░",
                 filetype_hook = function(filepath, bufnr, opts)
-                    local match = string.match(filepath, ".min.js")
-                    if match == nil then
-                        return true
+                    local minified_js = string.match(filepath, ".min.js")
+                    local svg = string.match(filepath, ".svg")
+                    if minified_js ~= nil or svg ~= nil then
+                        require("telescope.previewers.utils").set_preview_message(
+                            bufnr,
+                            0,
+                            "Preview disabled for file",
+                            "░"
+                        )
+                        return false
                     end
-                    require("telescope.previewers.utils").set_preview_message(bufnr, 0, "Preview disabled for file", "░")
-                    return false
+                    return true
                 end,
             },
             file_ignore_patterns = {
