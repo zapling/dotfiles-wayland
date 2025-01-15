@@ -12,6 +12,5 @@ if [[ "$1" != "" ]]; then
 fi
 
 earthly-linux-amd64 \
-    --ci --push --secret kubeConfig="$(cat "$KUBECONFIG")" \
-    +yolo-deploy-$environment \
-    --user="$(whoami)"
+    --push --secret kubeConfig="$(cat "$KUBECONFIG")" \
+    +yolo-deploy-$environment
