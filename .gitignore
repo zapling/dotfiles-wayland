@@ -1,1 +1,4 @@
 .local/bin/nvim-mason
+.local/bin/earthly-linux-amd64
+.local/bin/tailwindcss-linux-x64
+.local/bin/ertia
