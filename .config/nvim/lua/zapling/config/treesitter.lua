@@ -14,7 +14,7 @@ local filetypes = {
     'yaml',
     'teal',
     'tsx',
-    'dockerfile',
+    -- 'dockerfile', -- Does not render correctly: 2025-02-03
     'hcl',
     'terraform',
     'markdown',
