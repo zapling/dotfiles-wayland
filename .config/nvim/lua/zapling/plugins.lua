@@ -59,7 +59,7 @@ local get_plugins = function(should_lazyload)
         {
             'stefandtw/quickfix-reflector.vim',
             lazy = should_lazyload,
-            event = 'BufWinEnter quickfix'
+            event = 'BufWinEnter qf'
         },
 
         -- Git
@@ -117,6 +117,8 @@ local get_plugins = function(should_lazyload)
             end,
         },
         {
+            -- TODO: This has been merged into nvim-treesitter?
+            -- https://github.com/nvim-treesitter/nvim-treesitter/pull/5714
             "elgiano/nvim-treesitter-angular",
             branch = "topic/jsx-fix",
             dependencies = { 'nvim-treesitter/nvim-treesitter' },
