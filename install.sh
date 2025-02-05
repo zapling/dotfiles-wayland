@@ -72,6 +72,7 @@ packages=(
     wl-clipboard
     wofi
     xdg-utils
+    yq
     zsh
 )
 
