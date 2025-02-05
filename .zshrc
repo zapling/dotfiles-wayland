@@ -152,7 +152,7 @@ function frm() {
 function make() {
     if [[ -f "./Earthfile" ]]; then
         print "\033[1;33mEarthfile detected, switching to earthly\033[0m\n"
-        ~/.local/bin/earthly-linux-amd64 $@
+        ~/.local/bin/earthly $@
         return
     fi
     command make $@
@@ -167,8 +167,7 @@ alias kx="kubectx"
 alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
-alias ertdev="~/R/ertia/cli/dist/ertia_linux_amd64_v1/ertia"
+alias ertdev="~/R/ertia/cli/ertia"
 alias ertia02="ertia ertia02"
 alias ertia03="ertia ertia03"
-alias earthly="~/.local/bin/earthly-linux-amd64"
 alias aws="docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli"
