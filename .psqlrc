@@ -1,6 +1,7 @@
 \set QUIET ON
 
 \pset null 'NULL'
+\pset footer on
 
 \x auto
 
