@@ -49,7 +49,7 @@ function git() {
         confirm=1
     fi
 
-    if [[ "$1" == "clean" ]] && [[ "$2" == "-fd" ]]; then
+    if [[ "$1" == "clean" ]] && [[ "$2" == "-f" ]] || [[ "$2" == "-fd" ]]; then
         confirm=1
     fi
 
