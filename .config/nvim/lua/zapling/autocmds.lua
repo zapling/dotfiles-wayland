@@ -15,6 +15,11 @@ M.register_skeletons = function()
         pattern = '.envrc',
         command = "silent! 0r ~/.config/nvim/skeleton/.envrc"
     })
+
+    vim.api.nvim_create_autocmd({ 'BufNewFile' }, {
+        pattern = '*.sh',
+        command = "silent! 0r ~/.config/nvim/skeleton/script.sh"
+    })
 end
 
 M.setup = function()
