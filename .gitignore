@@ -1,3 +1,4 @@
+.kube/
 .local/bin/nvim-mason
 .local/bin/earthly
 .local/bin/dagger
