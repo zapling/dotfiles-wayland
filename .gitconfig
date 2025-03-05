@@ -16,6 +16,12 @@
 [core]
     excludesfile = ~/.config/git/gitignore_global
 
+[branch]
+    sort = -committerdate
+
+[tag]
+    sort = version:refname
+
 [pull]
     rebase = true
 
