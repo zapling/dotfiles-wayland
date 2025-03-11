@@ -158,6 +158,16 @@ function make() {
     command make $@
 }
 
+function amnesia() {
+    dte=$1
+    if [[ $dte == "" ]]; then
+        echo "No date provided: YYYY-MM-DD"
+        return 1
+    fi
+
+    mgitlog --mroot ~/R/ --mscandepth 3 --mheader auto --after="$dte 00:00" --before="$dte 23:59"
+}
+
 alias vi="nvim --clean"
 alias vim="nvim"
 alias gom="go mod tidy && go mod vendor"
