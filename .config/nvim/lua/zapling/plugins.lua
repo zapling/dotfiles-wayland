@@ -187,6 +187,7 @@ local get_plugins = function(should_lazyload)
         {
             'williamboman/mason.nvim',
             dependencies = { 'zapling/mason-lock.nvim' },
+            tag = 'v2.0.0-rc.2',
             lazy = should_lazyload,
             cmd = 'Mason',
             opts = function()
@@ -194,18 +195,22 @@ local get_plugins = function(should_lazyload)
             end
         },
         {
-            'zapling/mason-lock.nvim',
-            dependencies = { 'williamboman/mason.nvim' },
-            lazy = should_lazyload,
-            cmd = { 'MasonLock', 'MasonLockRestore' },
-            opts = function()
-                return {}
-            end,
+            "zapling/mason-lock.nvim",
+            -- dir = '/home/andreas/P/mason-lock.nvim',
+            branch = 'feat/support-mason2',
+            init = function()
+                require("mason-lock").setup({
+                    lockfile_path = vim.fn.stdpath("config") .. "/mason-lock.json"
+                })
+            end
         },
         {
             'williamboman/mason-lspconfig.nvim',
             dependencies = { 'williamboman/mason.nvim' },
-            lazy = should_lazyload,
+            tag = 'v2.0.0-rc.1',
+            -- NOTE: Lazy loading this on v2.0.0 seems to get me stuck in
+            -- an install loop. Keep it off for now.
+            -- lazy = should_lazyload,
             opts = function()
                 return require('zapling.config.mason_lspconfig')
             end,
@@ -222,13 +227,14 @@ local get_plugins = function(should_lazyload)
         },
         {
             'zapling/mason-conform.nvim',
+            -- dir = '/home/andreas/P/mason-conform.nvim',
+            branch = 'feat/support-mason2',
             dependencies = {
                 'williamboman/mason.nvim'
             },
             opts = function()
                 return require('zapling.config.mason_conform')
             end,
-            lazy = should_lazyload,
         },
 
 
@@ -273,6 +279,7 @@ local get_plugins = function(should_lazyload)
         },
 
         -- Misc
+        -- This one is slow AF...
         {
             'towolf/vim-helm',
             lazy = should_lazyload,
@@ -316,6 +323,7 @@ end
 
 M.setup = function(should_lazyload)
     require("lazy").setup(get_plugins(should_lazyload))
+    -- require("lazy").setup(get_plugins2())
 end
 
 return M
