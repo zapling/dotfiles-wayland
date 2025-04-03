@@ -41,8 +41,9 @@ M.setup = function()
                 msg_bg_fillchar = "░",
                 filetype_hook = function(filepath, bufnr, opts)
                     local minified_js = string.match(filepath, ".min.js")
+                    local minified_css = string.match(filepath, ".min.css")
                     local svg = string.match(filepath, ".svg")
-                    if minified_js ~= nil or svg ~= nil then
+                    if minified_js ~= nil or svg ~= nil or minified_css ~= nil then
                         require("telescope.previewers.utils").set_preview_message(
                             bufnr,
                             0,
