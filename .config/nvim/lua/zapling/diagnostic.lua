@@ -36,7 +36,6 @@ M.setup = function()
         signs = true,
         float = {
             source = true,
-            -- source = 'if_many',
             focusable = false,
         },
         severity_sort = true,
