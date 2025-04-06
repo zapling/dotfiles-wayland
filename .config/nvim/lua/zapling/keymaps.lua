@@ -30,8 +30,11 @@ M.setup = function()
     map('', '<Leader>gw', ':ArgWrap<CR>', {})
 
     -- lsp
-    map('', '<Leader>gd', '<Cmd>lua require\'telescope.builtin\'.lsp_definitions()<CR>', { silent = true })
-    map('', '<Leader>gi', '<Cmd>lua require\'telescope.builtin\'.lsp_implementations()<CR>', { silent = true })
+    local telescope_opts = { file_ignore_patterns = {} }
+    vim.keymap.set('n', '<Leader>gd', function() require 'telescope.builtin'.lsp_definitions(telescope_opts) end,
+        { silent = true })
+    vim.keymap.set('n', '<Leader>gi', function() require 'telescope.builtin'.lsp_implementations(telescope_opts) end,
+        { silent = true })
     map('', '<Leader>gr', '<Cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', { silent = true })
     map('', '<Leader>gj', '<Cmd>lua vim.diagnostic.goto_next({float = true})<CR>', { silent = true })
     map('', '<Leader>gJ',
