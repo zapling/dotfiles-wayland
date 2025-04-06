@@ -1,6 +1,7 @@
 local M = {}
 
 local filetypes = {
+    'angular',
     'bash',
     'css',
     'go',

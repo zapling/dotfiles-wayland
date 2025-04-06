@@ -116,15 +116,6 @@ local get_plugins = function(should_lazyload)
                 return require('zapling.config.treesitter_context')
             end,
         },
-        {
-            -- TODO: This has been merged into nvim-treesitter?
-            -- https://github.com/nvim-treesitter/nvim-treesitter/pull/5714
-            "elgiano/nvim-treesitter-angular",
-            branch = "topic/jsx-fix",
-            dependencies = { 'nvim-treesitter/nvim-treesitter' },
-            lazy = should_lazyload,
-            event = 'BufEnter *.js,*.ts,*.html',
-        },
 
         -- LSP
         {
