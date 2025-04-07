@@ -35,6 +35,7 @@ local conform_config = {
         typescript = frontend_formatters,
         typescriptreact = frontend_formatters,
         html = frontend_formatters,
+        htmlangular = frontend_formatters,
         css = frontend_formatters,
         json = frontend_formatters,
     },
