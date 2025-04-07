@@ -1,6 +1,6 @@
 local M = {}
 
-local filetypes = { 'yaml', 'yml', 'helm', 'html', 'json', 'cs' }
+local filetypes = { 'yaml', 'yml', 'helm', 'html', 'htmlangular', 'json', 'cs' }
 
 M.get_filetypes = function()
     return filetypes
