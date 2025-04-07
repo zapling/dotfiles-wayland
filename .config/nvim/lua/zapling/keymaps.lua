@@ -29,12 +29,12 @@ M.setup = function()
     -- TODO: can this be solved by Treesitter?
     map('', '<Leader>gw', ':ArgWrap<CR>', {})
 
-    -- lsp
-    local telescope_opts = { file_ignore_patterns = {} }
-    vim.keymap.set('n', '<Leader>gd', function() require 'telescope.builtin'.lsp_definitions(telescope_opts) end,
+    map('', '<Leader>gd', '<Cmd>lua require\'telescope.builtin\'.lsp_definitions({ file_ignore_patterns = {}})<CR>',
         { silent = true })
-    vim.keymap.set('n', '<Leader>gi', function() require 'telescope.builtin'.lsp_implementations(telescope_opts) end,
+
+    map('', '<Leader>gi', '<Cmd>lua require\'telescope.builtin\'.lsp_implementations({ file_ignore_patterns = {}})<CR>',
         { silent = true })
+
     map('', '<Leader>gr', '<Cmd>lua require\'telescope.builtin\'.lsp_references()<CR>', { silent = true })
     map('', '<Leader>gj', '<Cmd>lua vim.diagnostic.goto_next({float = true})<CR>', { silent = true })
     map('', '<Leader>gJ',
