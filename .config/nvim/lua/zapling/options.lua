@@ -23,6 +23,8 @@ M.enable_theme = function()
             GitSignsChange = { link = "GruvboxAquaSign" },
             GitSignsDelete = { link = "GruvboxRedSign" },
 
+            LspReferenceTarget = { link = '' },
+
             -- Revert diff colors back to how they where before 2.0
             diffAdded = { link = "GruvboxGreen" },
             diffRemoved = { link = "GruvboxRed" },
