@@ -1,4 +1,4 @@
-local Job = require'plenary.job'
+local Job = require 'plenary.job'
 local protocol = require 'vim.lsp.protocol'
 
 -- Wrapper around gopls lsp handler 'window/LogMessage'
@@ -15,7 +15,7 @@ local goplsLogMessageWrapper = function(_, result, ctx, _)
 
             Job:new({
                 command = 'go',
-                args = {'mod', 'vendor'},
+                args = { 'mod', 'vendor' },
                 cwd = vim.fn.getcwd(),
                 on_exit = function(j, return_val)
                     vim.schedule(function()
@@ -45,7 +45,7 @@ M.config = {
     },
     settings = {
         gopls = {
-            buildFlags = {"-tags=integration_test"}
+            buildFlags = { "-tags=integration_test,integration" }
         }
     }
 }
