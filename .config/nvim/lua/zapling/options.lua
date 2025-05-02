@@ -58,6 +58,9 @@ M.setup = function()
     M.enable_theme()
     M.register_filetypes()
 
+    -- https://github.com/neovim/neovim/issues/32660
+    vim.g._ts_force_sync_parsing = true
+
     vim.cmd([[ set mouse= ]])
 
     vim.opt.updatetime     = 100
