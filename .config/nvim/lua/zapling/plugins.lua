@@ -58,7 +58,7 @@ local get_plugins = function(should_lazyload)
         -- Editable quickfix window
         {
             'stefandtw/quickfix-reflector.vim',
-            lazy = should_lazyload,
+            lazy = false,
             event = 'BufWinEnter qf'
         },
 
@@ -274,11 +274,11 @@ local get_plugins = function(should_lazyload)
             lazy = should_lazyload,
             ft = 'Earthfile'
         },
-        {
-            'zapling/vim-go-utils',
-            lazy = should_lazyload,
-            ft = 'go'
-        },
+        -- {
+        --     'zapling/vim-go-utils',
+        --     lazy = should_lazyload,
+        --     ft = 'go'
+        -- },
         {
             'zapling/plantuml.nvim',
             dependencies = { 'nvim-lua/plenary.nvim' },
