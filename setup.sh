@@ -44,3 +44,4 @@ ln -s ${h}dotfiles/.config/fontconfig ${h}.config/
 ln -s ${h}dotfiles/.config/kanshi ${h}.config/
 ln -s ${h}dotfiles/.config/wofi ${h}.config/
 ln -s ${h}dotfiles/.config/chromium-flags.conf ${h}.config/
+ln -s ${h}dotfiles/.config/ghostty ${h}.config/
