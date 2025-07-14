@@ -4,12 +4,12 @@
   "biome": "1.9.4",
   "css-lsp": "4.10.0",
   "eslint-lsp": "4.10.0",
-  "golangci-lint": "v2.0.2",
-  "gopls": "v0.18.1",
+  "golangci-lint": "v2.2.2",
+  "gopls": "v0.19.1",
   "lua-language-server": "3.13.9",
   "omnisharp": "v1.39.13",
   "prettier": "3.5.3",
   "shellcheck": "v0.10.0",
-  "templ": "v0.3.857",
+  "templ": "v0.3.906",
   "vtsls": "0.2.8"
 }
