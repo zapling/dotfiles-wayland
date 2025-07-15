@@ -4,11 +4,11 @@ case "$BLOCK_BUTTON" in
     1) blueberry
 esac
 
-bluetooth_status=$(bluetooth | awk '{print $3}')
+bluetooth_powered=$(bluetoothctl show | grep Powered | awk '{print $2}')
 
-if [[ "$bluetooth_status" == "off" ]]; then
-    echo "<span foreground=\"#fb4833\">󰂲</span>"
+if [[ "$bluetooth_powered" == "yes" ]]; then
+    echo "󰂯"
     exit
 fi
 
-echo "󰂯"
+echo "<span foreground=\"#fb4833\">󰂲</span>"
