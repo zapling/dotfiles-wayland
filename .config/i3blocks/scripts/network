@@ -33,10 +33,10 @@ if [[ "$wifi_state" == "connecting" ]]; then
 fi
 
 wifi_strength=$(nmcli -f IN-USE,SIGNAL device wifi list --rescan no | grep '\*' | awk '{print $2}')
-wifi_ssid=$(nmcli -f IN-USE,SSID device wifi list --rescan no | grep '\*' | awk '{print $2}')
+wifi_network_name=$(nmcli -t -f NAME connection show --active | head -n 1)
 
 if [[ "$BLOCK_BUTTON" == 3 ]]; then
-    echo "$wifi_ssid"
+    echo "$wifi_network_name"
     exit
 fi
 
@@ -45,4 +45,4 @@ icon="󰤨"
 [[ $wifi_strength -le 60 ]] && icon="󰤢"
 [[ $wifi_strength -le 30 ]] && icon="󰤟"
 [[ $wifi_strength -le 10 ]] && icon="󰤯"
-echo "$wifi_ssid $icon "
+echo "$wifi_network_name $icon "
