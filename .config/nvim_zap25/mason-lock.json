@@ -1,0 +1,14 @@
+{
+  "angular-language-server": "20.1.1",
+  "bash-language-server": "5.6.0",
+  "biome": "2.1.1",
+  "css-lsp": "4.10.0",
+  "eslint-lsp": "4.10.0",
+  "golangci-lint": "v2.2.2",
+  "gopls": "v0.18.1",
+  "lua-language-server": "3.15.0",
+  "prettier": "3.6.2",
+  "shellcheck": "v0.10.0",
+  "templ": "v0.3.906",
+  "vtsls": "0.2.9"
+}

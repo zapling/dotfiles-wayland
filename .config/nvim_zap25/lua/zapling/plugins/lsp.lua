@@ -1,0 +1,45 @@
+return {
+    'neovim/nvim-lspconfig',
+    dependencies = {
+        { 'j-hui/fidget.nvim', opts = {} },
+        'saghen/blink.cmp'
+    },
+    config = function()
+        local capabilitiesWithoutSnippets = require('blink.cmp').get_lsp_capabilities({
+            textDocument = {
+                completion = {
+                    completionItem = { snippetSupport = false },
+                }
+            },
+        })
+
+        -- Golang
+        vim.lsp.config('gopls', {
+            capabilities = capabilitiesWithoutSnippets,
+            settings = {
+                gopls = {
+                    buildFlags = { "-tags=integration_test,integration" }
+                }
+            },
+        })
+
+        vim.lsp.enable('gopls')
+        vim.lsp.enable('templ')
+
+        -- Frontend
+        vim.lsp.enable('vtsls')
+        vim.lsp.config('angularls', {
+            settings = {
+                angular = { forceStrictTemplates = true },
+            },
+        })
+        vim.lsp.enable('angularls')
+        vim.lsp.enable('cssls')
+        vim.lsp.enable('biome')
+        vim.lsp.enable('eslint')
+
+        -- Misc
+        vim.lsp.enable('lua_ls')
+        vim.lsp.enable('bashls')
+    end,
+}
