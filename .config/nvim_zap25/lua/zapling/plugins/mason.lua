@@ -1,63 +1,5 @@
--- lsp server name to mason package name
-local lsp_to_mason_package = {
-    ["lua_ls"] = "lua-language-server",
-    ["bashls"] = "bash-language-server",
-
-    ["angularls"] = "angular-language-server",
-    ["cssls"] = "css-lsp",
-    ["eslint"] = "eslint-lsp",
-}
-
--- nvim/lint name to mason package name
-local lint_to_mason_package = {
-    ["golangcilint"] = "golangci-lint"
-}
-
--- If one mason package should also bring in other mason packages, but those here.
-local mason_package_dependencies = {
-    ["bash-language-server"] = { "shellcheck" }
-}
-
 local plugin_conform = require('zapling.plugins.conform')
 local plugin_nvim_lint = require('zapling.plugins.nvim_lint')
-
-local cmd = { 'Mason', 'MasonInstall', 'MasonLock', 'MasonLockRestore' }
-vim.list_extend(cmd, plugin_conform.cmd)
-vim.list_extend(cmd, plugin_nvim_lint.cmd)
-
-local event = { 'LspAttach' }
-vim.list_extend(event, plugin_conform.event)
-vim.list_extend(event, plugin_nvim_lint.event)
-
-local ft = {}
-vim.list_extend(ft, plugin_conform.ft)
-vim.list_extend(ft, plugin_nvim_lint.ft)
-
--- vim.api.nvim_create_autocmd('UIEnter', {
---     callback = function()
---         local enabled_lsps = vim.tbl_keys(vim.lsp._enabled_configs)
---
---         local filetypes = {}
---         for _, server_name in ipairs(enabled_lsps) do
---             local lsp_config = vim.lsp.config[server_name]
---             vim.list_extend(filetypes, lsp_config.filetypes)
---         end
---
---         local config = require('lazy.core.config').plugins['mason.nvim']
---
---         for _, filetype in ipairs(filetypes) do
---             config._.handlers.ft[filetype] = {
---                 event = 'FileType',
---                 id = filetype,
---                 pattern = filetype,
---             }
---         end
---
---         require('lazy.core.config').plugins['mason.nvim'] = config
---         require('lazy.core.loader').reload('mason.nvim')
---     end,
---     once = true
--- })
 
 return {
     'mason-org/mason.nvim',
@@ -69,10 +11,43 @@ return {
         'WhoIsSethDaniel/mason-tool-installer.nvim',
         'zapling/mason-lock.nvim',
     },
-    cmd = cmd,
-    event = event,
-    ft = ft,
+    cmd = function()
+        local cmd = { 'Mason', 'MasonInstall', 'MasonLock', 'MasonLockRestore' }
+        vim.list_extend(cmd, plugin_conform.cmd)
+        vim.list_extend(cmd, plugin_nvim_lint.cmd)
+        return cmd
+    end,
+    event = function()
+        local event = { 'LspAttach' }
+        vim.list_extend(event, plugin_conform.event)
+        vim.list_extend(event, plugin_nvim_lint.event)
+    end,
+    ft = function()
+        local ft = {}
+        vim.list_extend(ft, plugin_conform.ft)
+        vim.list_extend(ft, plugin_nvim_lint.ft)
+    end,
     config = function()
+        -- lsp server name to mason package name
+        local lsp_to_mason_package = {
+            ["lua_ls"] = "lua-language-server",
+            ["bashls"] = "bash-language-server",
+
+            ["angularls"] = "angular-language-server",
+            ["cssls"] = "css-lsp",
+            ["eslint"] = "eslint-lsp",
+        }
+
+        -- nvim/lint name to mason package name
+        local lint_to_mason_package = {
+            ["golangcilint"] = "golangci-lint"
+        }
+
+        -- If one mason package should also bring in other mason packages, but those here.
+        local mason_package_dependencies = {
+            ["bash-language-server"] = { "shellcheck" }
+        }
+
         require('mason').setup({
             -- install_root_dir = os.getenv('HOME') .. '.local/bin/nvim-mason2',
             -- PATH = 'skip',
