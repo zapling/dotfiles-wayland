@@ -30,17 +30,20 @@ if vim.tbl_count(vim.fn.argv()) == 0 then
     })
 end
 
--- TODO: Run this once, the first time we start nvim ever on the machine.
--- vim.api.nvim_create_autocmd('UIEnter', {
---     callback = function()
---         require('lazy.view').view:close()
---         require("mason-registry").update(function()
---             vim.cmd [[ MasonLockRestore ]]
---             vim.cmd [[ Mason ]]
---         end)
---     end,
---     once = true
--- })
+local initial_boot_performed = vim.fn.stdpath('data') .. '/initial_boot_performed'
+if not (vim.uv or vim.loop).fs_stat(initial_boot_performed) then
+    vim.api.nvim_create_autocmd('UIEnter', {
+        callback = function()
+            require('lazy.view').view:close()
+            require("mason-registry").update(function()
+                vim.cmd [[ MasonLockRestore ]]
+                vim.cmd [[ Mason ]]
+                vim.fn.writefile({ '' }, initial_boot_performed, 's')
+            end)
+        end,
+        once = true
+    })
+end
 
 require("lazy").setup({
     spec = {
