@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+layout=$(swaymsg -t get_inputs --raw | jq -r ".[] | select(.type==\"keyboard\") | (.xkb_active_layout_name // .xkb_active_layout // .xkb_layout // empty)" | head -n1)
+swayosd-client --custom-icon="preferences-desktop-keyboard" --custom-message="$layout"

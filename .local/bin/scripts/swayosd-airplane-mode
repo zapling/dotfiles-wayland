@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+airplane_mode=$(rfkill list | awk '/Soft blocked/ { if ($3=="yes") blocked++ } END { if (blocked>0) print "ON"; else print "OFF" }')
+swayosd-client --custom-message="󰀝  Airplane mode: $airplane_mode"

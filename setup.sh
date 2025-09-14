@@ -32,8 +32,11 @@ ln -s ${h}dotfiles/.gitconfig ${h}
 ln -s ${h}dotfiles/.psqlrc ${h}
 ln -s ${h}dotfiles/.omnisharp ${h}
 
-[[ ! -d ${h}.local ]] && mkdir ${h}.local
-ln -s ${h}dotfiles/.local/bin ${h}.local/
+if [[ ! -d ${h}.local ]]; then 
+    mkdir -p ${h}.local/bin
+fi
+
+ln -s ${h}dotfiles/.local/scripts ${h}.local/bin/
 
 ln -s ${h}dotfiles/.config/git ${h}.config/
 ln -s ${h}dotfiles/.config/nvim ${h}.config/

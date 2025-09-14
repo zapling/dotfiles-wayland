@@ -105,11 +105,13 @@ EOF
 
 valuesTemplateYaml=$(getValuesYaml "" "" "")
 valuesTestYaml=$(getValuesYaml "main" "test" "$appTestDomain")
-valuesProdYaml=$(getValuesYaml "main" "prod" "$appProdDomain")
+valuesProdYaml=$(getValuesYaml "release" "prod" "$appProdDomain")
 
 echo "$valuesTemplateYaml" > .k8s/helm/values.yaml
 echo "$valuesTestYaml" > .k8s/helm/values-test.yaml
 echo "$valuesProdYaml" > .k8s/helm/values-prod.yaml
+
+exit 0
 
 cat << EOF > .k8s/helm/templates/deployment.yaml
 ---

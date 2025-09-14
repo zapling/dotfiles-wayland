@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+openssl x509 -text

@@ -1,0 +1,63 @@
+#!/usr/bin/python
+
+import sys
+import time
+
+if __name__ == "__main__":
+    path = sys.argv[1]
+    f = open(path, "r")
+    lines = f.readlines()
+
+    index = 0
+    for line in lines:
+        if "<ProjectReference" in line:
+            for char_index in range(0, len(line)):
+                block_start_index = char_index+9
+                block = line[char_index:block_start_index]
+                if block == "Include=\"":
+                    content_index = block_start_index
+                    while True:
+                        next_char = line[content_index:content_index+1]
+                        if next_char == "\"":
+                            block += next_char
+                            content_index += 1
+                            break
+
+                        block += next_char
+                        content_index += 1
+
+                    new_block = block.replace("\\", "/")
+                    lines[index] = line.replace(block, new_block)
+            index += 1
+            continue
+
+        if "<Import" in line:
+            for char_index in range(0, len(line)):
+                block_start_index = char_index+9
+                block = line[char_index:block_start_index]
+                if block == "Project=\"":
+                    content_index = block_start_index
+                    while True:
+                        next_char = line[content_index:content_index+1]
+                        if next_char == "\"":
+                            block += next_char
+                            content_index += 1
+                            break
+
+                        block += next_char
+                        content_index += 1
+
+                    new_block = block.replace("\\", "/")
+                    lines[index] = line.replace(block, new_block)
+            index += 1
+            continue
+
+        index +=1
+
+    f.close()
+
+    f = open(path, "w")
+    for line in lines:
+        f.write(line)
+
+    f.close()

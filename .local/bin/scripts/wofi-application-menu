@@ -9,12 +9,14 @@ applications=(
     "discord-chromium"
     "edge"
     "firefox"
+    "ghostty"
     "nm-connection-editor"
     "pavucontrol"
     "slack"
     "slack-chromium"
     "spotify-chromium"
     "swayshot"
+    "teams-chromium"
     "timetracker"
     "wdisplays"
 )
@@ -50,6 +52,9 @@ case $op in
         ;;
     "calculator")
         op="galculator"
+        ;;
+    "teams-chromium")
+        op="chromium --new-window --app=https://teams.microsoft.com"
         ;;
     *)
         ;;

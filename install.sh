@@ -60,6 +60,7 @@ packages=(
     sway
     swaybg
     swayidle
+    swayosd
     swaylock
     terminus-font
     thunar

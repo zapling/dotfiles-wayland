@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+# https://stackoverflow.com/questions/6250698/how-to-decode-url-encoded-string-in-shell
+function urldecode() { : "${*//+/ }"; echo -e "${_//%/\\x}"; }
+decoded=$(urldecode "$1")
+echo "$decoded"

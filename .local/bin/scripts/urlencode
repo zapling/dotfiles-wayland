@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+# https://stackoverflow.com/a/34407620
+#printf %s $1 | jq -sRr @uri
+
+encoded_value=$(python3 -c "import urllib.parse; print urllib.parse.quote('''$1''')")
+echo $encoded_value

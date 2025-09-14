@@ -16,7 +16,8 @@ set $gaps_inner 50
 set $gaps_focus 600
 
 set $term /usr/bin/alacritty
-set $menu ~/.local/bin/wofi-application-menu
+# set $term /usr/bin/ghostty
+set $menu ~/.local/bin/scripts/wofi-application-menu
 
 # gruvbox colors
 set $darkred     "#cc241d"
@@ -69,6 +70,8 @@ input "type:keyboard" {
     xkb_options grp:alt_space_toggle,compose:menu
 }
 
+bindsym Alt+Space exec ~/.local/bin/scripts/swayosd-keyboard-layout
+
 input type:touchpad {
     tap enabled
 }
@@ -93,6 +96,7 @@ exec /usr/bin/gammastep -l 57.70:11.97
 exec /usr/bin/alacritty --class dropdown1
 exec /usr/bin/alacritty --class dropdown2
 exec /usr/bin/swaync
+exec /usr/bin/swayosd-server
 
 ### Statusbar
 
@@ -120,8 +124,8 @@ bar {
 ### Key bindings
 
     # Dropdown terminals
-    bindsym $mod+u exec ~/.local/bin/swayvm-toggle-scratchpad dropdown1
-    bindsym $mod+Shift+u exec ~/.local/bin/swayvm-toggle-scratchpad dropdown2
+    bindsym $mod+u exec ~/.local/bin/scripts/swayvm-toggle-scratchpad dropdown1
+    bindsym $mod+Shift+u exec ~/.local/bin/scripts/swayvm-toggle-scratchpad dropdown2
 
     # Browser
     bindsym $mod+Shift+t exec firefox
@@ -131,19 +135,21 @@ bar {
     bindsym $mod+Shift+f exec thunar
 
     # System
-    bindsym $mod+Shift+Delete exec ~/.local/bin/wofi-system-menu
+    bindsym $mod+Shift+Delete exec ~/.local/bin/scripts/wofi-system-menu
     bindsym $mod+Shift+s exec pavucontrol
     bindsym $mod+n exec swaync-client -t
 
     # Screen brightness
-    bindsym XF86MonBrightnessUp exec brightnessctl set 10+
-    bindsym XF86MonBrightnessDown exec brightnessctl set 10-
+    bindsym XF86MonBrightnessUp exec swayosd-client --brightness +5
+    bindsym XF86MonBrightnessDown exec swayosd-client --brightness -5
 
     # Audio
-    bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-    bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-    bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-    bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    bindsym XF86AudioRaiseVolume exec swayosd-client --output-volume raise
+    bindsym XF86AudioLowerVolume exec swayosd-client --output-volume lower
+    bindsym XF86AudioMute exec swayosd-client --output-volume mute-toggle
+    bindsym XF86AudioMicMute exec swayosd-client --input-volume mute-toggle
+
+    bindsym XF86WLAN exec ~/.local/bin/scripts/swayosd-airplane-mode
 
 ### Styling
 

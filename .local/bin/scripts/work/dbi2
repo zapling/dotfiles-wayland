@@ -10,6 +10,7 @@ service_read="r" # Points to any PostgreSQL instance in the cluster (read).
 option_port_forward_only=false
 option_superuser=false
 option_service="$service_read_only"
+option_namespace="db"
 option_port=""
 option_input_file=""
 
@@ -25,6 +26,7 @@ while test $# -gt 0; do
         echo "--rw                      connect with read/write (primary)"
         echo "--ro                      connect with read-only (replicas)"
         echo "--r                       connect with read (any instance)"
+        echo "-n                        use a specific namespace"
         echo "--port                    use a specific port instead of a random one"
         echo "--input-file              file to be passed to psql as stdin"
         echo "--only-port-forward       only perform port forwarding"
@@ -43,6 +45,15 @@ while test $# -gt 0; do
     "--r")
         shift
         option_service="$service_read"
+        ;;
+    "-n")
+        shift
+        if test $# -gt 0; then
+            option_namespace="$1"
+        else
+            echo "no namespace specified"
+            exit 1
+        fi
         ;;
     "--input-file")
         shift
@@ -126,7 +137,7 @@ if [[ $option_superuser == true ]]; then
     secretName="${target}-superuser"
 fi
 
-credentials=$(kubectl get secrets -n db "${secretName}" --template='{{.data.username}},{{.data.password}},{{.data.port}},{{.data.dbname}}')
+credentials=$(kubectl get secrets -n "${option_namespace}" "${secretName}" --template='{{.data.username}},{{.data.password}},{{.data.port}},{{.data.dbname}}')
 IFS=, read pg_username pg_password pg_port pg_dbname <<< "$credentials"
 
 pg_username=$(echo "$pg_username" | base64 -d)
