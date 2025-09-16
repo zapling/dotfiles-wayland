@@ -6,11 +6,11 @@ case "$BLOCK_BUTTON" in
     # Scroll click
     #2) pavucontrol ;;
     # Right click
-    3) pactl set-sink-mute @DEFAULT_SINK@ toggle ;;
+    3) swayosd-client --output-volume mute-toggle ;;
     # Scroll up
-    4) pactl set-sink-volume @DEFAULT_SINK@ +5% ;;
+    4) swayosd-client --output-volume raise ;;
     # Scoll down
-    5) pactl set-sink-volume @DEFAULT_SINK@ -5% ;;
+    5) swayosd-client --output-volume lower ;;
 esac
 
 volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print substr($5, 0, length($5) - 1)}')
