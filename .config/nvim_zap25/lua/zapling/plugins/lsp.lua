@@ -21,7 +21,6 @@ return {
                 }
             },
         })
-
         vim.lsp.enable('gopls')
         vim.lsp.enable('templ')
 
@@ -36,6 +35,9 @@ return {
         vim.lsp.enable('cssls')
         vim.lsp.enable('biome')
         vim.lsp.enable('eslint')
+
+        -- CS/dotnet
+        vim.lsp.enable('omnisharp')
 
         -- Misc
         vim.lsp.enable('lua_ls')
