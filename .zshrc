@@ -165,11 +165,42 @@ function amnesia() {
         return 1
     fi
 
-    mgitlog --mroot ~/R/ --mscandepth 3 --mheader auto --after="$dte 00:00" --before="$dte 23:59"
+    mgitlog --mroot ~/R/ --mscandepth 3 --mheader auto --after="$dte 00:00" --before="$dte 23:59" --author="Andreas Palm"
+}
+
+function timew() {
+    if [[ "$1" == "start" ]]; then
+        start_args=""
+        annotation=""
+        shift
+        for arg in "$@"; do
+            if [[ "$arg" == "--" ]]; then
+                shift
+                annotation="$*"
+                break
+            else
+                start_args="$start_args $arg"
+                shift
+            fi
+        done
+
+        command timew start $start_args
+        if [[ $? -ne 0 ]]; then
+            return 1
+        fi
+
+        if [[ "$annotation" != "" ]]; then
+            command timew annotate @1 "$annotation"
+        fi
+
+        return
+    fi
+    command timew "$@"
 }
 
 alias vi="nvim --clean"
-alias vim="nvim"
+alias vimold="nvim"
+alias vim="NVIM_APPNAME=nvim_zap25 nvim"
 alias gom="go mod tidy && go mod vendor"
 alias task="go-task"
 alias k="kubectl"
@@ -177,7 +208,11 @@ alias kx="kubectx"
 alias fsize="du -a 2>/dev/null | sort -n"
 
 # Work
+alias ert="ertia"
 alias ertdev="~/R/ertia/cli/ertia"
 alias ertia02="ertia ertia02"
 alias ertia03="ertia ertia03"
 alias aws="docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli"
+alias yolo="deploy-app.sh"
+
+source <(ertia completion zsh)
