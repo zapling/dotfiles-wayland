@@ -3,5 +3,9 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = true,
     cmd = 'FzfLua',
-    opts = {}
+    opts = {
+        grep = {
+            hidden = true
+        }
+    }
 }
