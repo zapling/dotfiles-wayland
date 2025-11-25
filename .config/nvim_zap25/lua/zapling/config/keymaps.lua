@@ -1,14 +1,14 @@
 vim.g.mapleader = vim.api.nvim_replace_termcodes('<BS>', true, true, true)
 
 vim.keymap.set('n', '<Backspace>', '<Nop>')
+
 vim.keymap.set("i", "<Esc>", function()
     -- Safely call snippet.stop if it exists
     if vim.snippet and vim.snippet.active() then
         vim.snippet.stop()
     end
-    -- Simulate pressing <Esc> to leave insert mode
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-end, { expr = false, noremap = true })
+    return "<Esc>"
+end, { expr = true, noremap = true })
 
 -- Misc
 vim.keymap.set('n', '<CR>', ':noh<CR>', { desc = 'Stop search highlighting', silent = true })
